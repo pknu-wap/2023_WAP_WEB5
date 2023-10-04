@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <form action="/festival/search" method="post">
+        <div class="form-group">
+            <label>
+                <input type="radio" name="payment" value="무료"> 무료
+            </label>
+            <label>
+                <input type="radio" name="payment" value="유료"> 유료
+            </label>
+            <br>
+            <label for="area-select">부산 구 선택:</label>
+            <select id="area-select" name="area">
+                <option value="강서구">강서구</option>
+                <option value="금정구">금정구</option>
+                <option value="남구">남구</option>
+                <option value="동구">동구</option>
+                <option value="동래구">동래구</option>
+                <option value="부산진구">부산진구</option>
+                <option value="북구">북구</option>
+                <option value="사상구">사상구</option>
+                <option value="사하구">사하구</option>
+                <option value="서구">서구</option>
+                <option value="수영구">수영구</option>
+                <option value="연제구">연제구</option>
+                <option value="영도구">영도구</option>
+                <option value="중구">중구</option>
+                <option value="해운대구">해운대구</option>
+            </select>
+            <br>
+            <button type="submit">검색</button>
+        </div>
+
+    </form>
+
+    <div class="view-container">
+        <table style="border-collapse: collapse; border: 1px solid black;">
+            <thead>
+            <tr>
+                <th style="border: 1px solid black;">id</th>
+                <th style="border: 1px solid black;">이름</th>
+                <th style="border: 1px solid black;">전화번호</th>
+                <th style="border: 1px solid black;">주소</th>
+                <th style="border: 1px solid black;">위도</th>
+                <th style="border: 1px solid black;">경도</th>
+                <th style="border: 1px solid black;">시작일</th>
+                <th style="border: 1px solid black;">마감일</th>
+                <th style="border: 1px solid black;">운영시간</th>
+                <th style="border: 1px solid black;">장소</th>
+                <th style="border: 1px solid black;">요금</th>
+                <th style="border: 1px solid black;">상세정보</th>
+                <th style="border: 1px solid black;">contentId</th>
+                <th style="border: 1px solid black;">이미지</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="festival : ${festivals}">
+                <td style="border: 1px solid black;" th:text="'id:' + ${festival.getId()}"></td>
+                <td style="border: 1px solid black;" th:text="${festival.getName()}"></td>
+                <td style="border: 1px solid black;" th:text="${festival.getPhone()}"></td>
+                <td style="border: 1px solid black;" th:text="${festival.getAddress()}"></td>
+                <td style="border: 1px solid black;" th:text="${festival.getLatitude()}"></td>
+                <td style="border: 1px solid black;" th:text="${festival.getLongitude()}"></td>
+                <td style="border: 1px solid black;" th:text="${festival.getStart()}"></td>
+                <td style="border: 1px solid black;" th:text="${festival.getEnd()}"></td>
+                <td style="border: 1px solid black;" th:text="${festival.getTime()}"></td>
+                <td style="border: 1px solid black;" th:text="${festival.getPlace()}"></td>
+                <td style="border: 1px solid black;" th:text="${festival.getFee()}"></td>
+                <td style="border: 1px solid black;" th:text="${festival.getDetail()}"></td>
+                <td style="border: 1px solid black;" th:text="${festival.getContentId()}"></td>
+                <td style="border: 1px solid black;"><img th:src="${festival.getImage()}" alt="축제 이미지" style="max-width: 100px; max-height: 100px;"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

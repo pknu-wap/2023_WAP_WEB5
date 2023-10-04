@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko", xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <title>이메일 인증</title>
+</head>
+<body>
+이메일 인증하기
+
+<p th:text="${userID} + '로 인증번호를 보냈습니다!!'"></p>
+
+
+<form method="post" action="/members/new/emailCheck">
+    <br> 인증번호 : <input type="text" name="code">
+    <button type="submit">인증번호 확인</button></br>
+</form>
+</body>
+</html>

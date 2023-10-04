@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        th{
+            border-bottom: 1px black solid
+        }
+    </style>
+</head>
+<body>
+<a href="party/new">파티 생성</a>
+<div class="container">
+    <table>
+        <thead>
+        <tr>
+            <th>partyPk</th>
+            <th>축제</th>
+            <th>파티장</th>
+            <th>모집인원</th>
+            <th>현재인원</th>
+            <th>URL</th>
+            <th>마감일</th>
+            <th>상태</th>
+            <th>설명</th>
+            <th>태그</th>
+            <th>파티</th>
+            <th>파티원</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="party : ${parties}">
+            <td th:text="${party.partyPk}"></td>
+            <td th:text="${party.festPk}"></td>
+            <td th:text="${party.userPk}"></td>
+            <td th:text="${party.partyRecruitLimit}"></td>
+            <td th:text="${party.partyRecruitCurr}"></td>
+            <td th:href="@{party.partyChatUrl}"></td>
+            <td th:text="${party.partyEnd}"></td>
+            <td th:text="${party.partyState}"></td>
+            <td th:text="${party.partyDetail}"></td>
+            <td th:text="${party.partyTag}"></td>
+            <td>
+                <a th:href="@{'party/update?ppk='+${party.partyPk}}">수정</a>
+                <a th:href="@{'party/delete?ppk='+${party.partyPk}}">삭제</a>
+            </td>
+            <td>
+                <a th:href="@{'/party/detail?ppk='+${party.partyPk}}">상세</a>
+                <a th:href="@{'/party/join?ppk='+${party.partyPk}+'&upk='+${party.userPk}}">참가</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

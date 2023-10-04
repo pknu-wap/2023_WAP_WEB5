@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/party">파티 메인</a>
+<div class="container">
+    <table>
+        <thead>
+        <tr>
+            <th>userPk</th>
+            <th>userState</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="pm : ${pms}">
+            <td th:text="${pm.userPk}"></td>
+            <td th:text="${pm.userState}"></td>
+            <td>
+                <a th:if="${pm.userState}=='수락'"
+                   th:href="@{'/party/partyMemberUpdate?pmpk='+${pm.pmPk}+'&ppk='+${pm.partyPk}+'&action=kick'}">추방</a>
+                <a th:unless="${pm.userState}=='수락'"
+                   th:href="@{'/party/partyMemberUpdate?pmpk='+${pm.pmPk}+'&ppk='+${pm.partyPk}+'&action=accept'}">수락</a>
+                <a th:unless="${pm.userState}=='수락'"
+                   th:href="@{'/party/partyMemberUpdate?pmpk='+${pm.pmPk}+'&ppk='+${pm.partyPk}+'&action=deny'}">거절</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

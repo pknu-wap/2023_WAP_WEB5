@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <form action="/party/new" method="post">
+        <div class="form-group">
+            <label for="partyRecruitLimit">모집인원</label>
+            <select id="partyRecruitLimit" name="partyRecruitLimit">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+            <br>
+            <label for="partyChatUrl">카카오톡 오픈채팅 URL</label>
+            <input type="text" id="partyChatUrl" name="partyChatUrl" placeholder="URL을 입력하세요">
+            <br>
+            <label for="partyEnd">마감일</label>
+            <input type="date" id="partyEnd" name="partyEnd">
+            <br>
+            <label for="partyDetail">설명</label>
+            <input type="text" id="partyDetail" name="partyDetail" placeholder="파티설명을 입력하세요">
+            <br>
+            <label for="partyTag">#태그</label>
+            <input type="text" id="partyTag" name="partyTag" placeholder="태그 입력하세요">
+        </div>
+        <button type="submit">등록</button>
+    </form>
+</div> <!-- /container -->
+</body>
+</html>

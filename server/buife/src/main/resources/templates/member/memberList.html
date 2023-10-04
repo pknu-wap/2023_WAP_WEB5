@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+  <div>
+    <table>
+      <thead>
+      <tr>
+        <th>#</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="member : ${members}">
+        <td th:text="${member.idx_pk}"></td>
+        <td th:text="${member.userID}"></td>
+        <td th:text="${member.userPW}"></td>
+        <td th:text="${member.userName}"></td>
+        <td th:text="${member.userBirth}"></td>
+        <td th:text="${member.userGender}"></td>
+        <td th:text="${member.userRating}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div> <!-- /container -->
+</body>
+</html>
