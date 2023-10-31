@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import wap.web5team.buife.domain.ForeignKey;
 import wap.web5team.buife.domain.Party;
 import wap.web5team.buife.domain.PartyMember;
@@ -19,6 +20,7 @@ import java.util.Random;
 @Controller
 public class PartyController {
 
+
     private final PartyService partyService;
     private final PartyMemberService pmService;
 
@@ -31,18 +33,21 @@ public class PartyController {
     /**
      * 파티 메인페이지
      */
+      @ResponseBody
     @GetMapping("/party")
-    public String partyMain(Model model){
+    public List<Party> partyMain(){
 
         List<Party> parties = partyService.partyList();
-        model.addAttribute("parties", parties);
+        //model.addAttribute("parties", parties);
 
-        return "party/partyMain";
+        return parties;
+        //return "party/partyMain";
     }
 
     /**
      * 파티 생성페이지
      */
+    @ResponseBody
     @GetMapping("party/new")
     public String createParty(){
         return "party/partyCreate";
@@ -54,8 +59,9 @@ public class PartyController {
      * 파티 생성
      * @param form
      */
+    @ResponseBody
     @PostMapping("party/new")
-    public String create(PartyForm form) {
+    public Party create(PartyForm form) {
         Party party = new Party();
         PartyMember pm = new PartyMember();
         fk.fkSet();
@@ -79,7 +85,8 @@ public class PartyController {
         pmService.apply(pm); // 파티장 등록
         pmService.changePartyMemberState(pm, "수락");
 
-        return "redirect:/party";
+        return party;
+        //return "redirect:/party";
     }
 
     /**
@@ -87,6 +94,7 @@ public class PartyController {
      * @param partyPk
      * @param userPk
      */
+    @ResponseBody
     @GetMapping("party/join")
     public String partyJoin(@RequestParam(name="ppk")int partyPk, @RequestParam(name="upk")int userPk){
 
@@ -126,13 +134,15 @@ public class PartyController {
      * @param model
      * @param partyPk
      */
+    @ResponseBody
     @GetMapping("party/update")
-    public String updateParty(Model model, @RequestParam(name="ppk") int partyPk){
+    public Party updateParty(Model model, @RequestParam(name="ppk") int partyPk){
 
         Party party = partyService.findParty(partyPk).get();
-        model.addAttribute("party", party);
+        //model.addAttribute("party", party);
 
-        return "/party/partyUpdate";
+        return party;
+        //return "/party/partyUpdate";
     }
 
     @PostMapping("party/update")
@@ -172,15 +182,20 @@ public class PartyController {
      * 파티 멤버 조회
      * @param ppk
      */
+    @ResponseBody
     @GetMapping("/party/detail")
-    public String partyDetail(Model model, @RequestParam int ppk){
+    public List<PartyMember> partyDetail(Model model, @RequestParam int ppk){
 
         List<PartyMember> partyMembers = pmService.memberList(ppk);
         model.addAttribute("pms", partyMembers);
 
-        return "party/partyDetail";
+        return partyMembers;
+        //return "party/partyDetail";
     }
 
+    /*
+    파티 멤버 수정
+     */
     @GetMapping("/party/partyMemberUpdate")
     public String partyMemberUpdate(@RequestParam int pmpk, @RequestParam int ppk, @RequestParam String action){
 
