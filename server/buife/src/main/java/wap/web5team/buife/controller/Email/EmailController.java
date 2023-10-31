@@ -28,12 +28,13 @@ public class EmailController {
         this.memberServiceJoin = memberServiceJoin;
     }
 
+    @ResponseBody
     @GetMapping("/members/new/emailCheck")
-    public String EmailCheckForm(HttpSession session, Model model) {
+    public String EmailCheckForm(HttpSession session) {
         String userID = (String) session.getAttribute("userID");
-        model.addAttribute("userID",userID);
-        return "member/email";
+        return userID;
     }
+
 
     @PostMapping("/members/new/emailCheck")
     public String EmailCheck(@RequestParam String code, HttpSession session) {
