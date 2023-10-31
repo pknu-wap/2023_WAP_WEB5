@@ -1,12 +1,10 @@
 package wap.web5team.buife.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import wap.web5team.buife.domain.ForeignKey;
 import wap.web5team.buife.domain.Party;
 import wap.web5team.buife.domain.PartyMember;
@@ -33,9 +31,9 @@ public class PartyController {
     /**
      * 파티 메인페이지
      */
-      @ResponseBody
+    @ResponseBody
     @GetMapping("/party")
-    public List<Party> partyMain(){
+    public List<Party> partyMain() {
 
         List<Party> parties = partyService.partyList();
         //model.addAttribute("parties", parties);
@@ -47,9 +45,8 @@ public class PartyController {
     /**
      * 파티 생성페이지
      */
-    @ResponseBody
     @GetMapping("party/new")
-    public String createParty(){
+    public String createParty() {
         return "party/partyCreate";
     }
 
@@ -57,26 +54,14 @@ public class PartyController {
 
     /**
      * 파티 생성
-     * @param form
+     * 나중에 세션인증으로 변경
+     * @param party
      */
-    @ResponseBody
     @PostMapping("party/new")
-    public Party create(PartyForm form) {
-        Party party = new Party();
+    public String create(@RequestBody Party party) {
+        //Party party = new Party();
         PartyMember pm = new PartyMember();
         fk.fkSet();
-
-        party.setFestPk(fk.getFestPk());
-        party.setUserPk(fk.getUserPk());
-        party.setPartyRecruitLimit(form.getPartyRecruitLimit());
-        party.setPartyChatUrl(form.getPartyChatUrl());
-        party.setPartyStart(LocalDate.now());
-        party.setPartyDetail(form.getPartyDetail());
-        party.setPartyTag(form.getPartyTag());
-
-        //마감일 set
-        LocalDate tmp = LocalDate.parse(form.getPartyEnd());
-        party.setPartyEnd(tmp);
 
         int enrollPartyPk = partyService.enroll(party);
 
@@ -85,23 +70,23 @@ public class PartyController {
         pmService.apply(pm); // 파티장 등록
         pmService.changePartyMemberState(pm, "수락");
 
-        return party;
-        //return "redirect:/party";
+        return "redirect:/party";
     }
 
     /**
      * 파티 참가
+     * 나중에 세션인증으로 변경
      * @param partyPk
      * @param userPk
      */
     @ResponseBody
     @GetMapping("party/join")
-    public String partyJoin(@RequestParam(name="ppk")int partyPk, @RequestParam(name="upk")int userPk){
+    public String partyJoin(@RequestParam(name = "ppk") int partyPk, @RequestParam(name = "upk") int userPk) {
 
         Party party = partyService.findParty(partyPk).get();
 
         //파티가 모집중이 아닐 경우 거절
-        if(!party.getPartyState().equals("모집")){
+        if (!party.getPartyState().equals("모집")) {
             // 에러 메세지
             System.out.println("join refused");
             return "redirect:/party";
@@ -118,10 +103,10 @@ public class PartyController {
         pmService.apply(pm);
 
         // 파티 마감일 경우 수락 대기중인 pm 제거
-        if(party.getPartyState().equals("마감")){
+        if (party.getPartyState().equals("마감")) {
             List<PartyMember> deniedPms = pmService.deniedPartyMemberList(partyPk);
-            for (PartyMember item:
-                 deniedPms) {
+            for (PartyMember item :
+                    deniedPms) {
                 pmService.deny(item);
             }
         }
@@ -131,12 +116,14 @@ public class PartyController {
 
     /**
      * 파티 수정
-     * @param model
+     * <p>
+     * //@param model
+     *
      * @param partyPk
      */
     @ResponseBody
     @GetMapping("party/update")
-    public Party updateParty(Model model, @RequestParam(name="ppk") int partyPk){
+    public Party updateParty(@RequestParam(name = "ppk") int partyPk) {
 
         Party party = partyService.findParty(partyPk).get();
         //model.addAttribute("party", party);
@@ -146,32 +133,20 @@ public class PartyController {
     }
 
     @PostMapping("party/update")
-    public String update(PartyForm form){
-
-        Party party = new Party();
-
-        party.setPartyPk(form.getPartyPk());
-        party.setFestPk(form.getFestPk());
-        party.setPartyRecruitLimit(form.getPartyRecruitLimit());
-        party.setPartyChatUrl(form.getPartyChatUrl());
-        party.setPartyDetail(form.getPartyDetail());
-        party.setPartyTag(form.getPartyTag());
-
-        LocalDate tmp = LocalDate.parse(form.getPartyEnd());
-        party.setPartyEnd(tmp);
+    public String update(@RequestBody Party party) {
 
         partyService.update(party);
-
 
         return "redirect:/party";
     }
 
     /**
      * 파티 삭제
+     *
      * @param partyPk
      */
     @GetMapping("party/delete")
-    public String delete(@RequestParam(name="ppk")int partyPk){
+    public String delete(@RequestParam(name = "ppk") int partyPk) {
 
         partyService.delete(partyPk);
 
@@ -180,14 +155,15 @@ public class PartyController {
 
     /**
      * 파티 멤버 조회
+     *
      * @param ppk
      */
     @ResponseBody
     @GetMapping("/party/detail")
-    public List<PartyMember> partyDetail(Model model, @RequestParam int ppk){
+    public List<PartyMember> partyDetail(@RequestParam int ppk) {
 
         List<PartyMember> partyMembers = pmService.memberList(ppk);
-        model.addAttribute("pms", partyMembers);
+        //model.addAttribute("pms", partyMembers);
 
         return partyMembers;
         //return "party/partyDetail";
@@ -197,16 +173,16 @@ public class PartyController {
     파티 멤버 수정
      */
     @GetMapping("/party/partyMemberUpdate")
-    public String partyMemberUpdate(@RequestParam int pmpk, @RequestParam int ppk, @RequestParam String action){
+    public String partyMemberUpdate(@RequestParam int pmpk, @RequestParam int ppk, @RequestParam String action) {
 
         PartyMember pm = pmService.findMember(pmpk).get();
         Party party = partyService.findParty(ppk).get();
 
-        if(action.equals("accept")&&party.getPartyRecruitCurr()<party.getPartyRecruitLimit()){
+        if (action.equals("accept") && party.getPartyRecruitCurr() < party.getPartyRecruitLimit()) {
             pmService.changePartyMemberState(pm, "수락");
             //party에 현원 추가
             partyService.recruitCount(party, "add");
-        } else if(action.equals("deny")){
+        } else if (action.equals("deny")) {
             pmService.deny(pm);
         } else if (action.equals("kick")) {
             pmService.deny(pm);
