@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d17d3607-ad05-45f5-b838-2537e4614ef2" name="Changes" comment="" />
+    <list default="true" id="d17d3607-ad05-45f5-b838-2537e4614ef2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/controller/Email/EmailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/controller/Email/EmailController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,7 +23,12 @@
       <state>
         <projects_view>
           <tree_state>
-            <expand />
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="buife" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
             <select />
           </tree_state>
         </projects_view>
@@ -62,6 +70,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "yarn",
+    "spring.configuration.checksum": "564dad6e552d34271a79801bae59035d",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -84,6 +93,7 @@
       <updated>1698663411990</updated>
       <workItem from="1698663414679" duration="2948000" />
       <workItem from="1698667686077" duration="18069000" />
+      <workItem from="1698768747229" duration="2739000" />
     </task>
     <servers />
   </component>

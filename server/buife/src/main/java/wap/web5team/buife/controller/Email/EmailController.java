@@ -13,6 +13,7 @@ import wap.web5team.buife.service.MemberServiceJoin;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class EmailController {
@@ -30,9 +31,11 @@ public class EmailController {
 
     @ResponseBody
     @GetMapping("/members/new/emailCheck")
-    public String EmailCheckForm(HttpSession session) {
+    public Map<String, String> EmailCheckForm(HttpSession session) {
         String userID = (String) session.getAttribute("userID");
-        return userID;
+        Map<String, String> responseData = new HashMap<>();
+        responseData.put("userID", userID);
+        return responseData;
     }
 
 
