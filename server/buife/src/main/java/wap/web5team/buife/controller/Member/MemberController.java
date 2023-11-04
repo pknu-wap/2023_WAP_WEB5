@@ -2,6 +2,7 @@ package wap.web5team.buife.controller.Member;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,12 +24,14 @@ public class MemberController {
     private final MemberServiceJoin memberServiceJoin;
     private final MemberServiceLogin memberServiceLogin;
     private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public MemberController(MemberServiceJoin memberServiceJoin, MemberServiceLogin memberServiceLogin, EmailService emailService) {
+    public MemberController(MemberServiceJoin memberServiceJoin, MemberServiceLogin memberServiceLogin, EmailService emailService,PasswordEncoder passwordEncoder) {
         this.memberServiceJoin=memberServiceJoin;
         this.memberServiceLogin=memberServiceLogin;
         this.emailService=emailService;
+        this.passwordEncoder=passwordEncoder;
     }
 
 
@@ -51,7 +54,7 @@ public class MemberController {
         }
         Member member = new Member();
         member.setUserID(form.getUserID());
-        member.setUserPW(form.getUserPW());
+        member.setUserPW(passwordEncoder.encode(form.getUserPW()));
         member.setUserName(form.getUserName());
         member.setUserBirth(form.getUserBirth());
         member.setUserGender(form.getUserGender());
@@ -69,6 +72,7 @@ public class MemberController {
             throw new IllegalStateException("이미 존재하는 EMAIL 입니다.");
 
         session.setAttribute("userID",member.getUserID());
+        System.out.println("해싱 된 비밀번호로 저장됨 : " + member.getUserPW());
         return "redirect:/members/new/emailCheck";
     }
 
