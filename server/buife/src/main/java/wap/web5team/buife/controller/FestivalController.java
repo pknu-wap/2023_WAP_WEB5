@@ -16,27 +16,26 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/festival")
-/* RequestMapping 애노테이션은 클래스 수준에 적용됨. 따라서 이 클래스의 모든 메서드는 "/api" 경로를 기본 경로로 갖는다.
-이 클래스 내의 모든 메서드에 대한 URL은 "/festival"로 시작 */
+/* RequestMapping 애노테이션은 클래스 수준에 적용됨.
+따라서 이 클래스 내의 모든 메서드에 대한 URL은 "/festival"이 기본 시작 경로 */
 public class FestivalController {
     @Autowired
     FestivalService festivalService; // 비즈니스 로직
     @GetMapping("/list") // 메서드 레벨에서 추가 경로를 정의, 클래스 레벨과 메서드 레벨에서 URL을 조합하여 웹앱의 엔드포인트를 정의&관리
-    public String festivalList(Model model) throws Exception {
+    @ResponseBody
+    public List festivalList(Model model) throws Exception {
         List<Festival> festivals = festivalService.selectAll();
-        model.addAttribute("festivals", festivals);
-        return "/festival/festivalList";
+        return festivals;
     }
 
-    @PostMapping ("/search")
-    public String festivalSearch(@RequestParam("payment") String payment,
-                                 @RequestParam("area") String area,
-                                 Model model) throws ParseException {
+    @GetMapping ("/search")
+    @ResponseBody
+    public List festivalSearch(@RequestParam("payment") String payment,
+                               @RequestParam("area") String area,
+                               Model model) throws ParseException {
         System.out.println(payment +", "+area);
         List<Festival> festivals = festivalService.findByFeeContainingAndAddressContaining(payment, area);
-        model.addAttribute("festivals", festivals);
-
-        return "/festival/festivalList";
+        return festivals;
     }
 
 }

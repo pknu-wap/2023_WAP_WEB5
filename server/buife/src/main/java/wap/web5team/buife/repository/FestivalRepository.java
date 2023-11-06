@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface FestivalRepository extends JpaRepository<Festival, Long> { // <객체, PK>
+public interface FestivalRepository extends JpaRepository<Festival, Long> { // <엔티티, PK type>
    List<Festival> findAll();
 
    Optional<Festival> findById(Long id);
