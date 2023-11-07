@@ -19,7 +19,12 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                        .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
+//                        .requestMatchers(
+//                                new AntPathRequestMatcher("/**")).permitAll()
+                        .requestMatchers(
+                               new AntPathRequestMatcher("/party/**")).hasRole("USER"))
+
+
                 .formLogin((formLogin) -> formLogin
                         .loginPage("/members/login")
                         .usernameParameter("userID")

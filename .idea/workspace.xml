@@ -7,6 +7,8 @@
     <list default="true" id="d17d3607-ad05-45f5-b838-2537e4614ef2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/domain/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/domain/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/service/MemberServiceLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/service/MemberServiceLogin.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
