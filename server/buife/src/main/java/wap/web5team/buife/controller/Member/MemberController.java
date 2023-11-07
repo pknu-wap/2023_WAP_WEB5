@@ -2,6 +2,8 @@ package wap.web5team.buife.controller.Member;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import wap.web5team.buife.domain.Member;
 import wap.web5team.buife.service.EmailService;
+import wap.web5team.buife.service.MemberSecurityService;
 import wap.web5team.buife.service.MemberServiceJoin;
 import wap.web5team.buife.service.MemberServiceLogin;
 
@@ -22,13 +25,16 @@ public class MemberController {
     private final MemberServiceLogin memberServiceLogin;
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
+    private final MemberSecurityService memberSecurityService;
 
     @Autowired
-    public MemberController(MemberServiceJoin memberServiceJoin, MemberServiceLogin memberServiceLogin, EmailService emailService,PasswordEncoder passwordEncoder) {
+    public MemberController(MemberServiceJoin memberServiceJoin, MemberServiceLogin memberServiceLogin, EmailService emailService,PasswordEncoder passwordEncoder,
+                            MemberSecurityService memberSecurityService) {
         this.memberServiceJoin=memberServiceJoin;
         this.memberServiceLogin=memberServiceLogin;
         this.emailService=emailService;
         this.passwordEncoder=passwordEncoder;
+        this.memberSecurityService=memberSecurityService;
     }
 
 
@@ -84,4 +90,25 @@ public class MemberController {
 
     //////////////////////////////////////////////////////////
 
+    /**
+     방안 1
+     */
+//    @ResponseBody
+//    @GetMapping("/TestPage")
+//    public Member MemberSecurityServiceTest(@AuthenticationPrincipal UserDetails userDetails) {
+//        Member member = new Member();
+//        member = memberSecurityService.findByLoginData(userDetails);
+//        return member;
+//    }
+
+    /**
+     방안 2
+     */
+    @ResponseBody
+    @GetMapping("/TestPage")
+    public Member MemberSecurityServiceTest() {
+        Member member = new Member();
+        member = memberSecurityService.findByLoginData();
+        return member;
+    }
 }

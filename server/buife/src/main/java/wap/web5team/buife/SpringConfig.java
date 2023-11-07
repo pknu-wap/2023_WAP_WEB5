@@ -9,6 +9,7 @@ import wap.web5team.buife.repository.JpaMemberRepository;
 import wap.web5team.buife.repository.MemberRepository;
 import wap.web5team.buife.repository.TempMemberRepository;
 import wap.web5team.buife.service.EmailService;
+import wap.web5team.buife.service.MemberSecurityService;
 import wap.web5team.buife.service.MemberServiceJoin;
 import wap.web5team.buife.service.MemberServiceLogin;
 
@@ -28,6 +29,9 @@ public class SpringConfig {
 
     @Bean
     public MemberServiceLogin memberServiceLogin() {return new MemberServiceLogin(memberRepository());}
+
+    @Bean
+    public MemberSecurityService memberSecurityService() {return new MemberSecurityService(memberRepository());}
 
     @Bean
     public MemberRepository memberRepository() {
