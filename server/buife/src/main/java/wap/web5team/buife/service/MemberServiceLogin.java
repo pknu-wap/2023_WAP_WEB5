@@ -2,29 +2,34 @@ package wap.web5team.buife.service;
 
 
 import jakarta.transaction.Transactional;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import wap.web5team.buife.domain.Member;
 import wap.web5team.buife.repository.MemberRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Transactional
-public class MemberServiceLogin {
+public class MemberServiceLogin implements UserDetailsService {
     private final MemberRepository memberRepository;
     public MemberServiceLogin(MemberRepository memberRepository) {
 
         this.memberRepository = memberRepository;
     }
 
-    public boolean loginService(Member member) {
-        Member findMember = memberRepository.findById(member.getUserID());
-//        System.out.println(findMember.getUserID());
-        if(findMember == null)
-            return false;
-
-        else if(findMember.getUserPW().equals(member.getUserPW())) {
-            System.out.println(findMember.getUserName() + "님 로그인 성공!");
-            return true;
-        }
-
-        return false;
+    public UserDetails loadUserByUsername(String userID) throws UsernameNotFoundException {
+        Member member = memberRepository.findById(userID);
+        if (member == null)
+            throw new UsernameNotFoundException("사용자를 찾을수 없습니다.");
+        return User.builder()
+                .username(member.getUserID())
+                .password(member.getUserPW())
+                .roles(MemberRole.USER.toString())
+                .build();
     }
-
 }

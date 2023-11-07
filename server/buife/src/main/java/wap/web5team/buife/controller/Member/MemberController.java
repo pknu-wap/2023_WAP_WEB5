@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import wap.web5team.buife.domain.Member;
 import wap.web5team.buife.service.EmailService;
@@ -85,24 +82,6 @@ public class MemberController {
         return members;
     }
 
-    ///////////////////////////////////////////////////////////
-
-
-    @PostMapping("/members/login")
-    public String login(@RequestBody MemberForm form) {
-        Member member = new Member();
-        member.setUserID(form.getUserID());
-        member.setUserPW(form.getUserPW());
-        System.out.println(member.getUserID());
-        System.out.println(member.getUserPW());
-
-        if(memberServiceLogin.loginService(member)){
-            System.out.println("로그인 성공");
-            return "redirect:/";
-        }
-        else
-            System.out.println("로그인실패");
-        return "member/login";
-    }
+    //////////////////////////////////////////////////////////
 
 }

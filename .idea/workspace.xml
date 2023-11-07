@@ -5,10 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d17d3607-ad05-45f5-b838-2537e4614ef2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/service/MemberRole.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/buife/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/server/buife/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/controller/Member/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/controller/Member/MemberController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/domain/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/domain/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/service/MemberServiceLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/service/MemberServiceLogin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/buife/src/main/resources/templates/member/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/server/buife/src/main/resources/templates/member/login.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +43,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -76,6 +80,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="wap.web5team.buife" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="BuifeApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="buife.main" />
@@ -112,5 +121,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/service/FestivalApiService.java</url>
+          <line>20</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

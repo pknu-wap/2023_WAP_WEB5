@@ -2,6 +2,8 @@ package wap.web5team.buife.domain;
 
 import jakarta.persistence.*;
 
+import javax.management.relation.Role;
+
 @Entity
 public class Member {
 
@@ -22,6 +24,8 @@ public class Member {
     private Double userRating; // 매너온도
 
     private String code; // 이메일 인증코드
+
+
 
     public String getCode() {
         return code;
