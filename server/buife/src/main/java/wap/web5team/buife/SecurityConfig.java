@@ -22,7 +22,9 @@ public class SecurityConfig {
 //                        .requestMatchers(
 //                                new AntPathRequestMatcher("/**")).permitAll()
                         .requestMatchers(
-                               new AntPathRequestMatcher("/party/**")).hasRole("USER"))
+                               new AntPathRequestMatcher("/party/**")).hasRole("USER")
+                        .requestMatchers(
+                                new AntPathRequestMatcher("/mypage")).hasRole("USER"))
 
 
                 .formLogin((formLogin) -> formLogin

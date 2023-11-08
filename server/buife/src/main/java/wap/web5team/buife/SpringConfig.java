@@ -3,15 +3,11 @@ package wap.web5team.buife;
 import jakarta.persistence.EntityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.mail.javamail.JavaMailSender;
-import wap.web5team.buife.domain.Member;
 import wap.web5team.buife.repository.JpaMemberRepository;
 import wap.web5team.buife.repository.MemberRepository;
-import wap.web5team.buife.repository.TempMemberRepository;
-import wap.web5team.buife.service.EmailService;
-import wap.web5team.buife.service.MemberSecurityService;
-import wap.web5team.buife.service.MemberServiceJoin;
-import wap.web5team.buife.service.MemberServiceLogin;
+import wap.web5team.buife.service.Member.MemberSecurityService;
+import wap.web5team.buife.service.Member.MemberServiceJoin;
+import wap.web5team.buife.service.Member.MemberServiceLogin;
 
 @Configuration
 

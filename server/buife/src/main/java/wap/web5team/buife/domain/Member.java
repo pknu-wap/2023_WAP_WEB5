@@ -1,9 +1,6 @@
 package wap.web5team.buife.domain;
 
 import jakarta.persistence.*;
-import wap.web5team.buife.service.MemberRole;
-
-import javax.management.relation.Role;
 
 @Entity
 public class Member {

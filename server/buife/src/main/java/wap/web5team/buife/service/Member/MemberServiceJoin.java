@@ -1,4 +1,4 @@
-package wap.web5team.buife.service;
+package wap.web5team.buife.service.Member;
 
 import jakarta.transaction.Transactional;
 import wap.web5team.buife.controller.Member.MemberForm;

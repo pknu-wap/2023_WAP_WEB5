@@ -1,4 +1,4 @@
-package wap.web5team.buife.service;
+package wap.web5team.buife.service.Member;
 
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -6,6 +6,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import wap.web5team.buife.domain.Member;
 import wap.web5team.buife.repository.MemberRepository;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Transactional
 public class MemberSecurityService {
@@ -33,5 +36,20 @@ public class MemberSecurityService {
         String userID = userDetails.getUsername();
         Member member = memberRepository.findById(userID);
         return member;
+    }
+
+    public Map<String, Object> MypageData(Member member) {
+        String userName = member.getUserName();
+        Double userRating = member.getUserRating();
+        String userID = member.getUserID();
+        String userBirth = member.getUserBirth();
+        String userGender = member.getUserGender();
+        Map<String, Object> map = new HashMap<>();
+        map.put("userName",userName);
+        map.put("userRating",userRating);
+        map.put("userID",userID);
+        map.put("userBirth",userBirth);
+        map.put("userGender",userGender);
+        return map;
     }
 }

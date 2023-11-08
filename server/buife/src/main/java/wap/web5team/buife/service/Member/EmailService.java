@@ -1,4 +1,4 @@
-package wap.web5team.buife.service;
+package wap.web5team.buife.service.Member;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
