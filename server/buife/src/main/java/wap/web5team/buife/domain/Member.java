@@ -23,7 +23,9 @@ public class Member {
     @Column(name = "userCode")
     private String code; // 이메일 인증코드
 
-
+    public void changePW(String userPW) { // 비밀번호 변경
+        this.userPW = userPW;
+    }
 
 
     public String getCode() {

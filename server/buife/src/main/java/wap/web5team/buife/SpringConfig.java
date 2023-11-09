@@ -3,6 +3,7 @@ package wap.web5team.buife;
 import jakarta.persistence.EntityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import wap.web5team.buife.repository.JpaMemberRepository;
 import wap.web5team.buife.repository.MemberRepository;
 import wap.web5team.buife.service.Member.MemberSecurityService;
@@ -26,8 +27,11 @@ public class SpringConfig {
     @Bean
     public MemberServiceLogin memberServiceLogin() {return new MemberServiceLogin(memberRepository());}
 
-    @Bean
-    public MemberSecurityService memberSecurityService() {return new MemberSecurityService(memberRepository());}
+//    @Bean
+//    public MemberSecurityService memberSecurityService()
+//    {
+//        return new MemberSecurityService(memberRepository());
+//    }
 
     @Bean
     public MemberRepository memberRepository() {
