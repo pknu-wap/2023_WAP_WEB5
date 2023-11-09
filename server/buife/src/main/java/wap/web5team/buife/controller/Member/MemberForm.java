@@ -4,6 +4,7 @@ public class MemberForm {
     private int idx_pk;            // Primary Key
     private String userID;        // 아이디
     private String userPW;        // 비밀번호
+    private String userPWCheck;        // 비밀번호 확인
     private String userName;    // 닉네임
     private String userBirth;    // 생년월일
     private String userGender;    // 성별
@@ -64,6 +65,14 @@ public class MemberForm {
     }
     public void setUserGender(String userGender) {
         this.userGender = userGender;
+    }
+
+    public String getUserPWCheck() {
+        return userPWCheck;
+    }
+
+    public void setUserPWCheck(String userPWCheck) {
+        this.userPWCheck = userPWCheck;
     }
 
 }

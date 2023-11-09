@@ -12,7 +12,6 @@ import wap.web5team.buife.service.Member.MemberServiceJoin;
 import wap.web5team.buife.service.Member.MemberServiceLogin;
 
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,28 +39,11 @@ public class MemberController {
 
     @PostMapping("/members/new")
     public String create(@RequestBody MemberForm form, HttpSession session) throws MessagingException, UnsupportedEncodingException {
-        switch (memberServiceJoin.nullDataCheck(form)) {
-            case 1:
-                throw new IllegalStateException("EMAIL 을 입력해주세요");
-            case 2:
-                throw new IllegalStateException("PW 을 입력해주세요");
-            case 3:
-                throw new IllegalStateException("이름 을 입력해주세요");
-            case 4:
-                throw new IllegalStateException("생년월일 을 입력해주세요");
-            case 5:
-                throw new IllegalStateException("성별 을 입력해주세요");
-            case 0:
-                break;
-        }
-        switch (memberServiceJoin.pwLengthCheck(form.getUserPW())) {
-            case -1:
-                throw new IllegalStateException("pw가 너무 짧아요");
-            case 1:
-                throw new IllegalStateException("pw가 너무 길어요");
-            case 0:
-                break;
-        }
+
+        memberServiceJoin.nullDataCheck(form);
+        memberServiceJoin.checkPWCheck(form.getUserPW(),form.getUserPWCheck());
+        memberServiceJoin.pwLengthCheck(form.getUserPW());
+
         Member member = new Member();
         member.setUserID(form.getUserID());
         member.setUserPW(passwordEncoder.encode(form.getUserPW()));
@@ -127,4 +109,18 @@ public class MemberController {
         member = memberSecurityService.findByLoginData();
         return memberSecurityService.MypageData(member);
     }
+
+    @PostMapping("/mypage")
+    public String changePW(@RequestBody MemberChangePwForm form) {
+        Member member = memberSecurityService.findByLoginData();
+        if(!passwordEncoder.matches(form.getOldPW(), member.getUserPW()))
+            throw new IllegalStateException("현재 비밀번호가 틀립니다.");
+
+        memberServiceJoin.checkPWCheck(form.getNewPW(), form.getNewPWCheck());
+        memberServiceJoin.pwLengthCheck(form.getNewPW());
+        memberSecurityService.changePW(member,form.getNewPW());
+        return "redirect:/members/logout";
+    }
+    /** 비밀번호 틀린거 예외처리 , 비밀번호 확인 유효성 검사 등
+     * **/
 }

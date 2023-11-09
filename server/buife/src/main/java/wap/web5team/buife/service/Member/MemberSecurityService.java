@@ -1,21 +1,29 @@
 package wap.web5team.buife.service.Member;
 
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import wap.web5team.buife.domain.Member;
 import wap.web5team.buife.repository.MemberRepository;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 @Transactional
 public class MemberSecurityService {
     private final MemberRepository memberRepository;
-    public MemberSecurityService(MemberRepository memberRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public MemberSecurityService(MemberRepository memberRepository,PasswordEncoder passwordEncoder) {
 
         this.memberRepository = memberRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -51,5 +59,9 @@ public class MemberSecurityService {
         map.put("userBirth",userBirth);
         map.put("userGender",userGender);
         return map;
+    }
+
+    public void changePW(Member member,String userPW) {
+        member.changePW(passwordEncoder.encode(userPW));
     }
 }
