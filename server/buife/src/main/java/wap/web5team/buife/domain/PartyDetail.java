@@ -1,6 +1,7 @@
 package wap.web5team.buife.domain;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PartyDetail {
@@ -8,24 +9,30 @@ public class PartyDetail {
     private List<PartyMember> standby;
     private int state;
 
+    public PartyDetail() {
+        this.accepted = new ArrayList();
+        this.standby = new ArrayList();
+        this.state = 0;
+    }
+
     public void setPartyMemberList(List<PartyMember> partyMemberList, Party party){
 
         // 파티멤버 목록
         for (PartyMember t: partyMemberList) {
-            if(t.getUserState() == "수락")
+            if(t.getUserState().equals("수락"))
                 this.accepted.add(t);
         }
 
         // 수락대기 인원 목록
         for (PartyMember t: partyMemberList) {
-            if(t.getUserState() == "수락대기")
+            if(t.getUserState().equals("수락대기"))
                 this.standby.add(t);
         }
 
-        if(party.getPartyState() == "모집"){
+        if(party.getPartyState().equals("모집")){
             this.state = 4;
         }
-        else if (party.getPartyState() == "마감"){
+        else if (party.getPartyState().equals("마감")){
             this.state = 5;
         }
     }
@@ -42,10 +49,10 @@ public class PartyDetail {
         if(pm==null){
             this.state = 1;
         }
-        else if(pm.getUserState() == "수락대기"){
+        else if(pm.getUserState().equals("수락대기")){
             this.state = 2;
         }
-        else if(pm.getUserState() == "수락"){
+        else if(pm.getUserState().equals("수락")){
             this.state = 3;
         }
     }

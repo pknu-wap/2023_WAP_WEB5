@@ -86,12 +86,11 @@ public class PartyController {
 
         pmService.apply(pm);
 
-        // 파티 마감일 경우 수락 대기중인 pm 제거
-        // deniedPartyMemberList() 동작 확인해봐야 함
+        //TODO
+        // -deniedPartyMemberList() 동작 확인해봐야 함
         if (party.getPartyState().equals("마감")) {
             List<PartyMember> deniedPms = pmService.deniedPartyMemberList(partyPk);
-            for (PartyMember item :
-                    deniedPms) {
+            for (PartyMember item : deniedPms) {
                 pmService.deny(item);
             }
         }
@@ -113,6 +112,8 @@ public class PartyController {
     @PostMapping("party/update")
     public String update(@RequestBody Party party) {
 
+        //FixMe
+        // 어케 수정해야할까
         partyService.update(party);
 
         return "redirect:/party";
@@ -127,12 +128,12 @@ public class PartyController {
     }
 
     @GetMapping("/party/partyMemberUpdate")
-    public String partyMemberUpdate(@RequestParam int pmpk, @RequestParam int ppk, @RequestParam String action) {
+    public String partyMemberUpdate(@RequestParam(name="pmpk") int pmPk, @RequestParam(name="ppk") int partyPk, @RequestParam String action) {
 
-        PartyMember pm = pmService.findMember(pmpk).get();
-        Party party = partyService.findParty(ppk).get();
+        PartyMember pm = pmService.findMember(pmPk).get();
+        Party party = partyService.findParty(partyPk).get();
 
-        if (action.equals("accept") && party.getPartyRecruitCurr() < party.getPartyRecruitLimit()) {
+        if (partyService.isAcceptable(action, party)) {
             pmService.changePartyMemberState(pm, "수락");
             //party에 현원 추가
             partyService.recruitCount(party, "add");
@@ -143,24 +144,26 @@ public class PartyController {
             partyService.recruitCount(party, "sub");
         }
 
-        return "redirect:/party/detail?ppk=" + ppk;
+        return "redirect:/party/detail?ppk=" + partyPk;
     }
 
-    // TODO
-    // -세션없을 때 state 0 리턴
+    //TODO
+    // -세션 없을 때 state 0 리턴
+    // -userPk를 세션으로 치환해서 구현
     // -Festival에서 축제 마감일 가져오기
+    // FixMe
+    // -party_member db와 party db 연동 안되는 이슈
     @ResponseBody
-    @GetMapping("/party/partyDetail")
-    public PartyDetail partyDetail(@RequestParam int upk, @RequestParam int ppk){
+    @GetMapping("/party/detail")
+    public PartyDetail partyDetail(@RequestParam(name = "upk") int userPk, @RequestParam(name = "ppk") int partyPk){
 
         PartyDetail partyDetail = new PartyDetail(); // 반환 객체
-        Party party = partyService.findParty(ppk).get();
+        Party party = partyService.findParty(partyPk).get();
         LocalDate festivalDate; // 파티 일자 받아오기
-        List<PartyMember> pmList = pmService.memberList(ppk);
-
+        List<PartyMember> pmList = pmService.memberList(partyPk);
 
         partyDetail.setPartyMemberList(pmList, party);
-        partyDetail.setState(pmList, upk);
+        partyDetail.setState(pmList, userPk);
 
         // 파티 마감일이 지난 경우
         /*if(LocalDate.now().isAfter(festivalDate)){
