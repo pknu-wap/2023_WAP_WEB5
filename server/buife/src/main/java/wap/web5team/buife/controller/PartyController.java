@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import wap.web5team.buife.domain.ForeignKey;
 import wap.web5team.buife.domain.Party;
+import wap.web5team.buife.domain.PartyDetail;
 import wap.web5team.buife.domain.PartyMember;
 import wap.web5team.buife.service.PartyMemberService;
 import wap.web5team.buife.service.PartyService;
@@ -28,9 +29,6 @@ public class PartyController {
         this.pmService = pmService;
     }
 
-    /**
-     * 파티 메인페이지
-     */
     @ResponseBody
     @GetMapping("/party")
     public List<Party> partyMain() {
@@ -42,9 +40,6 @@ public class PartyController {
         //return "party/partyMain";
     }
 
-    /**
-     * 파티 생성페이지
-     */
     @GetMapping("party/new")
     public String createParty() {
         return "party/partyCreate";
@@ -52,11 +47,6 @@ public class PartyController {
 
     private ForeignKey fk = new ForeignKey();
 
-    /**
-     * 파티 생성
-     * 나중에 세션인증으로 변경
-     * @param party
-     */
     @PostMapping("party/new")
     public String create(@RequestBody Party party) {
         //Party party = new Party();
@@ -73,12 +63,6 @@ public class PartyController {
         return "redirect:/party";
     }
 
-    /**
-     * 파티 참가
-     * 나중에 세션인증으로 변경
-     * @param partyPk
-     * @param userPk
-     */
     @ResponseBody
     @GetMapping("party/join")
     public String partyJoin(@RequestParam(name = "ppk") int partyPk, @RequestParam(name = "upk") int userPk) {
@@ -103,6 +87,7 @@ public class PartyController {
         pmService.apply(pm);
 
         // 파티 마감일 경우 수락 대기중인 pm 제거
+        // deniedPartyMemberList() 동작 확인해봐야 함
         if (party.getPartyState().equals("마감")) {
             List<PartyMember> deniedPms = pmService.deniedPartyMemberList(partyPk);
             for (PartyMember item :
@@ -114,13 +99,6 @@ public class PartyController {
         return "redirect:/party";
     }
 
-    /**
-     * 파티 수정
-     * <p>
-     * //@param model
-     *
-     * @param partyPk
-     */
     @ResponseBody
     @GetMapping("party/update")
     public Party updateParty(@RequestParam(name = "ppk") int partyPk) {
@@ -140,11 +118,6 @@ public class PartyController {
         return "redirect:/party";
     }
 
-    /**
-     * 파티 삭제
-     *
-     * @param partyPk
-     */
     @GetMapping("party/delete")
     public String delete(@RequestParam(name = "ppk") int partyPk) {
 
@@ -153,25 +126,6 @@ public class PartyController {
         return "redirect:/party";
     }
 
-    /**
-     * 파티 멤버 조회
-     *
-     * @param ppk
-     */
-    @ResponseBody
-    @GetMapping("/party/detail")
-    public List<PartyMember> partyDetail(@RequestParam int ppk) {
-
-        List<PartyMember> partyMembers = pmService.memberList(ppk);
-        //model.addAttribute("pms", partyMembers);
-
-        return partyMembers;
-        //return "party/partyDetail";
-    }
-
-    /*
-    파티 멤버 수정
-     */
     @GetMapping("/party/partyMemberUpdate")
     public String partyMemberUpdate(@RequestParam int pmpk, @RequestParam int ppk, @RequestParam String action) {
 
@@ -190,5 +144,29 @@ public class PartyController {
         }
 
         return "redirect:/party/detail?ppk=" + ppk;
+    }
+
+    // TODO
+    // -세션없을 때 state 0 리턴
+    // -Festival에서 축제 마감일 가져오기
+    @ResponseBody
+    @GetMapping("/party/partyDetail")
+    public PartyDetail partyDetail(@RequestParam int upk, @RequestParam int ppk){
+
+        PartyDetail partyDetail = new PartyDetail(); // 반환 객체
+        Party party = partyService.findParty(ppk).get();
+        LocalDate festivalDate; // 파티 일자 받아오기
+        List<PartyMember> pmList = pmService.memberList(ppk);
+
+
+        partyDetail.setPartyMemberList(pmList, party);
+        partyDetail.setState(pmList, upk);
+
+        // 파티 마감일이 지난 경우
+        /*if(LocalDate.now().isAfter(festivalDate)){
+            partyDetail.setFieldIfOutOfDate();
+        }*/
+
+        return partyDetail;
     }
 }

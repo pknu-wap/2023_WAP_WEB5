@@ -23,11 +23,13 @@ public class PartyMemberService {
     public int apply(PartyMember pm){
 
         pmRepository.save(pm);
+
         return pm.getPmPk();
     }
     public void accept(PartyMember pm){
         pmRepository.stateChange(pm, "수락");
     }
+
     public void deny(PartyMember pm){
         pmRepository.remove(pm);
     }

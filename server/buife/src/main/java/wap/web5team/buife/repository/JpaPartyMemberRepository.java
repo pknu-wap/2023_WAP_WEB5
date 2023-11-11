@@ -46,8 +46,9 @@ public class JpaPartyMemberRepository implements PartyMemberRepository {
 
     @Override
     public List<PartyMember> findDeniedPartyMembers(int partyPk) {
-        return em.createQuery("select pm from PartyMember pm where pm.partyPk = :partyPk", PartyMember.class)
+        return em.createQuery("select pm from PartyMember pm where pm.partyPk = :partyPk AND pm.userState = :userState", PartyMember.class)
                 .setParameter("partyPk", partyPk)
+                .setParameter("userPk", "수락대기")
                 .getResultList();
     }
 
