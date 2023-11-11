@@ -5,10 +5,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import wap.web5team.buife.domain.ForeignKey;
-import wap.web5team.buife.domain.Party;
-import wap.web5team.buife.domain.PartyDetail;
-import wap.web5team.buife.domain.PartyMember;
+import wap.web5team.buife.domain.*;
+import wap.web5team.buife.service.FestivalService;
 import wap.web5team.buife.service.PartyMemberService;
 import wap.web5team.buife.service.PartyService;
 
@@ -19,14 +17,15 @@ import java.util.Random;
 @Controller
 public class PartyController {
 
-
     private final PartyService partyService;
     private final PartyMemberService pmService;
+    private final FestivalService festivalService;
 
     @Autowired
-    public PartyController(PartyService partyService, PartyMemberService pmService) {
+    public PartyController(PartyService partyService, PartyMemberService pmService, FestivalService festivalService) {
         this.partyService = partyService;
         this.pmService = pmService;
+        this.festivalService = festivalService;
     }
 
     @ResponseBody
@@ -159,12 +158,13 @@ public class PartyController {
 
         PartyDetail partyDetail = new PartyDetail(); // 반환 객체
         Party party = partyService.findParty(partyPk).get();
-        LocalDate festivalDate; // 파티 일자 받아오기
+        LocalDate festivalDate = festivalService.getFestEnd(party.getFestPk()); // 파티 일자 받아오기
         List<PartyMember> pmList = pmService.memberList(partyPk);
 
         partyDetail.setPartyMemberList(pmList, party);
         partyDetail.setState(pmList, userPk);
 
+        System.out.println(festivalDate);
         // 파티 마감일이 지난 경우
         /*if(LocalDate.now().isAfter(festivalDate)){
             partyDetail.setFieldIfOutOfDate();

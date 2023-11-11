@@ -9,7 +9,7 @@ public class Party {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int partyPk;
-    private int festPk;
+    private Long festPk;
     private int userPk;
     private int partyRecruitLimit;
     private int partyRecruitCurr;
@@ -28,11 +28,11 @@ public class Party {
         this.partyPk = partyPk;
     }
 
-    public int getFestPk() {
+    public Long getFestPk() {
         return festPk;
     }
 
-    public void setFestPk(int festPk) {
+    public void setFestPk(Long festPk) {
         this.festPk = festPk;
     }
 
