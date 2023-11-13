@@ -1,18 +1,14 @@
 package wap.web5team.buife.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import wap.web5team.buife.domain.*;
 import wap.web5team.buife.service.FestivalService;
 import wap.web5team.buife.service.PartyMemberService;
 import wap.web5team.buife.service.PartyService;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Random;
 
 @Controller
 public class PartyController {
@@ -62,6 +58,39 @@ public class PartyController {
         return "redirect:/party";
     }
 
+    //TODO
+    // -세션 없을 때 state 0 리턴
+    // -userPk를 세션으로 치환해서 구현
+    // -Festival에서 축제 마감일 가져오기
+    // FixMe
+    // -party_member db와 party db 연동 안되는 이슈
+    @ResponseBody
+    @GetMapping("/party/detail")
+    public PartyDetail partyDetail(@RequestParam(name = "upk") int userPk, @RequestParam(name = "ppk") int partyPk){
+
+        PartyDetail partyDetail = new PartyDetail(); // 반환 객체
+
+        Party party = partyService.findParty(partyPk).get();
+        //LocalDate festivalDate = festivalService.getFestEnd(party.getFestPk()); // 파티 일자 받아오기
+
+        List<PartyMember> pmList = pmService.entireMemberList(partyPk);
+        PartyMember session = pmService.findByUserPkAndPartyPk(userPk, partyPk).get();
+
+        partyDetail.setPartyMemberList(pmList, party);
+        partyDetail.setStateAndPartyPk(session, party);
+        partyDetail.setSession(userPk);
+        partyDetail.setHost(party.getUserPk());
+        partyDetail.setPartyPk(party.getPartyPk());
+
+        // 파티 마감일이 지난 경우
+        /*if(LocalDate.now().isAfter(festivalDate)){
+            partyDetail.setFieldIfOutOfDate();
+        }*/
+
+        return partyDetail;
+    }
+
+    // state 1
     @ResponseBody
     @GetMapping("party/join")
     public String partyJoin(@RequestParam(name = "ppk") int partyPk, @RequestParam(name = "upk") int userPk) {
@@ -85,16 +114,39 @@ public class PartyController {
 
         pmService.apply(pm);
 
-        //TODO
-        // -deniedPartyMemberList() 동작 확인해봐야 함
-        if (party.getPartyState().equals("마감")) {
-            List<PartyMember> deniedPms = pmService.deniedPartyMemberList(partyPk);
-            for (PartyMember item : deniedPms) {
-                pmService.deny(item);
-            }
+        return "redirect:/party";
+    }
+
+    // 거절, 강퇴, 신청 취소
+    @GetMapping("/party/quit")
+    public String partyQuit(@RequestBody PartyDetail partyDetail){
+
+        int partyPk = partyDetail.getSession();
+        int userPk = partyDetail.getPartyPk();
+
+        // 본인인 경우 또는 파티장인 경우에만 삭제버튼을 표시해서 권한 인증은 필요 없도록
+        PartyMember partyMember = pmService.findByUserPkAndPartyPk(partyPk, userPk).get();
+        pmService.deny(partyMember);
+
+        return "redirect:/party/detail?ppk="+partyPk+"upk="+userPk;
+    }
+
+    @ResponseBody
+    @GetMapping("/party/close")
+    public PartyDetail closeParty(@RequestBody PartyDetail partyDetail){
+
+        Party party = partyService.findParty(partyDetail.getPartyPk()).get();
+
+        if(!partyService.isAcceptable(party) || partyDetail.getState()==4){
+            partyDetail.setState(5);
+            party.setPartyState("마감");
+
+        } else if(partyDetail.getState()==5){
+            partyDetail.setState(4);
+            party.setPartyState("모집");
         }
 
-        return "redirect:/party";
+        return partyDetail;
     }
 
     @ResponseBody
@@ -129,10 +181,10 @@ public class PartyController {
     @GetMapping("/party/partyMemberUpdate")
     public String partyMemberUpdate(@RequestParam(name="pmpk") int pmPk, @RequestParam(name="ppk") int partyPk, @RequestParam String action) {
 
-        PartyMember pm = pmService.findMember(pmPk).get();
+        PartyMember pm = pmService.findByPartyMemberPk(pmPk).get();
         Party party = partyService.findParty(partyPk).get();
 
-        if (partyService.isAcceptable(action, party)) {
+        if (action.equals("accept") && partyService.isAcceptable(party)) {
             pmService.changePartyMemberState(pm, "수락");
             //party에 현원 추가
             partyService.recruitCount(party, "add");
@@ -144,32 +196,5 @@ public class PartyController {
         }
 
         return "redirect:/party/detail?ppk=" + partyPk;
-    }
-
-    //TODO
-    // -세션 없을 때 state 0 리턴
-    // -userPk를 세션으로 치환해서 구현
-    // -Festival에서 축제 마감일 가져오기
-    // FixMe
-    // -party_member db와 party db 연동 안되는 이슈
-    @ResponseBody
-    @GetMapping("/party/detail")
-    public PartyDetail partyDetail(@RequestParam(name = "upk") int userPk, @RequestParam(name = "ppk") int partyPk){
-
-        PartyDetail partyDetail = new PartyDetail(); // 반환 객체
-        Party party = partyService.findParty(partyPk).get();
-        LocalDate festivalDate = festivalService.getFestEnd(party.getFestPk()); // 파티 일자 받아오기
-        List<PartyMember> pmList = pmService.memberList(partyPk);
-
-        partyDetail.setPartyMemberList(pmList, party);
-        partyDetail.setState(pmList, userPk);
-
-        System.out.println(festivalDate);
-        // 파티 마감일이 지난 경우
-        /*if(LocalDate.now().isAfter(festivalDate)){
-            partyDetail.setFieldIfOutOfDate();
-        }*/
-
-        return partyDetail;
     }
 }

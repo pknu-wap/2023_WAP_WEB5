@@ -1,6 +1,5 @@
 package wap.web5team.buife.domain;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +7,9 @@ public class PartyDetail {
     private List<PartyMember> accepted;
     private List<PartyMember> standby;
     private int state;
+    private int partyPk;
+    private int session;
+    private int host;
 
     public PartyDetail() {
         this.accepted = new ArrayList();
@@ -15,49 +17,54 @@ public class PartyDetail {
         this.state = 0;
     }
 
-    public void setPartyMemberList(List<PartyMember> partyMemberList, Party party){
+    public void setPartyMemberList(List<PartyMember> partyMemberList, Party party) {
 
-        // 파티멤버 목록
-        for (PartyMember t: partyMemberList) {
-            if(t.getUserState().equals("수락"))
+        for (PartyMember t : partyMemberList) {
+            if (t.getUserState().equals("수락"))
                 this.accepted.add(t);
         }
 
-        // 수락대기 인원 목록
-        for (PartyMember t: partyMemberList) {
-            if(t.getUserState().equals("수락대기"))
+        for (PartyMember t : partyMemberList) {
+            if (t.getUserState().equals("수락대기"))
                 this.standby.add(t);
         }
-
-        if(party.getPartyState().equals("모집")){
-            this.state = 4;
-        }
-        else if (party.getPartyState().equals("마감")){
-            this.state = 5;
-        }
     }
 
-    public void setState(List<PartyMember> partyMemberList, int userPk){
+    public void setStateAndPartyPk(PartyMember session, Party party) {
 
-        PartyMember pm = null;
-
-        for (PartyMember t: partyMemberList) {
-            if(t.getUserPk()==userPk)
-                pm = t;
+        if (session == null) {
+            this.state = 1;
+            return;
         }
 
-        if(pm==null){
+        boolean isHost = false;
+        if (session.getUserPk() == host)
+            isHost = true;
+
+        if (!isHost && session.getUserState().equals("수락대기")) {
+            this.state = 2;
+        } else if (!isHost && session.getUserState().equals("수락")) {
+            this.state = 3;
+        } else if (isHost && party.getPartyState().equals("모집")) {
+            this.state = 4;
+        } else if (isHost && party.getPartyState().equals("마감")) {
+            this.state = 5;
+        } else {
             this.state = 1;
         }
-        else if(pm.getUserState().equals("수락대기")){
-            this.state = 2;
-        }
-        else if(pm.getUserState().equals("수락")){
-            this.state = 3;
-        }
+
+        this.partyPk = party.getPartyPk();
     }
 
-    public void setFieldIfOutOfDate(){
+    public boolean isAuthentic() {
+
+        if (session == host)
+            return true;
+
+        return false;
+    }
+
+    public void setFieldIfOutOfDate() {
         this.state = 6;
     }
 
@@ -77,11 +84,39 @@ public class PartyDetail {
         this.standby = standby;
     }
 
+    public void setState(int state) {
+        this.state = state;
+    }
+
     public int getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setStateAndPartyPk(int state) {
         this.state = state;
+    }
+
+    public int getSession() {
+        return session;
+    }
+
+    public void setSession(int session) {
+        this.session = session;
+    }
+
+    public int getHost() {
+        return host;
+    }
+
+    public void setHost(int host) {
+        this.host = host;
+    }
+
+    public int getPartyPk() {
+        return partyPk;
+    }
+
+    public void setPartyPk(int partyPk) {
+        this.partyPk = partyPk;
     }
 }

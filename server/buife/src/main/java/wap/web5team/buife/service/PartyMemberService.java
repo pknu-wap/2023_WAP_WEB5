@@ -41,11 +41,14 @@ public class PartyMemberService {
         return state;
     }
 
-    public Optional<PartyMember> findMember(int pmPk){
-        return pmRepository.findByPmPk(pmPk);
+    public Optional<PartyMember> findByPartyMemberPk(int partyMemberPk){
+        return pmRepository.findByPartyMemberPk(partyMemberPk);
+    }
+    public Optional<PartyMember> findByUserPkAndPartyPk(int userPk, int partyPk){
+        return pmRepository.findByUserPkAndPartyPk(userPk, partyPk);
     }
 
-    public List<PartyMember> memberList(int partyPk){
+    public List<PartyMember> entireMemberList(int partyPk){
         return pmRepository.findByPartyPk(partyPk);
     }
 
