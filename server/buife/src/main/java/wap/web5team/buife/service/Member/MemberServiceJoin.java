@@ -1,4 +1,4 @@
-package wap.web5team.buife.service;
+package wap.web5team.buife.service.Member;
 
 import jakarta.transaction.Transactional;
 import wap.web5team.buife.controller.Member.MemberForm;
@@ -19,30 +19,32 @@ public class MemberServiceJoin {
     public Member join(Member member) {
         return memberRepository.save(member);
     }
-    public int nullDataCheck(MemberForm form) { // null 이랑 빈공백은 다름..
+    public void nullDataCheck(MemberForm form) { // null 이랑 빈공백은 다름..
         int nullCheck=0;
         if(form.getUserID().equals(""))
-            return nullCheck = 1;
+            throw new IllegalStateException("EMAIL 을 입력해주세요");
         if(form.getUserPW().equals(""))
-            return nullCheck = 2;
+            throw new IllegalStateException("PW 을 입력해주세요");
+        if(form.getUserPWCheck().equals(""))
+            throw new IllegalStateException("PW 확인 을 입력해주세요");
         if(form.getUserName().equals(""))
-            return nullCheck = 3;
+            throw new IllegalStateException("이름 을 입력해주세요");
         if(form.getUserBirth().equals(""))
-            return nullCheck = 4;
+            throw new IllegalStateException("생년월일 을 입력해주세요");
         if(form.getUserGender().equals(""))
-            return nullCheck = 5;
+            throw new IllegalStateException("성별 을 입력해주세요");
 
-        return nullCheck;
+    }
+    public void checkPWCheck(String PW, String checkPW) {
+        if(!PW.equals(checkPW))
+            throw new IllegalStateException("pw확인과 pw가 다릅니다.");
     }
 
-    public int pwLengthCheck(String inputPW) {
-        int pwLengthCheck=0;
+    public void pwLengthCheck(String inputPW) {
         if(inputPW.length() < 8)
-            return pwLengthCheck=-1; // 8자리 미만 : -1 리턴
+            throw new IllegalStateException("pw가 너무 짧아요");
         else if(inputPW.length() > 15)
-            return pwLengthCheck=1; // 15자리 초과 : 1 리턴
-        else
-            return pwLengthCheck; // 8~15자리 : 0 리턴
+            throw new IllegalStateException("pw가 너무 길어요");
     }
 
     public boolean duplicateCheck(Member member) {

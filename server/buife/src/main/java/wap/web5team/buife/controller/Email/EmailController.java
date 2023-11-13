@@ -1,18 +1,14 @@
 package wap.web5team.buife.controller.Email;
 
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import wap.web5team.buife.service.EmailService;
-import wap.web5team.buife.service.MemberServiceJoin;
+import wap.web5team.buife.service.Member.EmailService;
+import wap.web5team.buife.service.Member.MemberServiceJoin;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class EmailController {
@@ -30,9 +26,11 @@ public class EmailController {
 
     @ResponseBody
     @GetMapping("/members/new/emailCheck")
-    public String EmailCheckForm(HttpSession session) {
+    public Map<String, String> EmailCheckForm(HttpSession session) {
         String userID = (String) session.getAttribute("userID");
-        return userID;
+        Map<String, String> responseData = new HashMap<>();
+        responseData.put("userID", userID);
+        return responseData;
     }
 
 

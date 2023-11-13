@@ -20,8 +20,13 @@ public class Member {
     private String userGender;    // 성별
     @Column(name = "userRating")
     private Double userRating; // 매너온도
-
+    @Column(name = "userCode")
     private String code; // 이메일 인증코드
+
+    public void changePW(String userPW) { // 비밀번호 변경
+        this.userPW = userPW;
+    }
+
 
     public String getCode() {
         return code;
@@ -32,6 +37,7 @@ public class Member {
     }
 
     public Member() {
+
         this.userRating = 36.5;
     }
     public Double getUserRating() {
