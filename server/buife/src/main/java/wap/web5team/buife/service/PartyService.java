@@ -73,4 +73,12 @@ public class PartyService {
 
         return party.getPartyRecruitCurr();
     }
+
+    public boolean isAcceptable(Party party){
+
+        if(party.getPartyRecruitCurr() < party.getPartyRecruitLimit())
+            return true;
+
+        return false;
+    }
 }

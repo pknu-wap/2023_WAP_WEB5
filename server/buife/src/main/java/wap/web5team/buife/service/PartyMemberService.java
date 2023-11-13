@@ -23,11 +23,13 @@ public class PartyMemberService {
     public int apply(PartyMember pm){
 
         pmRepository.save(pm);
+
         return pm.getPmPk();
     }
     public void accept(PartyMember pm){
         pmRepository.stateChange(pm, "수락");
     }
+
     public void deny(PartyMember pm){
         pmRepository.remove(pm);
     }
@@ -39,11 +41,14 @@ public class PartyMemberService {
         return state;
     }
 
-    public Optional<PartyMember> findMember(int pmPk){
-        return pmRepository.findByPmPk(pmPk);
+    public Optional<PartyMember> findByPartyMemberPk(int partyMemberPk){
+        return pmRepository.findByPartyMemberPk(partyMemberPk);
+    }
+    public Optional<PartyMember> findByUserPkAndPartyPk(int userPk, int partyPk){
+        return pmRepository.findByUserPkAndPartyPk(userPk, partyPk);
     }
 
-    public List<PartyMember> memberList(int partyPk){
+    public List<PartyMember> entireMemberList(int partyPk){
         return pmRepository.findByPartyPk(partyPk);
     }
 

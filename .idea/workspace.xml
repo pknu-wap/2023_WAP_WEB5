@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d17d3607-ad05-45f5-b838-2537e4614ef2" name="Changes" comment="">
+<<<<<<< HEAD
       <change afterPath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/controller/Member/MemberChangePwForm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/SpringConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/SpringConfig.java" afterDir="false" />
@@ -14,6 +15,10 @@
       <change beforePath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/repository/JpaMemberRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/repository/JpaMemberRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/service/Member/MemberSecurityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/service/Member/MemberSecurityService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/service/Member/MemberServiceJoin.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/buife/src/main/java/wap/web5team/buife/service/Member/MemberServiceJoin.java" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+>>>>>>> party-front
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +50,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+<<<<<<< HEAD
         <option value="Enum" />
+=======
+>>>>>>> party-front
         <option value="Class" />
       </list>
     </option>
@@ -56,6 +64,13 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+<<<<<<< HEAD
+=======
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
+>>>>>>> party-front
   <component name="ProjectId" id="2XTqRm500kBMKuiajOR8X2eYHUF" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -72,6 +87,10 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+<<<<<<< HEAD
+=======
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+>>>>>>> party-front
     &quot;last_opened_file_path&quot;: &quot;C:/Users/민경윤/Documents/GitHub/2023_WAP_WEB5&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -82,11 +101,14 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+<<<<<<< HEAD
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="wap.web5team.buife" />
     </key>
   </component>
+=======
+>>>>>>> party-front
   <component name="RunManager">
     <configuration name="BuifeApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="buife.main" />
@@ -107,6 +129,11 @@
       <workItem from="1698663414679" duration="2948000" />
       <workItem from="1698667686077" duration="18069000" />
       <workItem from="1698768747229" duration="2739000" />
+<<<<<<< HEAD
+=======
+      <workItem from="1698986390989" duration="630000" />
+      <workItem from="1699265463780" duration="1253000" />
+>>>>>>> party-front
     </task>
     <servers />
   </component>
@@ -124,6 +151,7 @@
       </map>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -135,4 +163,6 @@
       </breakpoints>
     </breakpoint-manager>
   </component>
+=======
+>>>>>>> party-front
 </project>
