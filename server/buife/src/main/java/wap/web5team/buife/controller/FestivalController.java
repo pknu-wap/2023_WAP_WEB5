@@ -1,17 +1,18 @@
 package wap.web5team.buife.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import wap.web5team.buife.domain.Festival;
-import wap.web5team.buife.service.FestivalApiService;
 import wap.web5team.buife.service.FestivalService;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -35,6 +36,25 @@ public class FestivalController {
                                Model model) throws ParseException {
         System.out.println(payment +", "+area);
         List<Festival> festivals = festivalService.findByFeeContainingAndAddressContaining(payment, area);
+        return festivals;
+    }
+    @GetMapping("/read-one/{id}")
+    @ResponseBody
+    public Festival read(@PathVariable Long id, Model model) {
+        System.out.println("조회한 id=" + id);
+
+        Festival festival = festivalService.findById(id).orElse(null);
+        int cnt=festivalService.updateView(id);
+
+        return festival;
+    }
+    @GetMapping("/read-page")
+    @ResponseBody
+    public Page<Festival> getAllFestivals(@RequestParam(name = "page", defaultValue = "1") int page,
+                                          @RequestParam(name = "size", defaultValue = "10") int size) {
+        PageRequest pageRequest = PageRequest.of(page-1,size,Sort.by("end").descending()); // 출력할 페이지 번호, 한 페이지 당 출력할 컨텐츠 개수, 마감일 순으로 정렬
+        Page<Festival> festivals = festivalService.getFestivalList(pageRequest);
+
         return festivals;
     }
 

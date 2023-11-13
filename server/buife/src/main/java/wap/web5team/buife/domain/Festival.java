@@ -53,6 +53,8 @@ public class Festival {
     @Column(name="fest_image")
     private String image;
 
+    @Column(name="fest_view")
+    private int view;
     public Long getId() {
         return id;
     }
@@ -165,4 +167,11 @@ public class Festival {
         this.image = image;
     }
 
+    public int getView() {
+        return view;
+    }
+
+    public void setView(int view) {
+        this.view = view;
+    }
 }

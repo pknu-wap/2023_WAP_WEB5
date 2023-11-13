@@ -30,4 +30,5 @@ public class FestivalApiController {
     public void apiDataBaseUpdate(HttpServletRequest req, HttpServletResponse res) throws Exception {
         festivalApiService.apiDataBaseUpdate(req, res);
     }
+
 }
