@@ -26,6 +26,9 @@ public class Member {
     public void changePW(String userPW) { // 비밀번호 변경
         this.userPW = userPW;
     }
+    public void changeRating(Double userRating) {
+        this.userRating = userRating;
+    }
 
 
     public String getCode() {
