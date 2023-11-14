@@ -36,8 +36,13 @@ public class PartyDetail {
 
     public void decideState(PartyMember sessionInPartyMember) {
 
+        // 세션은 있지만 파티에 dependancy가 없음
         if (sessionInPartyMember == null) {
-            this.state = 0;
+            if(party.getPartyState().equals("모집")){
+                this.state = 1;
+            }else{
+                this.state = 0;
+            }
             return;
         }
 
@@ -45,7 +50,9 @@ public class PartyDetail {
         if (party.getUserPk().equals(sessionInPartyMember.getUserPk()))
             isHost = true;
 
-        if (!isHost && sessionInPartyMember.getUserState().equals("수락대기")) {
+        if (!isHost && party.getPartyState().equals("마감")){
+            this.state = 0;
+        } else if (!isHost && sessionInPartyMember.getUserState().equals("수락대기")) {
             this.state = 2;
         } else if (!isHost && sessionInPartyMember.getUserState().equals("수락")) {
             this.state = 3;

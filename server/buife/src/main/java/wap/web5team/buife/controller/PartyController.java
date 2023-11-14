@@ -77,7 +77,7 @@ public class PartyController {
         LocalDate festivalDate = partyService.getFestEnd(festival);
 
         List<PartyMember> pmList = pmService.entireMemberList(partyPk);
-        PartyMember sessionInPartyMember = pmService.findByUserPkAndPartyPk(userPk, partyPk).get();
+        PartyMember sessionInPartyMember = pmService.findByUserPkAndPartyPk(userPk, partyPk).orElse(null);
 
         partyDetail.setPartyMemberList(pmList);
         partyDetail.decideState(sessionInPartyMember);
