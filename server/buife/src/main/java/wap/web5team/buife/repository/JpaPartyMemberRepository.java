@@ -40,7 +40,7 @@ public class JpaPartyMemberRepository implements PartyMemberRepository {
     }
 
     @Override
-    public Optional<PartyMember> findByUserPkAndPartyPk(int userPk, int partyPk) {
+    public Optional<PartyMember> findByUserPkAndPartyPk(String userPk, int partyPk) {
 
         return em.createQuery("select pm from PartyMember pm where pm.userPk = :userPk AND pm.partyPk = :partyPk", PartyMember.class)
                 .setParameter("userPk", userPk)
