@@ -5,10 +5,17 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wap.web5team.buife.domain.Member;
+import wap.web5team.buife.repository.MemberRepository;
 
 @Service
 @Transactional
 public class ReviewService {
+
+    private final MemberRepository memberRepository;
+
+    public ReviewService(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
 
     @Autowired
@@ -23,6 +30,11 @@ public class ReviewService {
         realGiveRating = Math.round(realGiveRating * 100) / 100.0;
         System.out.println("실제 반영 rating : " + realGiveRating);
         return realGiveRating;
+    }
+
+    public Member findById(String userID) {
+        Member member = memberRepository.findById(userID);
+        return member;
     }
 
     public void updateMemberRating(Member member, Double realGiveRating) {

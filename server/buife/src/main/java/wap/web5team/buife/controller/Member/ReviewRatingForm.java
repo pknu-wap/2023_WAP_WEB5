@@ -3,6 +3,15 @@ package wap.web5team.buife.controller.Member;
 public class ReviewRatingForm {
     int partyPK;
     Double giveRating;
+    String userID;
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
 
     public int getPartyPK() {
         return partyPK;

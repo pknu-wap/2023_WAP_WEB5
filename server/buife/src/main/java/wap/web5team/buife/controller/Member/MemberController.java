@@ -141,13 +141,15 @@ public class MemberController {
     public String reviewPage(@RequestBody ReviewRatingForm reviewRatingForm) {
         int partyPK = reviewRatingForm.getPartyPK();
         double giveRating = reviewRatingForm.getGiveRating();
+        String userID = reviewRatingForm.getUserID();
+
         Optional<Party> optionalParty = partyService.findParty(partyPK);
         Party party = optionalParty.get();
         int partyCurr = party.getPartyRecruitCurr();
 
         double realGiveRating = reviewService.realGiveRating(partyCurr,giveRating);
 
-        Member member = memberSecurityService.findByLoginData();
+        Member member = reviewService.findById(userID);
         reviewService.updateMemberRating(member, realGiveRating);
         return "redirect:/party";
     }
