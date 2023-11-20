@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+// import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
+
 
 const MyLink = styled(Link)`
 text-decoration: none;
@@ -15,20 +17,50 @@ font-weight: 400; /* 글자 두께 지정 */
 
 `;
 
+
 const FestivalList = () => {
-    return (
-        <div>
-            <h1>축제목록</h1>
-            <p>축제목록페이지</p>
-            <p>나중에합치기</p>
-            <p>여기서 축제 클릭하면 축제상세 페이지로 이동하는 거</p>
 
-        <MyLink to="/festival-detail">각각의 축제 누르면 각 축제 상세 페이지로 이동</MyLink>
-            
+const [userDataArray, setUserDataArray] = useState([]);
 
+useEffect(() => {
+const fetchData = () => {
+    fetch('https://cors-anywhere.herokuapp.com/https://port-0-buife-5mk12alp6foaqx.sel5.cloudtype.app/members')
+    .then(response => {
+        if (!response.ok) {
+        throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        setUserDataArray(data); // 전체 데이터 배열을 가져옴
+    })
+    .catch(error => {
+        console.error('Error fetching festival data:', error);
+    });
+};
 
+fetchData();
+}, []);
+
+return (
+<div>
+    {userDataArray.length > 0 ? (
+    <div>
+        <h2>User Information</h2>
+        {userDataArray.map((userData, index) => (
+        <div key={index}>
+            <p>User ID: {userData.userID}</p>
+            {/* 기타 필요한 정보도 여기에 추가할 수 있습니다 */}
         </div>
-    );
-    };
+        ))}
+    </div>
+    ) : (
+    <p>Loading user information...</p>
+    )}
+</div>
+);
+};
 
-    export default FestivalList;
+
+
+export default FestivalList;

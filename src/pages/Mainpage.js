@@ -44,7 +44,7 @@ const Mainpage = () => {
 
         <header className="Header">
         <img src="info.png" alt="Logo" />
-        <p id="BIF"><strong>Busan Internal Festival</strong></p>
+        {/* <p id="BIF"><strong>Busan Internal Festival</strong></p> */}
         </header>
     
 

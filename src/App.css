@@ -9,6 +9,10 @@
   src: url("fonts/TmoneyRoundWindExtraBold.ttf") format("truetype");
   }
 
+  body {
+    font-family: "TmoneyRoundWindExtraBold", sans-serif;
+
+  }
   .button {
     all: unset;
 

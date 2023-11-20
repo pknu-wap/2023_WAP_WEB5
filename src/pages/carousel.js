@@ -1,6 +1,4 @@
-    //동일한 image.url이 있는 축제 상세 정보 페이지로 이동하는 코드 만들기
-    //축제 상세 정보 페이지 메인에 각 축제의 상세 정보 링크 모두 걸기
-    import React, { Component } from 'react';
+import React, { Component } from 'react';
     import './carousel.css';
 
     class Carousel extends Component {

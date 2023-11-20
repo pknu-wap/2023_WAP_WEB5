@@ -122,6 +122,20 @@ const Listdiv5 = styled.div`
 
 const FestivalDetail = () => {
     const [activeTab, setActiveTab] = useState('detail'); // 기본 탭은 'detail'
+    const festData = {
+        image: 'star.jpg',
+        description: '2023 부산 광안리 불꽃 축제에 오신 것을 환영합니다!',
+        phone: '051-607-6362',
+        address: '부산광역시 남구 대연동',
+        start: '2023-10-25',
+        end: '2023-10-30',
+        time: '연중무휴',
+        place: '광안리 해수욕장',
+        fee: '무료',
+        //detailIamge: 'star.jpg',
+        //관련 사진 명세??
+        // 백에서 가져오기
+    };
 
     return (
         <div>
@@ -148,10 +162,10 @@ const FestivalDetail = () => {
                 <Listdiv5 style={{borderBlockEndColor: activeTab === 'party' ? '#488AEE' : 'black', color: activeTab === 'party' ? '#488AEE' : 'black'}}><button style={{Color: activeTab === 'party' ? '#488AEE' : 'black', color: activeTab === 'party' ? '#488AEE' : 'black'}} onClick={() => setActiveTab('party')}>파티 모집</button></Listdiv5>
         </Nevigatordiv>
         <div>
-            {activeTab === 'detail' && <DetailInfo />}
-            {activeTab === 'guide' && <GuideInfo />}
+            {activeTab === 'detail' && <DetailInfo festData={festData}/>}
+            {activeTab === 'guide' && <GuideInfo festData={festData}/>}
             {activeTab === 'map' && <MapInfo />}
-            {activeTab === 'photo' && <PhotoInfo />}
+            {activeTab === 'photo' && <PhotoInfo festData={festData}/>}
             {activeTab === 'party' && <PartyInfo />}
 
         </div>

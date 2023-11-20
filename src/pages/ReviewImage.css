@@ -1,0 +1,17 @@
+.image-gallery {
+display: flex;
+}
+
+.image {
+opacity: 0.3;
+margin: 20px;
+cursor: pointer;
+}
+
+.image img {
+width: 100px; /* 이미지의 크기를 조절해주세요. */
+}
+
+.image.selected {
+opacity: 1;
+}

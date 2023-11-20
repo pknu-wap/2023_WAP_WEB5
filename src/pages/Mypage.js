@@ -64,6 +64,13 @@ padding-bottom: 5px;
 padding-right: 10px;
 `;
 
+const infoData = {
+    userID: 'testid1234',
+    userBirth:'2003년 1월 3일',
+    userName: 'testnickname',
+    userGender: '여',
+};
+
 const Mypage = () => {
     return (
         <div>
@@ -80,7 +87,7 @@ const Mypage = () => {
             <MyLink to ="/party-list">전체 파티 목록</MyLink>
             <MyLink to ="/my-party-list">내 파티</MyLink>
             </Headerlist>
-            <MyPageInfo/>
+            <MyPageInfo infoData={infoData}/>
             <PasswordChange/>
 
 

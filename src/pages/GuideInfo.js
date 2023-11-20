@@ -13,24 +13,33 @@ const Spanlist = styled.span`
 margin-left: 10px;
 color: Gray;
 `
-const GuideInfo = () => {
+const GuideInfo = ({ festData }) => {
+    const { phone, address,start, end, time, place, fee } = festData;
     return (
     <GuideContainer>
         <p>주소
-            <Spanlist>부산광역시 남구 대연동</Spanlist>
+            <Spanlist>{address}</Spanlist>
         </p>
         <p>전화번호
-            <Spanlist>051-607-6362</Spanlist>
+            <Spanlist>{phone}</Spanlist>
         </p>
-        <p>홈페이지</p>
+        <p>홈페이지
+            <Spanlist>임시</Spanlist>
+        </p>
         <p>이용 요금
-            <Spanlist>무료</Spanlist>
+            <Spanlist>{fee}</Spanlist>
         </p>
-        <p>요일 및 시간
-            <Spanlist>연중무휴</Spanlist>
+        <p>운영시간
+            <Spanlist>{time}</Spanlist>
+        </p>
+        <p>개최 장소
+            <Spanlist>{place}</Spanlist>
+        </p>
+        <p>개최 기간
+            <Spanlist>{start} ~ {end}</Spanlist>
         </p>
         <p>교통 정보
-            <Spanlist>지하철 2호선 대연역 1번 출구에서 도보 10분</Spanlist>
+            <Spanlist>임시: 대연역 1번 출구에서 도보 10분</Spanlist>
         </p>
     </GuideContainer>
     );

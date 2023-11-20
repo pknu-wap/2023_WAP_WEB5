@@ -1,0 +1,12 @@
+.ReactModal__Overlay {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.ReactModal__Content {
+    border-radius: 50px !important;
+    background-color: #ffffff !important;
+    width: 60% !important;
+    height: 80% !important;
+}
+
+

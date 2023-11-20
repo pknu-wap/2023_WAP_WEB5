@@ -64,11 +64,8 @@
     const { isLoggedIn } = this.state;
     function Login() {
         const navigate = useNavigate();
-      
-        const goToMain = () => {
-          navigate("./logintest");
-        };
-      }
+        
+        }
     return (
         <StyledDiv>
         {isLoggedIn ? ( // isLoggedIn 상태에 따라 다른 버튼 렌더링
@@ -77,9 +74,9 @@
             <MyLink to="/Mypage">마이페이지</MyLink>
             </div>
         ) : (
-            <MyLink to="logintest">
+            // <MyLink to="logintest">
             <StyledButton onClick={this.handleLogin}>로그인</StyledButton>
-            </MyLink>
+            // </MyLink>
         )}
         </StyledDiv>
     );
