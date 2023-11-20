@@ -6,14 +6,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import wap.web5team.buife.domain.Member;
-import wap.web5team.buife.service.Member.EmailService;
-import wap.web5team.buife.service.Member.MemberSecurityService;
-import wap.web5team.buife.service.Member.MemberServiceJoin;
-import wap.web5team.buife.service.Member.MemberServiceLogin;
+import wap.web5team.buife.domain.Party;
+import wap.web5team.buife.service.Member.*;
+import wap.web5team.buife.service.PartyService;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class MemberController {
@@ -23,15 +23,19 @@ public class MemberController {
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
     private final MemberSecurityService memberSecurityService;
+    private final PartyService partyService;
+    private final ReviewService reviewService;
 
     @Autowired
     public MemberController(MemberServiceJoin memberServiceJoin, MemberServiceLogin memberServiceLogin, EmailService emailService, PasswordEncoder passwordEncoder,
-                            MemberSecurityService memberSecurityService) {
+                            MemberSecurityService memberSecurityService, PartyService partyService, ReviewService reviewService) {
         this.memberServiceJoin = memberServiceJoin;
         this.memberServiceLogin = memberServiceLogin;
         this.emailService = emailService;
         this.passwordEncoder = passwordEncoder;
         this.memberSecurityService = memberSecurityService;
+        this.partyService = partyService;
+        this.reviewService=reviewService;
     }
 
 
@@ -123,4 +127,30 @@ public class MemberController {
     }
     /** 비밀번호 틀린거 예외처리 , 비밀번호 확인 유효성 검사 등
      * **/
+
+    @ResponseBody
+    @GetMapping("/party/review")
+    public ReviewViewForm reviewPage(@RequestParam String userID, @RequestParam String fest_name) {
+        ReviewViewForm memberReviewForm = new ReviewViewForm();
+        memberReviewForm.setUserID(userID);
+        memberReviewForm.setFest_name(fest_name);
+        return memberReviewForm;
+    }
+
+    @PostMapping("/party/review")
+    public String reviewPage(@RequestBody ReviewRatingForm reviewRatingForm) {
+        int partyPK = reviewRatingForm.getPartyPK();
+        double giveRating = reviewRatingForm.getGiveRating();
+        String userID = reviewRatingForm.getUserID();
+
+        Optional<Party> optionalParty = partyService.findParty(partyPK);
+        Party party = optionalParty.get();
+        int partyCurr = party.getPartyRecruitCurr();
+
+        double realGiveRating = reviewService.realGiveRating(partyCurr,giveRating);
+
+        Member member = reviewService.findById(userID);
+        reviewService.updateMemberRating(member, realGiveRating);
+        return "redirect:/party";
+    }
 }
