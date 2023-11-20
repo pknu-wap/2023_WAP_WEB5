@@ -174,4 +174,14 @@ public class Festival {
     public void setView(int view) {
         this.view = view;
     }
+    public FestivalDto toDto() {
+        FestivalDto dto = new FestivalDto();
+        dto.setId(this.id);
+        dto.setAddress(this.address);
+        dto.setLatitude(this.latitude);
+        dto.setLongitude(this.longitude);
+        dto.setName(this.name);
+
+        return dto;
+    }
 }

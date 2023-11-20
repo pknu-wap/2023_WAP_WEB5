@@ -40,5 +40,7 @@ public class FestivalService {
     public Page<Festival> getFestivalList(Pageable pageable) {
         return festivalRepository.findAll(pageable);
     }
-
+    public List<Festival> findTop6ByOrderByViewDesc() {
+        return festivalRepository.findTop6ByOrderByViewDesc();
+    }
 }
