@@ -1,77 +1,104 @@
-// import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
-// import ReviewPopup from './ReviewPopup';
-import React, { useState } from 'react';
-import Modal from 'react-modal';
-import PartyPopup from './partyPopup';
+// src/components/MapInfo.js
+import React from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
-import './partyPopup.css';
+import ListPage from './Listpage';
+import FilterComponent from './FilterComponent';
+import { Link } from 'react-router-dom';
+import modalStyles from './ModalStyle'; // 스타일 파일 import
 
-
-const Closedbutton = styled.button`
-padding: 2px 10px 2px 10px;
-border-radius: 10px;
-background-color: lightgray; 
-font-size: 16px;
-color: gray;
+// // 공통 스타일을 정의한 styled-components
+const StyledDiv = styled.div`
+padding-left: 15px; /* padding 추가 */
+padding-right: 15px; /* padding 추가 */
 `;
 
-// 예제 데이터, 각 파티 클릭하면 저장돼 있는 데이터 받아옴?
-const partyData = {
-hostNickname: '주인장',
-tags: ['광안리', '불꽃', '여행'],
-description: '광안리 불꽃축제 보러 가실 분들 모집합니다!',
-festivalName: '2023 광안리 불꽃축제',
-totalParticipants: 10,
-currentParticipants: 5,
-deadline: '2023-12-01',
-partyCurrent: [
-    { id: 'id01', district: '남구', manner: '36.5'},
-    { id: 'id02', district: '동구', manner: '70'},
-    { id: 'id03', district: '북구', manner: '20'},
-],
-};
 
+const data = [
+    { id: 1, title: '품목 1', date: '2023-11-13' },
+    { id: 2, title: '품목 2', date: '2023-11-14' },
+    { id: 3, title: '품목 3', date: '2023-11-15' },
+    { id: 4, title: '품목 4', date: '2023-11-16' },
+    { id: 5, title: '품목 5', date: '2023-11-17' },
+    { id: 6, title: '품목 6', date: '2023-11-18' },
+    { id: 1, title: '품목 1', date: '2023-11-13' },
+    { id: 2, title: '품목 2', date: '2023-11-14' },
+    { id: 3, title: '품목 3', date: '2023-11-15' },
+    { id: 4, title: '품목 4', date: '2023-11-16' },
+    { id: 5, title: '품목 5', date: '2023-11-17' },
+    { id: 6, title: '품목 6', date: '2023-11-18' },
+    { id: 1, title: '품목 1', date: '2023-11-13' },
+    { id: 2, title: '품목 2', date: '2023-11-14' },
+    { id: 3, title: '품목 3', date: '2023-11-15' },
+    { id: 4, title: '품목 4', date: '2023-11-16' },
+    { id: 5, title: '품목 5', date: '2023-11-17' },
+    { id: 6, title: '품목 8', date: '2023-11-18' },
 
+  ];
 
-const PartyList = () => {
-const [isModalOpen, setIsModalOpen] = useState(false);
-
-const openModal = () => {
-    setIsModalOpen(true);
-};
-
-const closeModal = () => {
-    setIsModalOpen(false);
-};
-
-
-
-return (
-    <div>
-    {/* Party List... */}
-    <h1>파티목록</h1>
-    <button onClick={openModal}>임시 참여 버튼</button> {/* 누르면 modal 창이 뜸*/}
-
-    {/* Modal */}
-    <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        contentLabel="Party Details Modal"
-    >
-        <PartyPopup partyData={partyData} />
-        <div style={{justifyContent: 'right', display: 'flex'}}>
-        <Closedbutton onClick={closeModal}>닫기</Closedbutton>
-        </div>
-    </Modal>
+const PartyList= () => {
 
     
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 4;
+    const totalPages = Math.ceil(data.length / itemsPerPage);
+
+    
+    const handleClick = (page) => {
+        setCurrentPage(page);
+    };
 
 
+        const handlePrevClick = () => {
+            setCurrentPage((prev) => prev - 1);
+        };
+
+        const handleNextClick = () => {
+            setCurrentPage((prev) => prev + 1);
+        };
+
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const currentItems = data.slice(startIndex, endIndex);
+
+
+    return (
+    <div>
+        <h2 style={{display:'flex',justifyContent:'center'}}>2023 부산 광안리 불꽃 축제</h2>
+
+        <div>
+            <Link to="/make"><button style={modalStyles.writeButton}>글쓰기</button></Link>
+            <FilterComponent />
+            <br></br>
+            <br></br><br></br><br></br><br></br><br></br>
+            <ListPage/>
+                <div style={{marginBottom: '20px', position: 'fixed', bottom: 0, display: 'flex', justifyContent: 'center', width: '100%' }}>
+                    <div style={{ display: 'flex' }}>
+                        <button onClick={handlePrevClick} disabled={currentPage === 1}>
+                            {'<'}
+                        </button>
+                        {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+                            (page) => (
+                                <button
+                                key={page}
+                                onClick={() => handleClick(page)}
+                                disabled={page === currentPage}
+                                style={{ margin: '0 10px', color: page === currentPage ? '#488AEE' : 'black' }}
+                            >
+                                {page}
+                            </button>
+                            )
+                        )}
+                        <button onClick={handleNextClick} disabled={currentPage === totalPages}>
+                            {'>'}
+                        </button>
+                    </div>
+                </div>
+            </div>
     </div>
-);
+    
+    );
 };
 
 export default PartyList;
