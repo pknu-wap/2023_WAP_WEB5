@@ -42,9 +42,7 @@ public class PartyService {
         party.setFestPk(partyUpdate.getFestPk());
         party.setPartyRecruitLimit(partyUpdate.getPartyRecruitLimit());
         party.setPartyChatUrl(partyUpdate.getPartyChatUrl());
-        party.setPartyEnd(partyUpdate.getPartyEnd());
         party.setPartyDetail(partyUpdate.getPartyDetail());
-        party.setPartyTag(partyUpdate.getPartyTag());
 
         return party.getPartyPk();
     }
