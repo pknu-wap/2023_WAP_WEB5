@@ -4,6 +4,7 @@ import MapTest from './Maptest.js';
 import Carousel from './carousel';
 import Login from './login';
 import styled from 'styled-components';
+// import LoginForm from './LoginForm.js';
 
 const MyLink = styled(Link)`
 text-decoration: none;
@@ -37,7 +38,10 @@ const Mainpage = () => {
         <MyLink to="/festival-list">축제목록</MyLink>
         <MyLink to="/party-list">파티목록</MyLink>
         <Linkdiv>
+        {/* <LoginForm /> */}
         <Login />
+        <MyLink to="/Mypage">임시마페</MyLink>
+
         </Linkdiv>
         
         </nav>

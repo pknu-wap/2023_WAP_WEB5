@@ -35,7 +35,7 @@ const fetchData = () => {
         setUserDataArray(data); // 전체 데이터 배열을 가져옴
     })
     .catch(error => {
-        console.error('Error fetching festival data:', error);
+        console.error('Error fetching user data:', error);
     });
 };
 

@@ -1,43 +1,118 @@
-    import React from 'react';
-    import styled from 'styled-components';
+//     // import React from 'react';
+//     import styled from 'styled-components';
+//     import React, { useState, useEffect } from 'react';
 
-    const InfoContainer = styled.div`
-    text-align: center;
-    margin-bottom: 20px;
-    `;
-    const InfoItem = styled.div`
-    margin-bottom: 10px;
-    `;
+//     const InfoContainer = styled.div`
+//     text-align: center;
+//     margin-bottom: 20px;
+//     `;
+//     const InfoItem = styled.div`
+//     margin-bottom: 10px;
+//     `;
 
-    // const infoData = [
-    // '아이디 testid1234',
-    // '생년월일 2003년 1월 3일',
-    // '닉네임 testnickname',
-    // '성별 여',
-    // ];
-
-    const MyPageInfo = ({infoData}) => {
-        const {
-            userID,
-            userBirth,
-            userName,
-            userGender,
-        } = infoData;
-
-    return (
-    <InfoContainer>
-        <h2>임시 기본 정보</h2>
-        {/* {infoData.map((info, index) => (
-        <InfoItem key={index}>{info}</InfoItem>
-        ))} */}
-        <InfoItem>{userID}</InfoItem>
-        <InfoItem>{userBirth}</InfoItem>
-        <InfoItem>{userName}</InfoItem>
-        <InfoItem>{userGender}</InfoItem>
-    </InfoContainer>
-
+//     // 
     
-    );
-    };
+//     // ... (이전 코드 부분은 변경되지 않음)
 
-    export default MyPageInfo;
+// const MyPageInfo = () => {
+//     const [userDataArray, setUserDataArray] = useState([]);
+//     const loggedInUserId = 'donggunmaru@gmail.com'; // 예시로 로그인된 사용자 ID가 1인 경우를 가정
+  
+//     useEffect(() => {
+//       const fetchData = () => {
+//         fetch('https://cors-anywhere.herokuapp.com/https://port-0-buife-5mk12alp6foaqx.sel5.cloudtype.app/members')
+//           .then(response => {
+//             if (!response.ok) {
+//               throw new Error('Network response was not ok');
+//             }
+//             return response.json();
+//           })
+//           .then(data => {
+//             console.log(`받아온 데이터:`, data);
+//             setUserDataArray(data); // 전체 데이터 배열을 가져옴
+//           })
+//           .catch(error => {
+//             console.error('Error fetching user data:', error);
+//           });
+//       };
+  
+//       fetchData();
+//     }, []);
+  
+//     // 로그인된 사용자의 정보만 필터링
+//     const loggedInUserInfo = userDataArray.find(user => user.userID === loggedInUserId);
+  
+//     return (
+//       <InfoContainer>
+//         <h2>임시 기본 정보</h2>
+//         {loggedInUserInfo && (
+//           <div>
+//             <InfoItem>{loggedInUserInfo.userID}</InfoItem>
+//             <InfoItem>{loggedInUserInfo.userBirth}</InfoItem>
+//             <InfoItem>{loggedInUserInfo.userName}</InfoItem>
+//             <InfoItem>{loggedInUserInfo.userGender}</InfoItem>
+//           </div>
+//         )}
+//       </InfoContainer>
+//     );
+//   };
+  
+//   export default MyPageInfo;
+  
+
+ // import React from 'react';
+ import styled from 'styled-components';
+ import React, { useState, useEffect } from 'react';
+
+ const InfoContainer = styled.div`
+ text-align: center;
+ margin-bottom: 20px;
+ `;
+ const InfoItem = styled.div`
+ margin-bottom: 10px;
+ `;
+
+ const MyPageInfo = () => {
+     const [userDataArray, setUserDataArray] = useState([]);
+
+     useEffect(() => {
+     const fetchData = () => {
+         fetch('https://cors-anywhere.herokuapp.com/https://port-0-buife-5mk12alp6foaqx.sel5.cloudtype.app/mypage')
+         .then(response => {
+             if (!response.ok) {
+             throw new Error('Network response was not ok');
+             }
+             return response.json();
+         })
+         .then(data => {
+             console.log(`받아온 데이터:`, data); //정상 동작 확인 완료
+             setUserDataArray(data); // 전체 데이터 배열을 가져옴
+         })
+         .catch(error => {
+             console.error('Error fetching user data:', error);
+         });
+     };
+
+     fetchData();
+     }, []);
+
+ return (
+ <InfoContainer>
+     <h2>임시 기본 정보</h2>
+     
+     {userDataArray.map((userData, index) => (
+     <div key={index}>
+         <InfoItem>{userData.userID}</InfoItem>
+         <InfoItem>{userData.userBirth}</InfoItem>
+         <InfoItem>{userData.userName}</InfoItem>
+         <InfoItem>{userData.userGender}</InfoItem>
+     </div>
+     ))}
+     
+ </InfoContainer>
+
+ 
+ );
+ };
+
+ export default MyPageInfo;
