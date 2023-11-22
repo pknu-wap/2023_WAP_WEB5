@@ -11,6 +11,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -37,10 +42,7 @@ public class SecurityConfig {
                         .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
                         .logoutSuccessUrl("/")
                         .invalidateHttpSession(true))
-                .cors()
-                .and() // CORS 설정 뒤에 .and() 호출
-                .authorizeHttpRequests()
-                .requestMatchers("http://localhost:3001/**").permitAll();
+                .cors(cors -> cors.disable());
 
         http.csrf().disable();
         http.authorizeHttpRequests().anyRequest().permitAll();
@@ -48,6 +50,8 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+
 
     @Bean
     PasswordEncoder passwordEncoder() {
