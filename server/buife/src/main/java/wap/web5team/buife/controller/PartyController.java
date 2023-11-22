@@ -47,6 +47,7 @@ public class PartyController {
     }*/
 
     @PostMapping("party/new")
+<<<<<<< Updated upstream
     public String create(@RequestBody Party party) {
         //Party party = new Party()
 
@@ -57,13 +58,17 @@ public class PartyController {
         party.setPartyStart(LocalDate.now());
         partyService.enroll(party);
 
+=======
+    public void create(@RequestBody Party party) {
+        //Party party = new Party();
+>>>>>>> Stashed changes
         PartyMember pm = new PartyMember();
         pm.setPartyPk(party.getPartyPk());
         pm.setUserPk(userPk);
         pmService.apply(pm); // 파티장 등록
         pmService.changePartyMemberState(pm, "수락");
 
-        return "redirect:/party";
+        //return "redirect:/party";
     }
 
     private PartyDetail createPartyDetailObject(int partyPk) throws ParseException {
