@@ -41,8 +41,8 @@ public class SecurityConfig {
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
                         .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true));
-              //  .cors(cors -> cors.disable());
+                        .invalidateHttpSession(true))
+                .cors(cors -> cors.disable());
 
         http.csrf().disable();
         http.authorizeHttpRequests().anyRequest().permitAll();
