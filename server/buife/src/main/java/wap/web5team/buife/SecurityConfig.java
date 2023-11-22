@@ -36,7 +36,11 @@ public class SecurityConfig {
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
                         .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true));
+                        .invalidateHttpSession(true))
+                .cors()
+                .and() // CORS 설정 뒤에 .and() 호출
+                .authorizeHttpRequests()
+                .requestMatchers("/your-specific-url/**").permitAll();
 
         http.csrf().disable();
         http.authorizeHttpRequests().anyRequest().permitAll();
