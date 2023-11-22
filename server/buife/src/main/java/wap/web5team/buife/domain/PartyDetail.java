@@ -36,11 +36,14 @@ public class PartyDetail {
 
     public void decideState(PartyMember sessionInPartyMember) {
 
-        // 세션은 있지만 파티에 dependancy가 없음
+        // 파티에 dependancy가 없음
         if (sessionInPartyMember == null) {
+            
             if(party.getPartyState().equals("모집")){
+                // 세션은 있음
                 this.state = 1;
             }else{
+                // 세션 없음
                 this.state = 0;
             }
             return;
