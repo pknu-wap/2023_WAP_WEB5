@@ -1,9 +1,0 @@
-name: buife
-app: java@17
-options:
-  ports: 8080
-context:
-  git:
-    url: git@github.com:pknu-wap/2023_WAP_WEB5.git
-    path: /server/buife
-    branch: main
