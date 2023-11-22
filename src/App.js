@@ -7,6 +7,9 @@ import PartyMake from './pages/partymake';
 import PartyPopup from './pages/partyPopup';
 import ReviewPage from './pages/reviewPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import LoginForm from './pages/LoginForm';
+import SignUp from './pages/SignUp';
+import SignUp2 from './pages/SignUp2';
 
 import React from 'react';
 import './App.css';
@@ -25,6 +28,9 @@ function App() {
       <Route path="/partymake" element={<PartyMake/>} />
       <Route path="/partyPopup" element={<PartyPopup/>} />
       <Route path="/reviewPage" element={<ReviewPage/>} />
+      <Route path="/LoginForm" element={<LoginForm/>} />
+      <Route path="/SignUp" element={<SignUp/>} />
+      <Route path="/SignUp2" element={<SignUp2/>} />
 
     </Routes>
   );
