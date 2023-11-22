@@ -21,8 +21,6 @@ public class Party {
     private int partyRecruitCurr;
     private String partyChatUrl;
     private LocalDate partyStart;
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private String partyDetail;
     private String partyState;
 
