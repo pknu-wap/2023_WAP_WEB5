@@ -47,9 +47,8 @@ public class PartyController {
     }*/
 
     @PostMapping("party/new")
-<<<<<<< Updated upstream
-    public String create(@RequestBody Party party) {
-        //Party party = new Party()
+    public void create(@RequestBody Party party) {
+        //Party party = new Party();
 
         Member session = memberSecurityService.findByLoginData();
         String userPk = session.getUserID();
@@ -58,10 +57,6 @@ public class PartyController {
         party.setPartyStart(LocalDate.now());
         partyService.enroll(party);
 
-=======
-    public void create(@RequestBody Party party) {
-        //Party party = new Party();
->>>>>>> Stashed changes
         PartyMember pm = new PartyMember();
         pm.setPartyPk(party.getPartyPk());
         pm.setUserPk(userPk);
