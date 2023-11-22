@@ -174,8 +174,6 @@ public class PartyController {
     /*@PostMapping("party/update")
     public String update(@RequestBody Party party) {
 
-        //FixMe
-        // 어케 수정해야할까
         partyService.update(party);
 
         return "redirect:/party";
