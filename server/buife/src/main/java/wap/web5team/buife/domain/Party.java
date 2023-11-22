@@ -1,20 +1,27 @@
 package wap.web5team.buife.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import jakarta.persistence.*;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
+@ToString
 @Entity
 public class Party {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int partyPk;
     private Long festPk;
-    private int userPk;
+    private String userPk;
     private int partyRecruitLimit;
     private int partyRecruitCurr;
     private String partyChatUrl;
     private LocalDate partyStart;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate partyEnd;
     private String partyDetail;
     private String partyState;
@@ -36,11 +43,11 @@ public class Party {
         this.festPk = festPk;
     }
 
-    public int getUserPk() {
+    public String getUserPk() {
         return userPk;
     }
 
-    public void setUserPk(int userPk) {
+    public void setUserPk(String userPk) {
         this.userPk = userPk;
     }
 

@@ -8,7 +8,7 @@ public class PartyMember {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int pmPk;
     private int partyPk;
-    private int userPk;
+    private String userPk;
     private String userState;
     public int getPmPk() {
         return pmPk;
@@ -26,11 +26,11 @@ public class PartyMember {
         this.partyPk = partyPk;
     }
 
-    public int getUserPk() {
+    public String getUserPk() {
         return userPk;
     }
 
-    public void setUserPk(int userPk) {
+    public void setUserPk(String userPk) {
         this.userPk = userPk;
     }
 

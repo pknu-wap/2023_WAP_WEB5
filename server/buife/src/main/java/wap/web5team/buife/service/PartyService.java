@@ -3,9 +3,14 @@ package wap.web5team.buife.service;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import wap.web5team.buife.domain.Festival;
 import wap.web5team.buife.domain.Party;
 import wap.web5team.buife.repository.PartyRepository;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,5 +85,12 @@ public class PartyService {
             return true;
 
         return false;
+    }
+
+    public LocalDate getFestEnd(Festival festival) throws ParseException {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+
+        return LocalDate.parse(festival.getEnd(), formatter);
     }
 }
