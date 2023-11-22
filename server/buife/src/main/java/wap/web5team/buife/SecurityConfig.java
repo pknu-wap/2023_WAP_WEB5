@@ -20,7 +20,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .requestMatchers(
-                                new AntPathRequestMatcher("/**")).permitAll()
+                                new AntPathRequestMatcher("/**")).permitAll())
 //                        .requestMatchers(
 //                               new AntPathRequestMatcher("/party/**")).hasRole("USER")
 //                        .requestMatchers(
