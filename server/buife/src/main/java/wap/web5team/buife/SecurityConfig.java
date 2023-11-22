@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .cors()
                 .and() // CORS 설정 뒤에 .and() 호출
                 .authorizeHttpRequests()
-                .requestMatchers("/your-specific-url/**").permitAll();
+                .requestMatchers("/**").permitAll();
 
         http.csrf().disable();
         http.authorizeHttpRequests().anyRequest().permitAll();
