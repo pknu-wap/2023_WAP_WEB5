@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-
-
+//파티의 list를 관리하는 js
 
 const data = [
     { id: 1, title: '2023 나이트레스 인 부산',location:'수영구', text:'같이 가서 인생샷 찍을분',date: '2023-11-13' },
