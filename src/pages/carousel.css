@@ -110,7 +110,7 @@ button{
     padding: 3px 0;
     margin: 0;
     margin-bottom: 2px;
-    font-size: 19px;
+    /* font-size: 19px; */
     font-weight: 500;
     color: #2c3e50;
     user-select: none;
@@ -121,9 +121,13 @@ button{
     padding: 4px;
     background: rgba(40, 44, 53, .06);
     display: inline-block;
-    position: relative;
+    /* position: relative; */
     margin-left: 4px;
     color: #666a73;
+    /* position:absolute;  */
+    /* bottom:10px; */
+
+
 }
 .card-carousel-cards .card-carousel--card--footer p.tag:before {
     content: "";
@@ -142,8 +146,11 @@ button{
     border-left: 1.45px dashed white;
 }
 .card-carousel-cards .card-carousel--card--footer p.tag.secondary:before {
-    display: none !important;
+    /* display: none !important; */
+    display: bottom !important;
+
 }
+
 .card-carousel-cards .card-carousel--card--footer p.tag:after {
     content: "";
     position: absolute;

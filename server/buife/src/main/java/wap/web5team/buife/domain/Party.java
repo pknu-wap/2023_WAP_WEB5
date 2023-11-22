@@ -1,24 +1,28 @@
 package wap.web5team.buife.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import jakarta.persistence.*;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
+@ToString
 @Entity
 public class Party {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int partyPk;
+    private String partyName;
     private Long festPk;
-    private int userPk;
+    private String userPk;
     private int partyRecruitLimit;
     private int partyRecruitCurr;
     private String partyChatUrl;
     private LocalDate partyStart;
-    private LocalDate partyEnd;
     private String partyDetail;
     private String partyState;
-    private String partyTag;
 
     public int getPartyPk() {
         return partyPk;
@@ -26,6 +30,14 @@ public class Party {
 
     public void setPartyPk(int partyPk) {
         this.partyPk = partyPk;
+    }
+
+    public String getPartyName() {
+        return partyName;
+    }
+
+    public void setPartyName(String partyName) {
+        this.partyName = partyName;
     }
 
     public Long getFestPk() {
@@ -36,11 +48,11 @@ public class Party {
         this.festPk = festPk;
     }
 
-    public int getUserPk() {
+    public String getUserPk() {
         return userPk;
     }
 
-    public void setUserPk(int userPk) {
+    public void setUserPk(String userPk) {
         this.userPk = userPk;
     }
 
@@ -76,14 +88,6 @@ public class Party {
         this.partyStart = partyStart;
     }
 
-    public LocalDate getPartyEnd() {
-        return partyEnd;
-    }
-
-    public void setPartyEnd(LocalDate partyEnd) {
-        this.partyEnd = partyEnd;
-    }
-
     public String getPartyDetail() {
         return partyDetail;
     }
@@ -98,14 +102,6 @@ public class Party {
 
     public void setPartyState(String partyState) {
         this.partyState = partyState;
-    }
-
-    public String getPartyTag() {
-        return partyTag;
-    }
-
-    public void setPartyTag(String partyTag) {
-        this.partyTag = partyTag;
     }
 
     @PrePersist

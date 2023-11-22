@@ -5,9 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import wap.web5team.buife.domain.*;
 import wap.web5team.buife.service.FestivalService;
+import wap.web5team.buife.service.Member.MemberSecurityService;
 import wap.web5team.buife.service.PartyMemberService;
 import wap.web5team.buife.service.PartyService;
 
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -16,12 +19,14 @@ public class PartyController {
     private final PartyService partyService;
     private final PartyMemberService pmService;
     private final FestivalService festivalService;
+    private final MemberSecurityService memberSecurityService;
 
     @Autowired
-    public PartyController(PartyService partyService, PartyMemberService pmService, FestivalService festivalService) {
+    public PartyController(PartyService partyService, PartyMemberService pmService, FestivalService festivalService, MemberSecurityService memberSecurityService) {
         this.partyService = partyService;
         this.pmService = pmService;
         this.festivalService = festivalService;
+        this.memberSecurityService = memberSecurityService;
     }
 
     @ResponseBody
@@ -35,64 +40,71 @@ public class PartyController {
         //return "party/partyMain";
     }
 
-    @GetMapping("party/new")
+    // thymeleaf 요청
+    /*@GetMapping("party/new")
     public String createParty() {
         return "party/partyCreate";
-    }
-
-    private ForeignKey fk = new ForeignKey();
+    }*/
 
     @PostMapping("party/new")
-    public String create(@RequestBody Party party) {
+    public void create(@RequestBody Party party) {
         //Party party = new Party();
+
+        Member session = memberSecurityService.findByLoginData();
+        String userPk = session.getUserID();
+
+        party.setUserPk(userPk);
+        party.setPartyStart(LocalDate.now());
+        partyService.enroll(party);
+
         PartyMember pm = new PartyMember();
-        fk.fkSet();
-
-        int enrollPartyPk = partyService.enroll(party);
-
-        pm.setPartyPk(enrollPartyPk);
-        pm.setUserPk(fk.getUserPk());
+        pm.setPartyPk(party.getPartyPk());
+        pm.setUserPk(userPk);
         pmService.apply(pm); // 파티장 등록
         pmService.changePartyMemberState(pm, "수락");
 
-        return "redirect:/party";
+        //return "redirect:/party";
+    }
+
+    private PartyDetail createPartyDetailObject(int partyPk) throws ParseException {
+
+        Party party = partyService.findParty(partyPk).get();
+        PartyDetail partyDetail = new PartyDetail(party); // 반환 객체
+
+        Member session = memberSecurityService.findByLoginData();
+        String userPk = session.getUserID();
+
+        Festival festival = festivalService.findById(party.getFestPk()).orElse(null);
+        LocalDate festivalDate = partyService.getFestEnd(festival);
+
+        List<PartyMember> pmList = pmService.entireMemberList(partyPk);
+        PartyMember sessionInPartyMember = pmService.findByUserPkAndPartyPk(userPk, partyPk).orElse(null);
+
+        partyDetail.setPartyMemberList(pmList);
+        partyDetail.decideState(sessionInPartyMember);
+
+        // 파티 마감일이 지난 경우
+        if(LocalDate.now().isAfter(festivalDate)){
+            partyDetail.setFieldIfOutOfDate();
+        }
+
+        return partyDetail;
     }
 
     //TODO
     // -세션 없을 때 state 0 리턴
-    // -userPk를 세션으로 치환해서 구현
-    // -Festival에서 축제 마감일 가져오기
-    // FixMe
-    // -party_member db와 party db 연동 안되는 이슈
     @ResponseBody
     @GetMapping("/party/detail")
-    public PartyDetail partyDetail(@RequestParam(name = "upk") int userPk, @RequestParam(name = "ppk") int partyPk){
+    public PartyDetail partyDetail(@RequestParam(name = "ppk") int partyPk) throws ParseException {
 
-        PartyDetail partyDetail = new PartyDetail(); // 반환 객체
-
-        Party party = partyService.findParty(partyPk).get();
-        //LocalDate festivalDate = festivalService.getFestEnd(party.getFestPk()); // 파티 일자 받아오기
-
-        List<PartyMember> pmList = pmService.entireMemberList(partyPk);
-        PartyMember session = pmService.findByUserPkAndPartyPk(userPk, partyPk).get();
-
-        partyDetail.setPartyMemberList(pmList, party);
-        partyDetail.setStateAndPartyPk(session, party);
-        partyDetail.setSession(userPk);
-        partyDetail.setHost(party.getUserPk());
-        partyDetail.setPartyPk(party.getPartyPk());
-
-        // 파티 마감일이 지난 경우
-        /*if(LocalDate.now().isAfter(festivalDate)){
-            partyDetail.setFieldIfOutOfDate();
-        }*/
+        PartyDetail partyDetail = createPartyDetailObject(partyPk);
 
         return partyDetail;
     }
 
     // state 1
     @GetMapping("party/join")
-    public String partyJoin(@RequestParam(name = "ppk") int partyPk, @RequestParam(name = "upk") int userPk) {
+    public PartyDetail partyJoin(@RequestParam(name = "ppk") int partyPk) throws ParseException {
 
         Party party = partyService.findParty(partyPk).get();
 
@@ -100,7 +112,8 @@ public class PartyController {
         if (!party.getPartyState().equals("모집")) {
             // 에러 메세지
             System.out.println("join refused");
-            return "redirect:/party";
+            return partyDetail(partyPk);
+            //return "redirect:/party";
         }
 
         //pm 추가
@@ -108,44 +121,42 @@ public class PartyController {
         pm.setPartyPk(partyPk);
 
         //세션에서 userPK 가져오기
-        fk.fkSet();
-        pm.setUserPk(fk.getUserPk());
+        Member session = memberSecurityService.findByLoginData();
+        pm.setUserPk(session.getUserID());
 
         pmService.apply(pm);
 
-        return "redirect:/party";
+        return partyDetail(partyPk);
+        //return "redirect:/party";
     }
 
     // 거절, 강퇴, 신청 취소
     @GetMapping("/party/quit")
-    public String partyQuit(@RequestBody PartyDetail partyDetail){
+    public PartyDetail partyQuit(@RequestParam(name = "ppk") int partyPk) throws ParseException {
 
-        int partyPk = partyDetail.getSession();
-        int userPk = partyDetail.getPartyPk();
+        Member session = memberSecurityService.findByLoginData();
+        String userPk = session.getUserID();
 
         // 본인인 경우 또는 파티장인 경우에만 삭제버튼을 표시해서 권한 인증은 필요 없도록
-        PartyMember partyMember = pmService.findByUserPkAndPartyPk(partyPk, userPk).get();
-        pmService.deny(partyMember);
+        PartyMember pm = pmService.findByUserPkAndPartyPk(userPk, partyPk).get();
+        pmService.deny(pm);
 
-        return "redirect:/party/detail?ppk="+partyPk+"upk="+userPk;
+        return partyDetail(partyPk);
     }
 
     @ResponseBody
     @GetMapping("/party/close")
-    public PartyDetail closeParty(@RequestBody PartyDetail partyDetail){
+    public PartyDetail closeParty(@RequestParam(name = "ppk") int partyPk) throws ParseException {
 
-        Party party = partyService.findParty(partyDetail.getPartyPk()).get();
+        Party party = partyService.findParty(partyPk).get();
 
-        if(!partyService.isAcceptable(party) || partyDetail.getState()==4){
-            partyDetail.setState(5);
+        if(!partyService.isAcceptable(party) || party.getPartyState().equals("모집")){
             party.setPartyState("마감");
-
-        } else if(partyDetail.getState()==5){
-            partyDetail.setState(4);
+        } else{
             party.setPartyState("모집");
         }
 
-        return partyDetail;
+        return partyDetail(partyPk);
     }
 
     @ResponseBody
@@ -159,29 +170,30 @@ public class PartyController {
         //return "/party/partyUpdate";
     }
 
-    @PostMapping("party/update")
+    // 파티수정 기능 추후 구현
+    /*@PostMapping("party/update")
     public String update(@RequestBody Party party) {
 
-        //FixMe
-        // 어케 수정해야할까
         partyService.update(party);
 
         return "redirect:/party";
-    }
+    }*/
 
     @GetMapping("party/delete")
-    public String delete(@RequestParam(name = "ppk") int partyPk) {
+    public void delete(@RequestParam(name = "ppk") int partyPk) {
 
         partyService.delete(partyPk);
 
-        return "redirect:/party";
+        //return "redirect:/party";
     }
 
     @GetMapping("/party/partyMemberUpdate")
-    public String partyMemberUpdate(@RequestParam(name="pmpk") int pmPk, @RequestParam(name="ppk") int partyPk, @RequestParam String action) {
+    public PartyDetail partyMemberUpdate(@RequestParam(name="ppk") int partyPk, @RequestParam String action) throws ParseException {
 
-        PartyMember pm = pmService.findByPartyMemberPk(pmPk).get();
+        Member session = memberSecurityService.findByLoginData();
+        String userPk = session.getUserID();
         Party party = partyService.findParty(partyPk).get();
+        PartyMember pm = pmService.findByUserPkAndPartyPk(userPk, partyPk).get();
 
         if (action.equals("accept") && partyService.isAcceptable(party)) {
             pmService.changePartyMemberState(pm, "수락");
@@ -194,6 +206,7 @@ public class PartyController {
             partyService.recruitCount(party, "sub");
         }
 
-        return "redirect:/party/detail?ppk=" + partyPk;
+        return partyDetail(partyPk);
+        //return "redirect:/party/detail?ppk=" + partyPk;
     }
 }

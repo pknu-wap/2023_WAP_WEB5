@@ -11,6 +11,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -19,12 +24,12 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
+                        .requestMatchers(
+                                new AntPathRequestMatcher("/**")).permitAll())
 //                        .requestMatchers(
-//                                new AntPathRequestMatcher("/**")).permitAll()
-                        .requestMatchers(
-                               new AntPathRequestMatcher("/party/**")).hasRole("USER")
-                        .requestMatchers(
-                                new AntPathRequestMatcher("/mypage")).hasRole("USER"))
+//                               new AntPathRequestMatcher("/party/**")).hasRole("USER")
+//                        .requestMatchers(
+//                                new AntPathRequestMatcher("/mypage")).hasRole("USER"))
 
 
                 .formLogin((formLogin) -> formLogin
@@ -36,7 +41,8 @@ public class SecurityConfig {
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
                         .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true));
+                        .invalidateHttpSession(true))
+                .cors(cors -> cors.disable());
 
         http.csrf().disable();
         http.authorizeHttpRequests().anyRequest().permitAll();
@@ -44,6 +50,8 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+
 
     @Bean
     PasswordEncoder passwordEncoder() {

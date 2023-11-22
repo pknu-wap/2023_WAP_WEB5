@@ -44,7 +44,7 @@ public class PartyMemberService {
     public Optional<PartyMember> findByPartyMemberPk(int partyMemberPk){
         return pmRepository.findByPartyMemberPk(partyMemberPk);
     }
-    public Optional<PartyMember> findByUserPkAndPartyPk(int userPk, int partyPk){
+    public Optional<PartyMember> findByUserPkAndPartyPk(String userPk, int partyPk){
         return pmRepository.findByUserPkAndPartyPk(userPk, partyPk);
     }
 

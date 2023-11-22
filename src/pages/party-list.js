@@ -68,7 +68,7 @@ const PartyList= () => {
         <h2 style={{display:'flex',justifyContent:'center'}}>2023 부산 광안리 불꽃 축제</h2>
 
         <div>
-            <Link to="/make"><button style={modalStyles.writeButton}>글쓰기</button></Link>
+            <Link to="/partymake"><button style={modalStyles.writeButton}>글쓰기</button></Link>
             <FilterComponent />
             <br></br>
             <br></br><br></br><br></br><br></br><br></br>
