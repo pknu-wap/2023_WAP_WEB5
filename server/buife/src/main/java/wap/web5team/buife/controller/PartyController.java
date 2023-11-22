@@ -40,10 +40,11 @@ public class PartyController {
         //return "party/partyMain";
     }
 
-    @GetMapping("party/new")
+    // thymeleaf 요청
+    /*@GetMapping("party/new")
     public String createParty() {
         return "party/partyCreate";
-    }
+    }*/
 
     @PostMapping("party/new")
     public String create(@RequestBody Party party) {
@@ -103,7 +104,7 @@ public class PartyController {
 
     // state 1
     @GetMapping("party/join")
-    public String partyJoin(@RequestParam(name = "ppk") int partyPk) {
+    public PartyDetail partyJoin(@RequestParam(name = "ppk") int partyPk) throws ParseException {
 
         Party party = partyService.findParty(partyPk).get();
 
@@ -111,7 +112,8 @@ public class PartyController {
         if (!party.getPartyState().equals("모집")) {
             // 에러 메세지
             System.out.println("join refused");
-            return "redirect:/party";
+            return partyDetail(partyPk);
+            //return "redirect:/party";
         }
 
         //pm 추가
@@ -124,12 +126,13 @@ public class PartyController {
 
         pmService.apply(pm);
 
-        return "redirect:/party";
+        return partyDetail(partyPk);
+        //return "redirect:/party";
     }
 
     // 거절, 강퇴, 신청 취소
     @GetMapping("/party/quit")
-    public String partyQuit(@RequestParam(name = "ppk") int partyPk){
+    public PartyDetail partyQuit(@RequestParam(name = "ppk") int partyPk) throws ParseException {
 
         Member session = memberSecurityService.findByLoginData();
         String userPk = session.getUserID();
@@ -138,7 +141,7 @@ public class PartyController {
         PartyMember pm = pmService.findByUserPkAndPartyPk(userPk, partyPk).get();
         pmService.deny(pm);
 
-        return "redirect:/party/detail?ppk="+partyPk;
+        return partyDetail(partyPk);
     }
 
     @ResponseBody
@@ -153,9 +156,7 @@ public class PartyController {
             party.setPartyState("모집");
         }
 
-        PartyDetail partyDetail = createPartyDetailObject(partyPk);
-
-        return partyDetail;
+        return partyDetail(partyPk);
     }
 
     @ResponseBody
@@ -169,7 +170,8 @@ public class PartyController {
         //return "/party/partyUpdate";
     }
 
-    @PostMapping("party/update")
+    // 파티수정 기능 추후 구현
+    /*@PostMapping("party/update")
     public String update(@RequestBody Party party) {
 
         //FixMe
@@ -177,18 +179,18 @@ public class PartyController {
         partyService.update(party);
 
         return "redirect:/party";
-    }
+    }*/
 
     @GetMapping("party/delete")
-    public String delete(@RequestParam(name = "ppk") int partyPk) {
+    public void delete(@RequestParam(name = "ppk") int partyPk) {
 
         partyService.delete(partyPk);
 
-        return "redirect:/party";
+        //return "redirect:/party";
     }
 
     @GetMapping("/party/partyMemberUpdate")
-    public String partyMemberUpdate(@RequestParam(name="ppk") int partyPk, @RequestParam String action) {
+    public PartyDetail partyMemberUpdate(@RequestParam(name="ppk") int partyPk, @RequestParam String action) throws ParseException {
 
         Member session = memberSecurityService.findByLoginData();
         String userPk = session.getUserID();
@@ -206,6 +208,7 @@ public class PartyController {
             partyService.recruitCount(party, "sub");
         }
 
-        return "redirect:/party/detail?ppk=" + partyPk;
+        return partyDetail(partyPk);
+        //return "redirect:/party/detail?ppk=" + partyPk;
     }
 }
