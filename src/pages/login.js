@@ -74,9 +74,9 @@
             <MyLink to="/Mypage">마이페이지</MyLink>
             </div>
         ) : (
-            // <MyLink to="logintest">
+            <MyLink to="/LoginForm">
             <StyledButton onClick={this.handleLogin}>로그인</StyledButton>
-            // </MyLink>
+            </MyLink>
         )}
         </StyledDiv>
     );

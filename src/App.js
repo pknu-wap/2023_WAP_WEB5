@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginForm from './pages/LoginForm';
 import SignUp from './pages/SignUp';
 import SignUp2 from './pages/SignUp2';
+import SignUp3 from './pages/SignUp3';
 
 import React from 'react';
 import './App.css';
@@ -31,6 +32,7 @@ function App() {
       <Route path="/LoginForm" element={<LoginForm/>} />
       <Route path="/SignUp" element={<SignUp/>} />
       <Route path="/SignUp2" element={<SignUp2/>} />
+      <Route path="/SignUp3" element={<SignUp3/>} />
 
     </Routes>
   );

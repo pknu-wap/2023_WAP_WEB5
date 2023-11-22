@@ -1,0 +1,24 @@
+.dropdown-container {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .custom-dropdown {
+    width: 70px; /* 드롭다운의 너비 설정 */
+    height:40px;
+    padding: 10px; /* 내부 여백 설정 */
+    
+    border: 1px solid #ccc; /* 테두리 설정 */
+    border-radius: 200px; /* 둥근 모서리 설정 */
+    appearance: none; /* 기본 스타일 제거 (크로스 브라우징을 위해) */
+    cursor: pointer; /* 커서 모양 설정 */
+    background-color: #fff; /* 배경색 설정 */
+    font-size: 16px; /* 폰트 크기 설정 */
+    
+  }
+  
+  /* 드롭다운이 선택된 상태일 때의 스타일 */
+  .custom-dropdown:focus {
+    outline: none; /* 포커스 표시 제거 */
+    box-shadow: 0 0 5px rgba(81, 203, 238, 0.5); /* 포커스 시 그림자 효과 추가 */
+  }

@@ -33,7 +33,7 @@ const InputContainer = styled.div`
 
 const Input = styled.input`
   width: 300px;
-  height: 30px;
+  height: 40px;
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 200px;
@@ -111,6 +111,8 @@ const LoginForm=()=> {
   const [userPW, setuserPW] = useState('');
   const handleLogin = async () => {
     try {
+
+      
       const params = new URLSearchParams();
       params.append('userID', userID);
       params.append('userPW', userPW);
@@ -122,18 +124,18 @@ const LoginForm=()=> {
         },
         body: params,
       };
-
+    
   
 
-      const response = await fetch('https://cors-anywhere.herokuapp.com/https://port-0-buife-5mk12alp6foaqx.sel5.cloudtype.app/members/login', requestOptions);
-
+      const response = await fetch('https://port-0-buife-5mk12alp6foaqx.sel5.cloudtype.app/members/login', requestOptions);
+      
       if (!response.ok) {
         throw new Error('서버 응답이 실패했습니다.');
       }
 
       //const data = await response.text();
      // console.log(data); // 서버에서 받은 데이터 확인
-      window.location.href = '/'; // URL 변경 // 로그인이 성공했을 때의 로직
+      window.location.href = '/MyPage'; // URL 변경 // 로그인이 성공했을 때의 로직
       
     } catch (error) {
       console.error('로그인 실패:', error);
@@ -141,6 +143,8 @@ const LoginForm=()=> {
       // 로그인 실패 시의 처리 로직을 추가하세요
     }
   };
+
+
   /*const handleLogin = async()=>{
     try {
       const response = await axios.post('https://port-0-buife-5mk12alp6foaqx.sel5.cloudtype.app/members/login', qs.stringify({
@@ -201,7 +205,7 @@ const LoginForm=()=> {
           
             <SignupContainer>
               <SignupText>아직 BUIFE 회원이 아니신가요?</SignupText>
-                <Link to="/signup"><SignupButton>회원가입</SignupButton></Link>
+                <Link to="/signup2"><SignupButton>회원가입</SignupButton></Link>
                 
             </SignupContainer>
 
