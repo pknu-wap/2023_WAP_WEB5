@@ -2,6 +2,8 @@ package wap.web5team.buife.controller.Email;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import wap.web5team.buife.service.Member.EmailService;
@@ -35,7 +37,7 @@ public class EmailController {
 
 
     @PostMapping("/members/new/emailCheck")
-    public String EmailCheck(@RequestParam String code, HttpSession session) {
+    public ResponseEntity<Void> EmailCheck(@RequestParam String code, HttpSession session) {
         // userID 를 어디서 받아옴?????????????
         String userID = (String) session.getAttribute("userID");
         System.out.println(userID + "\n" + code);
@@ -45,7 +47,7 @@ public class EmailController {
         }
         memberServiceJoin.join(emailService.checkCode(userID,code));
         System.out.println("인증번호 OK, 회원정보를 db에 저장합니다.");
-        return "redirect:/";
+        return new ResponseEntity<>(HttpStatus.OK);
 
 
     }

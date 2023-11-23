@@ -2,6 +2,8 @@ package wap.web5team.buife.controller.Member;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +44,7 @@ public class MemberController {
     /////////////////////////////////////////////////////////////////
 
     @PostMapping("/members/new")
-    public String create(@RequestBody MemberForm form, HttpSession session) throws MessagingException, UnsupportedEncodingException {
+    public ResponseEntity<Void> create(@RequestBody MemberForm form, HttpSession session) throws MessagingException, UnsupportedEncodingException {
 
         memberServiceJoin.nullDataCheck(form);
         memberServiceJoin.checkPWCheck(form.getUserPW(),form.getUserPWCheck());
@@ -68,7 +70,7 @@ public class MemberController {
 
         session.setAttribute("userID", member.getUserID());
         System.out.println("해싱 된 비밀번호로 저장됨 : " + member.getUserPW());
-        return "redirect:/members/new/emailCheck";
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
@@ -115,7 +117,7 @@ public class MemberController {
     }
 
     @PostMapping("/mypage")
-    public String changePW(@RequestBody MemberChangePwForm form) {
+    public ResponseEntity<Void> changePW(@RequestBody MemberChangePwForm form) {
         Member member = memberSecurityService.findByLoginData();
         if(!passwordEncoder.matches(form.getOldPW(), member.getUserPW()))
             throw new IllegalStateException("현재 비밀번호가 틀립니다.");
@@ -123,7 +125,7 @@ public class MemberController {
         memberServiceJoin.checkPWCheck(form.getNewPW(), form.getNewPWCheck());
         memberServiceJoin.pwLengthCheck(form.getNewPW());
         memberSecurityService.changePW(member,form.getNewPW());
-        return "redirect:/members/logout";
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     /** 비밀번호 틀린거 예외처리 , 비밀번호 확인 유효성 검사 등
      * **/
@@ -138,7 +140,7 @@ public class MemberController {
     }
 
     @PostMapping("/party/review")
-    public String reviewPage(@RequestBody ReviewRatingForm reviewRatingForm) {
+    public ResponseEntity<Void> reviewPage(@RequestBody ReviewRatingForm reviewRatingForm) {
         int partyPK = reviewRatingForm.getPartyPK();
         double giveRating = reviewRatingForm.getGiveRating();
         String userID = reviewRatingForm.getUserID();
@@ -151,6 +153,6 @@ public class MemberController {
 
         Member member = reviewService.findById(userID);
         reviewService.updateMemberRating(member, realGiveRating);
-        return "redirect:/party";
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
