@@ -39,6 +39,9 @@ public class SecurityConfig {
     }
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        http.cors(cors->cors.disable());
+
         http
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .requestMatchers(
@@ -58,8 +61,7 @@ public class SecurityConfig {
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout"))
                         .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true))
-                .cors(cors -> cors.disable());
+                        .invalidateHttpSession(true));
 
         http.csrf().disable();
         http.authorizeHttpRequests().anyRequest().permitAll();
