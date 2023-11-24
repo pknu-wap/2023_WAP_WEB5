@@ -3,16 +3,16 @@ package wap.web5team.buife;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -39,10 +39,11 @@ public class SecurityConfig {
             }
         };
     }
+
+
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-        http.cors(cors->cors.disable());
+        http.cors(Customizer.withDefaults());
 
         http
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
@@ -72,6 +73,18 @@ public class SecurityConfig {
         return http.build();
     }
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("http://127.0.0.1:5500");  // your domain
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST")); // yout methods
+        configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization")); // your headers
+        configuration.setAllowCredentials(true); // for cookies
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
 
 
