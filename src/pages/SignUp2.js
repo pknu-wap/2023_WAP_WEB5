@@ -87,7 +87,7 @@ function SignUp2() {
               <Input type="text" placeholder="닉네임" />
                   
                   <DropdownComponent/>
-
+                          
                   <Link to="/signup">
                     <NextButton type="button"
                     className="loginButton">다음 페이지
