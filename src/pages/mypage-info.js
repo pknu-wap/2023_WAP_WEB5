@@ -77,7 +77,7 @@
 
      useEffect(() => {
      const fetchData = () => {
-         fetch('https://cors-anywhere.herokuapp.com/https://port-0-buife-5mk12alp6foaqx.sel5.cloudtype.app/mypage')
+         fetch('https://port-0-buife-5mk12alp6foaqx.sel5.cloudtype.app/mypage')
          .then(response => {
              if (!response.ok) {
              throw new Error('Network response was not ok');
