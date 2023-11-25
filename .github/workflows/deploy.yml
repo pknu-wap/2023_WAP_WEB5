@@ -28,6 +28,6 @@ jobs:
               start: gradlew build
             context:
               git:
-                url: git@github.com:pknu-wap/2023_WAP_WEB5.git
-                ref: refs/heads/main
+                url: git@github.com:${{ github.repository }}.git
+                ref: ${{ github.ref }}
                 path: /server/buife
