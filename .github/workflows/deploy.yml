@@ -24,8 +24,8 @@ jobs:
             name: buife
             app: java@17
             options:
-              ports: 8080
-              start: gradlew build
+              ports: 8081
+              start: ./gradlew
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
