@@ -25,7 +25,7 @@ jobs:
             app: java@17
             options:
               ports: 8081
-              start: chomod +x gradlew
+              start: chmod +x gradlew
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
