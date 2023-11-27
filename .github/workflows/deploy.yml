@@ -25,7 +25,6 @@ jobs:
             app: java@17
             options:
               ports: 8081
-              start: gradlew build
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
