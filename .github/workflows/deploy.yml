@@ -24,12 +24,8 @@ jobs:
             name: buife
             app: java@17
             options:
-<<<<<<< HEAD
               ports: 8081
-              start: chmod +x gradlew
-=======
-              ports: 8080
->>>>>>> parent of 94b4e84 (Update deploy.yml)
+              start: gradlew build
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
