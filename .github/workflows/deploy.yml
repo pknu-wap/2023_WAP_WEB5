@@ -24,7 +24,8 @@ jobs:
             name: buife
             app: java@17
             options:
-              ports: 8081
+              ports: 8082
+              nodeversion: 16
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
