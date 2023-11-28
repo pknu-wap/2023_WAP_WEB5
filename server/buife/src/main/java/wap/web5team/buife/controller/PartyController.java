@@ -1,6 +1,9 @@
 package wap.web5team.buife.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import wap.web5team.buife.domain.*;
@@ -31,9 +34,12 @@ public class PartyController {
 
     @ResponseBody
     @GetMapping("/party")
-    public List<Party> partyMain() {
+    public Page<Party> partyMain(@RequestParam(name = "page", defaultValue = "1") int page,
+                                 @RequestParam(name = "size", defaultValue = "10") int size) {
 
-        List<Party> parties = partyService.partyList();
+        PageRequest pageRequest = PageRequest.of(page-1,size, Sort.by("partyPk").descending()); // 출력할 페이지 번호, 한 페이지 당 출력할 컨텐츠 개수, 마감일 순으로 정렬
+
+        Page<Party> parties = partyService.partyList(pageRequest);
         //model.addAttribute("parties", parties);
 
         return parties;

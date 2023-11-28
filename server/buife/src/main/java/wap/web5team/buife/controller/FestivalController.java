@@ -33,11 +33,9 @@ public class FestivalController {
 
     @GetMapping ("/search")
     @ResponseBody
-    public List festivalSearch(@RequestParam("payment") String payment,
-                               @RequestParam("area") String area,
+    public List festivalSearch(@RequestParam("area") String area,
                                Model model) throws ParseException {
-        System.out.println(payment +", "+area);
-        List<Festival> festivals = festivalService.findByFeeContainingAndAddressContaining(payment, area);
+        List<Festival> festivals = festivalService.findByAddressContaining(area);
         return festivals;
     }
     @GetMapping("/read-one/{id}")

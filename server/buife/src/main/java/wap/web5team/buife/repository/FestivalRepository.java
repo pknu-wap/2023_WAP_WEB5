@@ -23,7 +23,7 @@ public interface FestivalRepository extends JpaRepository<Festival, Long> { // <
    Festival save(Festival festival);
 
    // 요금을 기준으로 Festival 객체를 검색하는 메서드
-   List<Festival> findByFeeContainingAndAddressContaining(String festFee, String festAddress);
+   List<Festival> findByAddressContaining(String festAddress);
 
    @Modifying
    @Query("update Festival f set f.view = f.view + 1 where f.id = :id")
