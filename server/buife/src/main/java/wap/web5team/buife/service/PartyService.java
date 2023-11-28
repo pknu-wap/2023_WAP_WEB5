@@ -2,13 +2,14 @@ package wap.web5team.buife.service;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import wap.web5team.buife.domain.Festival;
 import wap.web5team.buife.domain.Party;
 import wap.web5team.buife.repository.PartyRepository;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -30,7 +31,7 @@ public class PartyService {
         return party.getPartyPk();
     }
 
-    public int update(Party partyUpdate){
+/*    public int update(Party partyUpdate){
 
         Party party = partyRepository.findByPartyPk(partyUpdate.getPartyPk()).get();
 
@@ -45,11 +46,11 @@ public class PartyService {
         party.setPartyDetail(partyUpdate.getPartyDetail());
 
         return party.getPartyPk();
-    }
+    }*/
 
     public void delete(int partyPk){
         Party party = partyRepository.findByPartyPk(partyPk).get();
-        partyRepository.remove(party);
+        partyRepository.delete(party);
     }
 
     public Optional<Party> findParty(int partyPk){
@@ -58,6 +59,10 @@ public class PartyService {
 
     public List<Party> partyList(){
         return partyRepository.findAll();
+    }
+
+    public Page<Party> partyList(Pageable pageable){
+        return partyRepository.findAll(pageable);
     }
 
     public int recruitCount(Party party, String sign){

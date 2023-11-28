@@ -1,15 +1,19 @@
+/*
 package wap.web5team.buife.repository;
 
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import wap.web5team.buife.domain.Festival;
 import wap.web5team.buife.domain.Party;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
-public class JpaPartyRepository implements PartyRepository {
+public class JpaPartyRepository extends JpaRepository<Party, Integer> implements PartyRepository {
 
     private final EntityManager em;
 
@@ -49,4 +53,10 @@ public class JpaPartyRepository implements PartyRepository {
         return em.createQuery("select p from Party p", Party.class)
                 .getResultList();
     }
+
+    @Override
+    public Page<Party> findAll(Pageable pageable){
+        return super.findAll(pageable);
+    }
 }
+*/
