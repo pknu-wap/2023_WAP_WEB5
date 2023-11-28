@@ -53,7 +53,7 @@ const RoundedBox = styled.div`
   margin-top: 50px;
   
 `;
-const LoginButton = styled.button`
+const SignUpButton = styled.button`
 display: block;
 width: 200px; /* 버튼이 컨테이너의 가로 길이를 가지도록 함 */
 background-color: #0066ff;
@@ -64,8 +64,22 @@ padding: 10px 20px;
 font-size: 16px;
 cursor: pointer;
 box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.2);
+margin-top:20px;
 `;
 
+const BackButton = styled.button`
+display: block;
+width: 200px; /* 버튼이 컨테이너의 가로 길이를 가지도록 함 */
+background-color: #0066ff;
+color: white;
+border: none;
+border-radius: 200px;
+padding: 10px 20px;
+font-size: 16px;
+cursor: pointer;
+box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.2);
+margin-top:20px;
+`;
 
 
 
@@ -75,6 +89,7 @@ const logobuife = '/info.png';
 const SignUp3 =()=> {
   const location = useLocation();
   const userID = location.state?.userID || '';
+
  return (
    <div className="App">
      <div className="mainpage">
@@ -89,14 +104,19 @@ const SignUp3 =()=> {
         
             <InputContainer>
 
-
             <p>인증번호가 {userID}으로 전송되었습니다. 인증번호 8자리를 아래에 입력해주세요.</p>
-            <input type="text" placeholder="인증번호 입력" />
+            <Input type="text" placeholder="인증번호 입력" />
 
-                    <LoginButton type="button"
-                    className="loginButton">회원가입
-                    </LoginButton>
-                
+                    <SignUpButton type="button"
+                    className="signupButton">회원가입
+                    </SignUpButton>
+                    
+                    <Link to="/signup2">
+                    <BackButton type="button"
+                    className="BackButton">뒤로가기
+                    </BackButton>
+                    </Link>
+
             </InputContainer>
         
           </RoundedBox>
