@@ -36,7 +36,7 @@ const Mainpage = () => {
     <div>
         <nav className="navigator">
         <MyLink to="/festival-list">축제목록</MyLink>
-        <MyLink to="/party-list">파티목록</MyLink>
+        <MyLink to="/partyall-list">파티목록</MyLink>
         <Linkdiv>
         {/* <LoginForm /> */}
         <Login />

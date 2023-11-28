@@ -109,6 +109,7 @@ const excitedImage = '/뿌공이(신남).png';
 const LoginForm=()=> {
   const [userID, setuserID] = useState('');
   const [userPW, setuserPW] = useState('');
+  
   const handleLogin = async () => {
     try {
 
@@ -121,23 +122,33 @@ const LoginForm=()=> {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Access-Control-Allow-Origin': '*',
+ 
         },
+        credentials : 'include',
         body: params,
       };
     
   
 
-      const response = await fetch('https://port-0-buife-5mk12alp6foaqx.sel5.cloudtype.app/members/login', requestOptions);
+      const response = await fetch('https://port-0-server-cloudtype-4fju66f2clmyxbee6.sel5.cloudtype.app/members/login', requestOptions);
       
       if (!response.ok) {
         throw new Error('서버 응답이 실패했습니다.');
       }
 
-      //const data = await response.text();
-     // console.log(data); // 서버에서 받은 데이터 확인
-      window.location.href = '/MyPage'; // URL 변경 // 로그인이 성공했을 때의 로직
-      
+      const data = await response.text();
+      //userID를 확인하기 위한 alert
+      //alert(requestOptions.data.userID + "님, 성공적으로 로그인 되었습니다 🔐");
+      window.location.href = '/'; // URL 변경 // 로그인이 성공했을 때의 로직
+       console.log(data); // 서버에서 받은 데이터 확인
+       //서버에서 전달된 토큰
+       const token=data.token;
+       //토큰을 로컬 스토리지에 저장
+      // localStorage.setItem('token',token);
+       //localStorage.setItem("bbs_access_token", requestOptions.token);
+			 //localStorage.setItem("id", requestOptions.data.userID);
+
+       //로그인이 성공하면 다음페이지로 이동 
     } catch (error) {
       console.error('로그인 실패:', error);
       alert('아이디 또는 패스워드를 확인해주세요!');

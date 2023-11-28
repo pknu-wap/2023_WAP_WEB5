@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import './DropdownComponent.css'; // 별도의 CSS 파일을 임포트합니다.
 
-const DropdownComponent = () => {
+const DropdownComponent = ({onDateSelected}) => {
     const years = [];
     const months = Array.from({ length: 12 }, (_, i) => i + 1); // 1월부터 12월까지의 배열 생성
     const days = Array.from({ length: 31 }, (_, i) => i + 1); // 1일부터 31일까지의 배열 생성
@@ -20,14 +20,17 @@ const DropdownComponent = () => {
   
     const handleYearChange = (e) => {
       setSelectedYear(e.target.value);
+      onDateSelected(e.target.value, selectedMonth,selectedDay);
     };
   
     const handleMonthChange = (e) => {
       setSelectedMonth(e.target.value);
+      onDateSelected(selectedYear, e.target.value, selectedDay);
     };
   
     const handleDayChange = (e) => {
       setSelectedDay(e.target.value);
+      onDateSelected(selectedYear, selectedMonth, e.target.value);
     };
   
     return (
