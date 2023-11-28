@@ -14,7 +14,10 @@ import wap.web5team.buife.service.PartyService;
 
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class PartyController {
@@ -34,27 +37,34 @@ public class PartyController {
 
     @ResponseBody
     @GetMapping("/party")
-    public Page<Party> partyMain(@RequestParam(name = "page", defaultValue = "1") int page,
+    public List<PartyShort> partyMain(@RequestParam(name = "page", defaultValue = "1") int page,
                                  @RequestParam(name = "size", defaultValue = "10") int size) {
 
         PageRequest pageRequest = PageRequest.of(page-1,size, Sort.by("partyPk").descending()); // 출력할 페이지 번호, 한 페이지 당 출력할 컨텐츠 개수, 마감일 순으로 정렬
 
         Page<Party> parties = partyService.partyList(pageRequest);
-        //model.addAttribute("parties", parties);
 
-        return parties;
-        //return "party/partyMain";
+        List<PartyShort> partyShort = new ArrayList<>();
+        List<Party> partyList = parties.getContent();
+
+        for (Party party:
+             partyList) {
+            PartyShort tmp = new PartyShort();
+            Festival festival = festivalService.findById(party.getFestPk()).get();
+            String festRegion = festival.getAddress().split(" ")[1];
+            tmp.setPartyPk(party.getPartyPk());
+            tmp.setPartyDetail(party.getPartyDetail());
+            tmp.setFestName(festival.getName());
+            tmp.setFestAddress(festRegion);
+            tmp.setFestEnd(festival.getEnd());
+            partyShort.add(tmp);
+        }
+
+        return partyShort;
     }
-
-    // thymeleaf 요청
-    /*@GetMapping("party/new")
-    public String createParty() {
-        return "party/partyCreate";
-    }*/
 
     @PostMapping("party/new")
     public Party create(@RequestBody Party party) {
-        //Party party = new Party()
 
         Member session = memberSecurityService.findByLoginData();
         String userPk = session.getUserID();
@@ -70,7 +80,6 @@ public class PartyController {
         pmService.changePartyMemberState(pm, "수락");
 
         return party;
-        //return "redirect:/party";
     }
 
     private PartyDetail createPartyDetailObject(int partyPk) throws ParseException {
