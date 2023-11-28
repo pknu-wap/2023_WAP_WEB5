@@ -48,17 +48,14 @@ public class MemberSecurityService {
             Member member = memberRepository.findById(userID);
             return member;
         }
-        else {
-            String userID = principal.toString();
-            System.out.println("check userID : " + userID);
-            Member member = memberRepository.findById(userID);
-            return member;
-        }
+        else
+            throw new IllegalStateException("anonymousUser");
     }
 
     public Map<String, Object> MypageData(Member member) {
         String userName = member.getUserName();
         Double userRating = member.getUserRating();
+        userRating = Math.round(userRating * 100) / 100.0;
         String userID = member.getUserID();
         String userBirth = member.getUserBirth();
         String userGender = member.getUserGender();
