@@ -38,7 +38,7 @@ public class PartyController {
     @ResponseBody
     @GetMapping("/party")
     public List<PartyShort> partyMain(@RequestParam(name = "page", defaultValue = "1") int page,
-                                 @RequestParam(name = "size", defaultValue = "10") int size) {
+                                 @RequestParam(name = "size", defaultValue = "4") int size) {
 
         PageRequest pageRequest = PageRequest.of(page-1,size, Sort.by("partyPk").descending()); // 출력할 페이지 번호, 한 페이지 당 출력할 컨텐츠 개수, 마감일 순으로 정렬
 
@@ -53,6 +53,7 @@ public class PartyController {
             Festival festival = festivalService.findById(party.getFestPk()).get();
             String festRegion = festival.getAddress().split(" ")[1];
             tmp.setPartyPk(party.getPartyPk());
+            tmp.setPartyName(party.getPartyName());
             tmp.setPartyDetail(party.getPartyDetail());
             tmp.setFestName(festival.getName());
             tmp.setFestAddress(festRegion);
@@ -127,7 +128,6 @@ public class PartyController {
             // 에러 메세지
             System.out.println("join refused");
             return partyDetail(partyPk);
-            //return "redirect:/party";
         }
 
         //pm 추가
@@ -141,10 +141,9 @@ public class PartyController {
         pmService.apply(pm);
 
         return partyDetail(partyPk);
-        //return "redirect:/party";
     }
 
-    // 거절, 강퇴, 신청 취소
+/*    // 거절, 강퇴, 신청 취소
     @GetMapping("/party/quit")
     public PartyDetail partyQuit(@RequestParam(name = "ppk") int partyPk) throws ParseException {
 
@@ -156,7 +155,7 @@ public class PartyController {
         pmService.deny(pm);
 
         return partyDetail(partyPk);
-    }
+    }*/
 
     @ResponseBody
     @GetMapping("/party/close")
@@ -173,7 +172,7 @@ public class PartyController {
         return partyDetail(partyPk);
     }
 
-    @ResponseBody
+/*    @ResponseBody
     @GetMapping("party/update")
     public Party updateParty(@RequestParam(name = "ppk") int partyPk) {
 
@@ -182,7 +181,7 @@ public class PartyController {
 
         return party;
         //return "/party/partyUpdate";
-    }
+    }*/
 
     // 파티수정 기능 추후 구현
     /*@PostMapping("party/update")
@@ -202,12 +201,15 @@ public class PartyController {
     }
 
     @GetMapping("/party/partyMemberUpdate")
-    public PartyDetail partyMemberUpdate(@RequestParam(name="ppk") int partyPk, @RequestParam String action) throws ParseException {
+    public PartyDetail partyMemberUpdate(@RequestParam(name="pmpk") int pmPk, @RequestParam(name="ppk") int partyPk, @RequestParam String action) throws ParseException {
 
         Member session = memberSecurityService.findByLoginData();
         String userPk = session.getUserID();
         Party party = partyService.findParty(partyPk).get();
         PartyMember pm = pmService.findByUserPkAndPartyPk(userPk, partyPk).get();
+
+        if(pm.getPmPk()!=pmPk && party.getUserPk() != pm.getUserPk())
+            return partyDetail(partyPk);
 
         if (action.equals("accept") && partyService.isAcceptable(party)) {
             pmService.changePartyMemberState(pm, "수락");

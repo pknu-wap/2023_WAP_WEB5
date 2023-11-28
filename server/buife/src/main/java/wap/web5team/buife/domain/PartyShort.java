@@ -2,6 +2,7 @@ package wap.web5team.buife.domain;
 
 public class PartyShort {
     int partyPk;
+    String partyName;
     String festName;
     String festAddress;
     String partyDetail;
@@ -13,6 +14,14 @@ public class PartyShort {
 
     public void setPartyPk(int partyPk) {
         this.partyPk = partyPk;
+    }
+
+    public String getPartyName() {
+        return partyName;
+    }
+
+    public void setPartyName(String partyName) {
+        this.partyName = partyName;
     }
 
     public String getFestName() {

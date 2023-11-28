@@ -25,7 +25,7 @@ public class Party {
     private int partyRecruitLimit;
     @Column(name="party_recruit_curr")
     private int partyRecruitCurr;
-    @Column(name="party_char_url")
+    @Column(name="party_chat_url")
     private String partyChatUrl;
     @Column(name="party_start")
     private LocalDate partyStart;
