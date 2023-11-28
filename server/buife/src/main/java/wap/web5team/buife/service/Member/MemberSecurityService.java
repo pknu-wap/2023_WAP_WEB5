@@ -2,6 +2,8 @@ package wap.web5team.buife.service.Member;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,10 +42,18 @@ public class MemberSecurityService {
      */
     public Member findByLoginData() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails = (UserDetails)principal;
-        String userID = userDetails.getUsername();
-        Member member = memberRepository.findById(userID);
-        return member;
+        if(principal instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) principal;
+            String userID = userDetails.getUsername();
+            Member member = memberRepository.findById(userID);
+            return member;
+        }
+        else {
+            String userID = principal.toString();
+            System.out.println("check userID : " + userID);
+            Member member = memberRepository.findById(userID);
+            return member;
+        }
     }
 
     public Map<String, Object> MypageData(Member member) {
