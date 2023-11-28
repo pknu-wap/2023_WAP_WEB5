@@ -328,7 +328,7 @@ items: [],
 }
 
 componentDidMount() {
-this.fetchData('https://cors-anywhere.herokuapp.com/https://port-0-buife-5mk12alp6foaqx.sel5.cloudtype.app/festival/popular', 'items');
+this.fetchData('https://port-0-server-cloudtype-4fju66f2clmyxbee6.sel5.cloudtype.app/festival/popular', 'items');
 }
 
 fetchData = (url, type) => {

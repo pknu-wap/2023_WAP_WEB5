@@ -73,11 +73,14 @@
  `;
 
  const MyPageInfo = () => {
-     const [userDataArray, setUserDataArray] = useState([]);
+     const [userData, setUserData] = useState([]);
 
      useEffect(() => {
      const fetchData = () => {
-         fetch('https://port-0-buife-5mk12alp6foaqx.sel5.cloudtype.app/mypage')
+         fetch('https://port-0-server-cloudtype-4fju66f2clmyxbee6.sel5.cloudtype.app/mypage',
+         {
+            credentials : 'include'
+         })
          .then(response => {
              if (!response.ok) {
              throw new Error('Network response was not ok');
@@ -86,7 +89,7 @@
          })
          .then(data => {
              console.log(`받아온 데이터:`, data); //정상 동작 확인 완료
-             setUserDataArray(data); // 전체 데이터 배열을 가져옴
+             setUserData(data); // 전체 데이터 배열을 가져옴
          })
          .catch(error => {
              console.error('Error fetching user data:', error);
@@ -99,15 +102,12 @@
  return (
  <InfoContainer>
      <h2>임시 기본 정보</h2>
-     
-     {userDataArray.map((userData, index) => (
-     <div key={index}>
          <InfoItem>{userData.userID}</InfoItem>
          <InfoItem>{userData.userBirth}</InfoItem>
          <InfoItem>{userData.userName}</InfoItem>
          <InfoItem>{userData.userGender}</InfoItem>
-     </div>
-     ))}
+         <InfoItem>{userData.userRating}</InfoItem>
+
      
  </InfoContainer>
 

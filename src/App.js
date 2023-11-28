@@ -3,6 +3,7 @@ import Mypage from './pages/Mypage';
 import Mainpage from './pages/Mainpage';
 import FestivalList from './pages/festival-list';
 import PartyList from './pages/party-list';
+import PartyAllList from './pages/partyall-list';
 import PartyMake from './pages/partymake';
 import PartyPopup from './pages/partyPopup';
 import ReviewPage from './pages/reviewPage';
@@ -17,6 +18,7 @@ import './App.css';
 import FestivalDetail from './pages/festival-detail';
 
 
+
 function App() {
   return (
     <Routes>
@@ -26,6 +28,7 @@ function App() {
       <Route path="/festival-list" element={<FestivalList />} />
       <Route path="/festival-detail" element={<FestivalDetail />} />
       <Route path="/party-list" element={<PartyList/>} />
+      <Route path="/partyall-list" element={<PartyAllList/>} />
       <Route path="/partymake" element={<PartyMake/>} />
       <Route path="/partyPopup" element={<PartyPopup/>} />
       <Route path="/reviewPage" element={<ReviewPage/>} />

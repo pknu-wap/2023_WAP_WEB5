@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import DropdownComponent from './DropdownComponent';
@@ -64,12 +64,104 @@ box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.2);
 margin-top:10px;
 `;
 
+const BackButton = styled.button`
+display: block;
+width: 200px; /* 버튼이 컨테이너의 가로 길이를 가지도록 함 */
+background-color: #0066ff;
+color: white;
+border: none;
+border-radius: 200px;
+padding: 10px 20px;
+font-size: 16px;
+cursor: pointer;
+box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.2);
+margin-top:20px;
+`;
+
+
 
 const logobuife = '/info.png';
 
+const GenderSelector = ({ setUserGender }) => {
+  const [selectedGender, setSelectedGender] = useState('Male'); // 초기값: Male
 
+  const handleGenderChange = (e) => {
+    setSelectedGender(e.target.value);
+    setUserGender(e.target.value);
+  };
 
-function SignUp2() {
+  return (
+    <div>
+      <label>
+        남성
+        <input
+          type="radio"
+          value="Male"
+          checked={selectedGender === 'Male'}
+          onChange={handleGenderChange}
+        />
+      </label>
+      <label>
+        여성
+        <input
+          type="radio"
+          value="Female"
+          checked={selectedGender === 'Female'}
+          onChange={handleGenderChange}
+        />
+      </label>
+    </div>
+  );
+};
+
+const SignUp2=()=> {
+  const [userID, setUserID] = useState('');
+  const [userPW, setUserPW] = useState('');
+  const [userPWCheck,setUserPWCheck] = useState('');
+  const [userBirth, setUserBirth] = useState('');
+  const [userName, setUserName] = useState('');
+  const [userGender, setUserGender] = useState('Male');
+
+  const handleDateSelection = (year, month, day) => {
+    // 여기서 year, month, day는 DropdownComponent에서 선택된 값들입니다.
+    const formattedDate = `${year}-${month}-${day}`;
+    setUserBirth(formattedDate);
+  };
+
+  // API로 데이터 전송할 때 userBirth 사용
+  const handleSubmit = async () => {
+    // ...
+      
+    try{
+      const formData = new FormData();
+      formData.append('userID', userID);
+      formData.append('userPW', userPW);
+      formData.append('userPWCheck', userPWCheck);
+      formData.append('userName', userName);
+      formData.append('userBirth', userBirth);
+      formData.append('userGender', userGender);
+      
+      console.log(formData);
+      const response = await fetch('https://port-0-server-cloudtype-4fju66f2clmyxbee6.sel5.cloudtype.app/members/new', {
+        method: 'POST',
+  
+        body: formData,
+      });
+
+      
+      if (response.ok) {
+        // 성공적으로 응답을 받은 경우
+        // 여기에서 페이지 이동 등을 수행할 수 있습니다.
+      } else {
+        // 응답이 실패한 경우
+        throw new Error('회원가입에 실패했습니다.');
+      }
+    } catch (error) {
+
+      alert(error.message);
+      
+    }
+  };
 
  return (
    <div className="App">
@@ -82,17 +174,53 @@ function SignUp2() {
             <LogoImage src={logobuife} alt="Buife 로고" />
           </Link>
 
-        
             <InputContainer>
-              <Input type="text" placeholder="닉네임" />
+              <Input 
+                type="text" 
+                placeholder="닉네임" 
+                value={userName}
+                onChange={(e)=> setUserName(e.target.value)}
+              />
                   
-                  <DropdownComponent/>
+              <DropdownComponent onDateSelected={handleDateSelection}/>
                           
-                  <Link to="/signup">
-                    <NextButton type="button"
-                    className="loginButton">다음 페이지
-                    </NextButton>
+              <Input type="text" 
+              placeholder="이메일"  
+              value={userID}
+              onChange={(e) => setUserID(e.target.value)}
+              />
+
+              <Input 
+              type="password" 
+              placeholder="비밀번호" 
+              value={userPW}
+              onChange={(e)=> setUserPW(e.target.value)}
+              />
+
+              <Input 
+              type="password" 
+              placeholder="비밀번호 확인"
+              value={userPWCheck}
+              onChange={(e)=>setUserPWCheck(e.target.value)} 
+              />
+                  
+                  <GenderSelector setUserGender={setUserGender} />
+                
+                <Link to={{ pathname: "/signup3", state: { userID: userID } }}>
+                  <NextButton 
+                  type="button" 
+                  className="nextButton"
+                  onClick={handleSubmit}
+                  >다음 페이지</NextButton>
                 </Link>
+
+                <Link to="/loginform">
+                    <BackButton type="button"
+                    className="backButton">뒤로가기
+                    </BackButton>
+                </Link>
+
+
         
             </InputContainer>
         
