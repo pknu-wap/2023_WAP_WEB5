@@ -26,8 +26,8 @@ public class FestivalService {
         return festivalRepository.findAll();
     }
 
-    public List<Festival> findByFeeContainingAndAddressContaining(String fee, String adr) {
-        return festivalRepository.findByFeeContainingAndAddressContaining(fee, adr);
+    public List<Festival> findByAddressContaining(String adr) {
+        return festivalRepository.findByAddressContaining(adr);
     }
     public Optional<Festival> findById(Long id) {
         return festivalRepository.findById(id);
