@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import wap.web5team.buife.domain.*;
@@ -62,7 +64,7 @@ public class PartyController {
     }
 
     @PostMapping("party/new")
-    public Party create(@RequestBody Party party) {
+    public ResponseEntity<Void> create(@RequestBody Party party) {
 
         Member session = memberSecurityService.findByLoginData();
         String userPk = session.getUserID();
@@ -77,7 +79,7 @@ public class PartyController {
         pmService.apply(pm); // 파티장 등록
         pmService.changePartyMemberState(pm, "수락");
 
-        return party;
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     private PartyDetail createPartyDetailObject(int partyPk) throws ParseException {
@@ -116,7 +118,7 @@ public class PartyController {
 
     // state 1
     @GetMapping("party/join")
-    public PartyDetail partyJoin(@RequestParam(name = "ppk") int partyPk) throws ParseException {
+    public ResponseEntity<Void> partyJoin(@RequestParam(name = "ppk") int partyPk) throws ParseException {
 
         Party party = partyService.findParty(partyPk).get();
 
@@ -124,7 +126,7 @@ public class PartyController {
         if (!party.getPartyState().equals("모집")) {
             // 에러 메세지
             System.out.println("join refused");
-            return partyDetail(partyPk);
+            return new ResponseEntity<Void>(HttpStatus.OK);
         }
 
         //pm 추가
@@ -137,7 +139,7 @@ public class PartyController {
 
         pmService.apply(pm);
 
-        return partyDetail(partyPk);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
 /*    // 거절, 강퇴, 신청 취소
@@ -156,7 +158,7 @@ public class PartyController {
 
     @ResponseBody
     @GetMapping("/party/close")
-    public PartyDetail closeParty(@RequestParam(name = "ppk") int partyPk) throws ParseException {
+    public ResponseEntity<Void> closeParty(@RequestParam(name = "ppk") int partyPk) throws ParseException {
 
         Party party = partyService.findParty(partyPk).get();
 
@@ -166,7 +168,7 @@ public class PartyController {
             party.setPartyState("모집");
         }
 
-        return partyDetail(partyPk);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
 /*    @ResponseBody
@@ -198,7 +200,7 @@ public class PartyController {
     }
 
     @GetMapping("/party/partyMemberUpdate")
-    public PartyDetail partyMemberUpdate(@RequestParam(name="pmpk") int pmPk, @RequestParam(name="ppk") int partyPk, @RequestParam String action) throws ParseException {
+    public ResponseEntity<Void> partyMemberUpdate(@RequestParam(name="pmpk") int pmPk, @RequestParam(name="ppk") int partyPk, @RequestParam String action) throws ParseException {
 
         Member session = memberSecurityService.findByLoginData();
         String userPk = session.getUserID();
@@ -206,7 +208,7 @@ public class PartyController {
         PartyMember pm = pmService.findByUserPkAndPartyPk(userPk, partyPk).get();
 
         if(pm.getPmPk()!=pmPk && party.getUserPk() != pm.getUserPk())
-            return partyDetail(partyPk);
+            return new ResponseEntity<Void>(HttpStatus.OK);
 
         if (action.equals("accept") && partyService.isAcceptable(party)) {
             pmService.changePartyMemberState(pm, "수락");
@@ -219,7 +221,6 @@ public class PartyController {
             partyService.recruitCount(party, "sub");
         }
 
-        return partyDetail(partyPk);
-        //return "redirect:/party/detail?ppk=" + partyPk;
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }
