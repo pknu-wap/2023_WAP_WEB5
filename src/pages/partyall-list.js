@@ -140,7 +140,6 @@ const RoundedBox1 = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin:px;
   width:70px;
   height:30px;
   display:flex;
@@ -154,7 +153,38 @@ const PaginationContainer = styled.div`
   margin-top: auto; /* 페이지네이션을 컨테이너의 아래로 밀어냅니다. */
   margin-bottom: 20px; 
 `;
-const P = styled.div`
+
+const HorizontalLine = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+  margin: 0px 0;
+`;
+
+const FestName = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto; /* 아래로 밀어냅니다. */
+  margin-bottom: 20px; 
+`;
+
+const PartyName = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px; /* 아래로 밀어냅니다. */
+  margin-bottom: 20px; 
+`;
+const PartyDetail = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto; /* 아래로 밀어냅니다. */
+  margin-bottom: 20px; 
+`;
+
+const FestEnd = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -167,33 +197,35 @@ const PartyAllList= () => {
     const [showPopup, setShowPopup] = useState(false);
     const [selectedParty, setSelectedParty] = useState(null);
 
- 
+  
+    const totalPages = 7; // 전체 페이지 수
     const [partiesData, setPartiesData] = useState([]);
 
-    useEffect(() => {
-      const fetchData = async () => {
+    const fetchData = async (page) => {
         try {
-          const response = await fetch('https://port-0-server-cloudtype-4fju66f2clmyxbee6.sel5.cloudtype.app/party', {
+          const response = await fetch(`https://port-0-server-cloudtype-4fju66f2clmyxbee6.sel5.cloudtype.app/party?page=${page}`, {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json', // 요청 헤더에 JSON 형식 지정
+              'Content-Type': 'application/json',
             },
-            credentials: 'include', // 쿠키를 전달하기 위해 필요한 옵션
+            credentials: 'include',
           });
-  
+      
           if (!response.ok) {
             throw new Error('서버 응답이 실패했습니다.');
           }
-  
+      
           const data = await response.json();
-          setPartiesData(data); // 서버에서 받은 데이터로 partiesData 상태 업데이트
+          setPartiesData(data);
         } catch (error) {
           console.error('파티 목록을 불러오는데 실패했습니다:', error);
         }
       };
-  
-      fetchData();
-    }, []);
+
+      useEffect(() => {
+        // 페이지 로드 시 첫 번째 페이지의 파티 목록 가져오기
+        fetchData(1);
+      }, []);
     
       //파티팝업창
       const handlePartyClick = (party) => {
@@ -216,6 +248,7 @@ const PartyAllList= () => {
     
       const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
+        fetchData(pageNumber);
       };
     
       const handlePrevPage = () => {
@@ -291,16 +324,18 @@ const PartyAllList= () => {
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
              {filteredParties.map((party) => (
              <RoundedBox key={party.partyPk} onClick={() => handlePartyClick(party)}>
-                    <p style={{fontSize:"20px"}}>{party.festName}</p>
+                    <FestName style={{fontSize:"20px"}}>{party.festName}</FestName>
 
                     <RoundedBox1 >
                      <p style={{margin:'0',fontSize:'15px' ,color:'#676767'}}>{party.festAddress}</p>
                     </RoundedBox1>
-                    
-                    <p style={{fontSize:"17px"}}>
-                        {party.partyName}</p>
-                    <p>{party.partyDetail}</p>
-                    <P>{party.festEnd}</P>
+
+                    <HorizontalLine />
+
+                    <PartyName style={{fontSize:"17px"}}>
+                        {party.partyName}</PartyName>
+                    <PartyDetail>{party.partyDetail}</PartyDetail>
+                    <FestEnd>{party.festEnd}</FestEnd>
             </RoundedBox>
                 ))}
                 </div>
@@ -311,7 +346,7 @@ const PartyAllList= () => {
 
                 <PaginationContainer>
                     <button onClick={handlePrevPage} style={{fontSize:'20px'}}>{'< '}</button>
-                    {Array.from({ length: Math.ceil(partiesData.length / partiesPerPage) }, (_, index) => (
+                    {Array.from({ length: Math.min(6,totalPages) }, (_, index) => (
                     <button key={index + 1} style={{fontSize:'20px'}} onClick={() => handlePageChange(index + 1)}>
                         {index + 1}
                     </button>
