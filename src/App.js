@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { HashRouter,Route, Routes } from 'react-router-dom';
 import Mypage from './pages/Mypage';
 import Mainpage from './pages/Mainpage';
 import FestivalList from './pages/festival-list';
@@ -20,7 +20,7 @@ import FestivalDetail from './pages/festival-detail';
 
 function App() {
   return (
-    <Routes>
+    <HashRouter>
       <Route path="/" element={<Mainpage />} />
       <Route path="/Mypage" element={<Mypage/>} />
       <Route path="/festival-list" element={<FestivalList />} />
@@ -34,7 +34,7 @@ function App() {
       <Route path="/SignUp2" element={<SignUp2/>} />
       <Route path="/SignUp3" element={<SignUp3/>} />
       {/* <Route path="/festival-map" element={<FestivalMap/>} /> */}
-    </Routes>
+    </HashRouter>
   );
 
 }
