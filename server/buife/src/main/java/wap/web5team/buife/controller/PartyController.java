@@ -37,13 +37,15 @@ public class PartyController {
 
     @ResponseBody
     @GetMapping("/party")
-    public List<PartyShort> partyMain() {
+    public List<PartyShort> partyMain(@RequestParam(name="page", defaultValue = "1") int page, @RequestParam(name="size", defaultValue = "4")int size) {
 
+        PageRequest pageRequest = PageRequest.of(page-1,size,Sort.by("partyPk").descending());
+        Page<Party> partyPage = partyService.partyList(pageRequest);
+        List<Party> partyList = partyPage.getContent();
         List<PartyShort> partyShort = new ArrayList<>();
-        List<Party> parties = partyService.partyList();
 
         for (Party party:
-             parties) {
+                partyList) {
             PartyShort tmp = new PartyShort();
             Festival festival = festivalService.findById(party.getFestPk()).get();
             String festRegion = festival.getAddress().split(" ")[1];
