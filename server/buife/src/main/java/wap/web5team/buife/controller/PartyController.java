@@ -37,18 +37,13 @@ public class PartyController {
 
     @ResponseBody
     @GetMapping("/party")
-    public List<PartyShort> partyMain(@RequestParam(name = "page", defaultValue = "1") int page,
-                                 @RequestParam(name = "size", defaultValue = "4") int size) {
-
-        PageRequest pageRequest = PageRequest.of(page-1,size, Sort.by("partyPk").descending()); // 출력할 페이지 번호, 한 페이지 당 출력할 컨텐츠 개수, 마감일 순으로 정렬
-
-        Page<Party> parties = partyService.partyList(pageRequest);
+    public List<PartyShort> partyMain() {
 
         List<PartyShort> partyShort = new ArrayList<>();
-        List<Party> partyList = parties.getContent();
+        List<Party> parties = partyService.partyList();
 
         for (Party party:
-             partyList) {
+             parties) {
             PartyShort tmp = new PartyShort();
             Festival festival = festivalService.findById(party.getFestPk()).get();
             String festRegion = festival.getAddress().split(" ")[1];
