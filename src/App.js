@@ -20,7 +20,7 @@ import FestivalDetail from './pages/festival-detail';
 
 function App() {
   return (
-    <HashRouter>
+    <Routes>
       <Route path="/" element={<Mainpage />} />
       <Route path="/Mypage" element={<Mypage/>} />
       <Route path="/festival-list" element={<FestivalList />} />
@@ -34,7 +34,7 @@ function App() {
       <Route path="/SignUp2" element={<SignUp2/>} />
       <Route path="/SignUp3" element={<SignUp3/>} />
       {/* <Route path="/festival-map" element={<FestivalMap/>} /> */}
-    </HashRouter>
+    </Routes>
   );
 
 }
