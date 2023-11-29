@@ -40,7 +40,7 @@ const Mainpage = () => {
         <Linkdiv>
         {/* <LoginForm /> */}
         <Login />
-        <MyLink to="/Mypage">임시마페</MyLink>
+        <MyLink to="/Mypage">마이페이지</MyLink>
 
         </Linkdiv>
         
@@ -48,7 +48,6 @@ const Mainpage = () => {
 
         <header className="Header">
         <img src="info.png" alt="Logo" />
-        {/* <p id="BIF"><strong>Busan Internal Festival</strong></p> */}
         </header>
     
 

@@ -7,14 +7,12 @@ const MapTest = () => {
     const [map, setMap] = useState(null);
     const [userMarker, setUserMarker] = useState(null);
 
-    // Ã³À½ Áöµµ ±×¸®±â
     useEffect(() => {
     const container = document.getElementById('map');
     const options = { center: new kakao.maps.LatLng(33.450701, 126.570667) };
     const kakaoMap = new kakao.maps.Map(container, options);
     setMap(kakaoMap);
 
-    // »ç¿ëÀÚÀÇ ÇöÀç À§Ä¡¸¦ °¡Á®¿Í Áöµµ Áß¾ÓÀ¸·Î ÀÌµ¿
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
         const lat = position.coords.latitude;
@@ -22,7 +20,7 @@ const MapTest = () => {
         const userPosition = new kakao.maps.LatLng(lat, lng);
         kakaoMap.panTo(userPosition);
 
-        // »ç¿ëÀÚÀÇ ÇöÀç À§Ä¡¿¡ Marker Ç¥½Ã
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ Marker Ç¥ï¿½ï¿½
         const marker = new kakao.maps.Marker({
             position: userPosition,
             map: kakaoMap,

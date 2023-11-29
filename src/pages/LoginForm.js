@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
-import qs from "qs";
-
-
-
 
 const Container = styled.div`
   display: flex;
@@ -122,7 +116,6 @@ const LoginForm=()=> {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
- 
         },
         credentials : 'include',
         body: params,
@@ -142,7 +135,7 @@ const LoginForm=()=> {
       window.location.href = '/'; // URL 변경 // 로그인이 성공했을 때의 로직
        console.log(data); // 서버에서 받은 데이터 확인
        //서버에서 전달된 토큰
-       const token=data.token;
+      const token=data.token;
        //토큰을 로컬 스토리지에 저장
       // localStorage.setItem('token',token);
        //localStorage.setItem("bbs_access_token", requestOptions.token);
@@ -156,47 +149,10 @@ const LoginForm=()=> {
     }
   };
 
-
-  /*const handleLogin = async()=>{
-    try {
-      const response = await axios.post('https://port-0-buife-5mk12alp6foaqx.sel5.cloudtype.app/members/login', qs.stringify({
-        userID: userID,
-        userPW: userPW,
-      }), {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",	// Default
-        },})
-        console.log(response.data);
-    } catch (error) {
-      // 로그인 실패 시 에러 처리
-      console.error('로그인 실패:', error.message);
-    }
-    
-  };*/
-  
-
-  /*const handleLogin = async () => {
-    try {
-      const response = await axios.post('https://port-0-buife-5mk12alp6foaqx.sel5.cloudtype.app/members/login', {
-        userID: userID,
-        userPW: userPW,
-      });
-
-      // 서버에서 응답 처리
-      console.log(response.data); // 서버에서 받은 데이터 확인
-      // 성공적으로 로그인되었음을 처리하는 로직 추가
-    } catch (error) {
-      // 로그인 실패 시 에러 처리
-      console.error('로그인 실패:', error.message);
-    }
-  };*/
-  
- return (
-   <div className="App">
-     <div className="mainpage">
-       
-       <div className="mainbox">
+return (
+  <div className="App">
+    <div className="mainpage">
+      <div className="mainbox">
         <Container>
           <RoundedBox>
           <Link to="/.">
@@ -228,13 +184,12 @@ const LoginForm=()=> {
             
             </ImagesContainer>
 
-              
           </RoundedBox>
-         </Container>
-       </div>
-     </div>
-   </div>
- );
+        </Container>
+      </div>
+    </div>
+  </div>
+);
 }
 
 

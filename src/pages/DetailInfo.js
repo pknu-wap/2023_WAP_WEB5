@@ -1,19 +1,15 @@
 // src/components/DetailInfo.js
-//일단 이미지 임시로 넣어놓음
 import React from 'react';
 import styled from 'styled-components';
-
-// const ImageContainer = styled.div`
-// width: 40%;
-// margin-left: 20px;
-// border: 3px solid Green;
-// `
+import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 const DetailImage = styled.img`
 // border: 3px solid Red;
 width: 30%;
 height: 450px;
 margin-left: 100px;
+margin-right: 20px;
 float: left;
 `;
 
@@ -22,16 +18,40 @@ float: left;
 margin-left: 50px;
 `;
 
-const DetailInfo = ({ festData }) => {
-    const { image, description } = festData;
+const DetailInfo = () => {
+    const params = useParams();
+    console.log(params);
+    const [festival, setFestival] = useState(null);
+
+    useEffect(() => {
+    const fetchFestivalData = async () => {
+        try {
+        const response = await fetch(`https://port-0-server-cloudtype-4fju66f2clmyxbee6.sel5.cloudtype.app/festival/read-one/${params.id}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch festival data');
+        }
+
+        const festivalData = await response.json();
+        setFestival(festivalData);
+        } catch (error) {
+        console.error('Error fetching festival data:', error);
+        }
+    };
+
+    fetchFestivalData();
+    }, [params.id]);
+
+    if (!festival) {
+    return <p>Loading...</p>;
+    }
 
     return (
     <div>
-        {/* <ImageContainer> */}
-                <DetailImage src={image} alt="이미지" />
-        {/* </ImageContainer> */}
         <Description>
-                <p>{description}</p>
+        <DetailImage src={festival.image || process.env.PUBLIC_URL + '/mannerReview.png'}/>
+
+                <p>축제 이름: {festival.name}</p>
+                <p>축제 설명: {festival.detail}</p>
         </Description>
         
     </div>

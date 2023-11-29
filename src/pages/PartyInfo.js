@@ -1,6 +1,7 @@
 // src/components/MapInfo.js
 import React from 'react';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useEffect } from 'react';
 import ListPage from './Listpage';
@@ -28,13 +29,39 @@ const data = [
     { id: 4, title: '품목 4', date: '2023-11-16' },
     { id: 5, title: '품목 5', date: '2023-11-17' },
     { id: 6, title: '품목 8', date: '2023-11-18' },
-  ];
+];
 
 const PartyInfo = () => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const params = useParams();
+    console.log(params);
+    const [festival, setFestival] = useState(null);
+
+    useEffect(() => {
+    const fetchFestivalData = async () => {
+        try {
+        const response = await fetch(`https://port-0-server-cloudtype-4fju66f2clmyxbee6.sel5.cloudtype.app/festival/read-one/${params.id}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch festival data');
+        }
+
+        const festivalData = await response.json();
+        setFestival(festivalData);
+        } catch (error) {
+        console.error('Error fetching festival data:', error);
+        }
+    };
+
+    fetchFestivalData();
+    }, [params.id]);
+
+    if (!festival) {
+    return <p>Loading...</p>;
+    }
 
     
 
-    const [currentPage, setCurrentPage] = useState(1);
+    
     const itemsPerPage = 4;
     const totalPages = Math.ceil(data.length / itemsPerPage);
 
@@ -62,7 +89,9 @@ const PartyInfo = () => {
         <h2 style={{display:'flex',justifyContent:'center'}}>2023 부산 광안리 불꽃 축제</h2>
 
         <div>
-            <Link to="/make"><button style={modalStyles.writeButton}>글쓰기</button></Link>
+            <Link to="/partymake"><button style={modalStyles.writeButton}>글쓰기</button></Link>
+            <Link key={festival.id} to={`/partymake/${festival.id}` }>글쓰기 임시</Link>
+
             <FilterComponent />
             <br></br>
             <br></br><br></br><br></br><br></br><br></br>

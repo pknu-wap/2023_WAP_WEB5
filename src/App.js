@@ -12,7 +12,7 @@ import LoginForm from './pages/LoginForm';
 import SignUp from './pages/SignUp';
 import SignUp2 from './pages/SignUp2';
 import SignUp3 from './pages/SignUp3';
-
+// import FestivalMap from './pages/festival-map';
 import React from 'react';
 import './App.css';
 import FestivalDetail from './pages/festival-detail';
@@ -22,21 +22,20 @@ import FestivalDetail from './pages/festival-detail';
 function App() {
   return (
     <Routes>
-      
       <Route path="/" element={<Mainpage />} />
       <Route path="/Mypage" element={<Mypage/>} />
       <Route path="/festival-list" element={<FestivalList />} />
-      <Route path="/festival-detail" element={<FestivalDetail />} />
+      <Route path="/festival-detail/:id" element={<FestivalDetail />} />
       <Route path="/party-list" element={<PartyList/>} />
       <Route path="/partyall-list" element={<PartyAllList/>} />
-      <Route path="/partymake" element={<PartyMake/>} />
+      <Route path="/partymake/:id" element={<PartyMake/>} />
       <Route path="/partyPopup" element={<PartyPopup/>} />
       <Route path="/reviewPage" element={<ReviewPage/>} />
       <Route path="/LoginForm" element={<LoginForm/>} />
       <Route path="/SignUp" element={<SignUp/>} />
       <Route path="/SignUp2" element={<SignUp2/>} />
       <Route path="/SignUp3" element={<SignUp3/>} />
-
+      {/* <Route path="/festival-map" element={<FestivalMap/>} /> */}
     </Routes>
   );
 

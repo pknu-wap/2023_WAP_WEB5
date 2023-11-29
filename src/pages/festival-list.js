@@ -16,7 +16,10 @@ font-size: 13px; /* 글자 크기 지정 */
 font-weight: 400; /* 글자 두께 지정 */
 
 `;
-
+const Divider = styled.div`
+border-bottom: 1px solid #ccc;
+margin: 20px 0;
+`;
 
 const FestivalList = () => {
 
@@ -24,7 +27,7 @@ const [userDataArray, setUserDataArray] = useState([]);
 
 useEffect(() => {
 const fetchData = () => {
-    fetch('https://cors-anywhere.herokuapp.com/https://port-0-buife-5mk12alp6foaqx.sel5.cloudtype.app/members')
+    fetch('https://port-0-server-cloudtype-4fju66f2clmyxbee6.sel5.cloudtype.app/festival/list')
     .then(response => {
         if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -46,11 +49,18 @@ return (
 <div>
     {userDataArray.length > 0 ? (
     <div>
-        <h2>User Information</h2>
-        {userDataArray.map((userData, index) => (
-        <div key={index}>
-            <p>User ID: {userData.userID}</p>
-            {/* 기타 필요한 정보도 여기에 추가할 수 있습니다 */}
+        <h2>전체 축제 목록</h2>
+        {userDataArray.map((festival) => (
+        <div key={festival.id}>
+            {/* <MyLink to={"/festival-detail"}>축제 이름: {festival.name}</MyLink> */}
+            <li>
+                <p>id확인: {festival.id}</p>
+            <MyLink key={festival.id} to={`/festival-detail/${festival.id}` }>클릭시 페이지 이동: {festival.name}</MyLink>
+            </li>
+            <img style={{width: '120px'}} src={festival.image || 'mannerReview.png'} />
+            
+            <Divider></Divider>
+
         </div>
         ))}
     </div>
