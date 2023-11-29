@@ -184,42 +184,37 @@ const PartyDetail = styled.div`
 `;
 
 
-const PartyAllList= () => {
+const Mypartylist= () => {
     const [showPopup, setShowPopup] = useState(false);
     const [selectedParty, setSelectedParty] = useState(null);
 
  
     const [partiesData, setPartiesData] = useState([]);
 
-    const partiesPerPage = 4; // 한 페이지에 보여줄 파티 수
-    const totalPages = 5; // 전체 페이지 수
-
-  const fetchData = async (page) => {
-      try {
-        const response = await fetch(`https://port-0-server-cloudtype-4fju66f2clmyxbee6.sel5.cloudtype.app/party?page=${page}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-        });
-
-        if (!response.ok) {
-          throw new Error('서버 응답이 실패했습니다.');
-        }
-
-        const data = await response.json();
-        setPartiesData(data); // 현재 페이지에 해당하는 파티 목록으로 업데이트
-      } catch (error) {
-        console.error('파티 목록을 불러오는데 실패했습니다:', error);
-      }
-    };
-
     useEffect(() => {
-      // 페이지 로드 시 첫 번째 페이지의 파티 목록 가져오기
-      fetchData(1);
+      const fetchData = async () => {
+        try {
+          const response = await fetch('https://port-0-server-cloudtype-4fju66f2clmyxbee6.sel5.cloudtype.app/party', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json', // 요청 헤더에 JSON 형식 지정
+            },
+            credentials: 'include', // 쿠키를 전달하기 위해 필요한 옵션
+          });
+  
+          if (!response.ok) {
+            throw new Error('서버 응답이 실패했습니다.');
+          }
+  
+          const data = await response.json();
+          setPartiesData(data); // 서버에서 받은 데이터로 partiesData 상태 업데이트
+        } catch (error) {
+          console.error('파티 목록을 불러오는데 실패했습니다:', error);
+        }
+      };
+  
+      fetchData();
     }, []);
-    
     
       //파티팝업창
       const handlePartyClick = (party) => {
@@ -233,7 +228,7 @@ const PartyAllList= () => {
     
 
       //페이지네이션 기능
-
+      const partiesPerPage = 4;
       const [currentPage, setCurrentPage] = useState(1);
     
       const indexOfLastParty = currentPage * partiesPerPage;
@@ -241,7 +236,6 @@ const PartyAllList= () => {
       const currentParties = partiesData.slice(indexOfFirstParty, indexOfLastParty);
     
       const handlePageChange = (pageNumber) => {
-        fetchData(pageNumber);
         setCurrentPage(pageNumber);
       };
     
@@ -255,10 +249,8 @@ const PartyAllList= () => {
         const totalPages = Math.ceil(partiesData.length / partiesPerPage);
         if (currentPage < totalPages) {
           setCurrentPage(currentPage + 1);
-
         }
       };
-
 
 
       
@@ -282,7 +274,6 @@ const PartyAllList= () => {
     const filteredParties = selectedLocation !== '전체' 
     ? partiesData.filter(party => party.festAddress === selectedLocation) 
     : partiesData;
-    
     return (
     <div>
 
@@ -344,8 +335,7 @@ const PartyAllList= () => {
 
                 <PaginationContainer>
                     <button onClick={handlePrevPage} style={{fontSize:'20px'}}>{'< '}</button>
-
-                    {Array.from({ length: Math.min(6, totalPages) }, (_, index) => (
+                    {Array.from({ length: Math.ceil(partiesData.length / partiesPerPage) }, (_, index) => (
                     <button key={index + 1} style={{fontSize:'20px'}} onClick={() => handlePageChange(index + 1)}>
                         {index + 1}
                     </button>
@@ -360,4 +350,4 @@ const PartyAllList= () => {
     );
 };
 
-export default PartyAllList;
+export default Mypartylist;

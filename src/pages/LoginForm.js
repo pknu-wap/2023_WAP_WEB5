@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
-import qs from "qs";
-
-
 
 
 const Container = styled.div`
@@ -128,23 +123,21 @@ const LoginForm=()=> {
         credentials : 'include',
         body: params,
       };
-    
-  
-
-      const response = await fetch('https://port-0-server-cloudtype-4fju66f2clmyxbee6.sel5.cloudtype.app/members/login', requestOptions);
       
+  
+      const response = await fetch('https://port-0-server-cloudtype-4fju66f2clmyxbee6.sel5.cloudtype.app/members/login', requestOptions);
+      setLoggedIn(true);
       if (!response.ok) {
         throw new Error('서버 응답이 실패했습니다.');
       }
-      setLoggedIn(true);
+      
       const data = await response.text();
       //userID를 확인하기 위한 alert
       window.location.href = '/'; // URL 변경 // 로그인이 성공했을 때의 로직
        console.log(data); // 서버에서 받은 데이터 확인
       
 
-      
-
+    
        //로그인이 성공하면 다음페이지로 이동 
     } catch (error) {
       console.error('로그인 실패:', error);
@@ -153,41 +146,6 @@ const LoginForm=()=> {
     }
   };
 
-
-  /*const handleLogin = async()=>{
-    try {
-      const response = await axios.post('https://port-0-buife-5mk12alp6foaqx.sel5.cloudtype.app/members/login', qs.stringify({
-        userID: userID,
-        userPW: userPW,
-      }), {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",	// Default
-        },})
-        console.log(response.data);
-    } catch (error) {
-      // 로그인 실패 시 에러 처리
-      console.error('로그인 실패:', error.message);
-    }
-    
-  };*/
-  
-
-  /*const handleLogin = async () => {
-    try {
-      const response = await axios.post('https://port-0-buife-5mk12alp6foaqx.sel5.cloudtype.app/members/login', {
-        userID: userID,
-        userPW: userPW,
-      });
-
-      // 서버에서 응답 처리
-      console.log(response.data); // 서버에서 받은 데이터 확인
-      // 성공적으로 로그인되었음을 처리하는 로직 추가
-    } catch (error) {
-      // 로그인 실패 시 에러 처리
-      console.error('로그인 실패:', error.message);
-    }
-  };*/
   
  return (
    <div className="App">
