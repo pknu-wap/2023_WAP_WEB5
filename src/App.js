@@ -9,7 +9,6 @@ import PartyPopup from './pages/partyPopup';
 import ReviewPage from './pages/reviewPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginForm from './pages/LoginForm';
-import SignUp from './pages/SignUp';
 import SignUp2 from './pages/SignUp2';
 import SignUp3 from './pages/SignUp3';
 // import FestivalMap from './pages/festival-map';
@@ -32,7 +31,6 @@ function App() {
       <Route path="/partyPopup" element={<PartyPopup/>} />
       <Route path="/reviewPage" element={<ReviewPage/>} />
       <Route path="/LoginForm" element={<LoginForm/>} />
-      <Route path="/SignUp" element={<SignUp/>} />
       <Route path="/SignUp2" element={<SignUp2/>} />
       <Route path="/SignUp3" element={<SignUp3/>} />
       {/* <Route path="/festival-map" element={<FestivalMap/>} /> */}

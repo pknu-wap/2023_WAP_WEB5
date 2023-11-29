@@ -133,22 +133,26 @@ const SignUp2=()=> {
     // ...
       
     try{
-      const formData = new FormData();
-      formData.append('userID', userID);
-      formData.append('userPW', userPW);
-      formData.append('userPWCheck', userPWCheck);
-      formData.append('userName', userName);
-      formData.append('userBirth', userBirth);
-      formData.append('userGender', userGender);
-      
-      console.log(formData);
+      const data = {
+        userID: userID,
+        userPW: userPW,
+        userPWCheck: userPWCheck,
+        userName: userName,
+        userBirth: userBirth,
+        userGender: userGender,
+      };
+
+          
       const response = await fetch('https://port-0-server-cloudtype-4fju66f2clmyxbee6.sel5.cloudtype.app/members/new', {
         method: 'POST',
-  
-        body: formData,
+        credentials : 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       });
 
-      
+      console.log(data)
       if (response.ok) {
         // 성공적으로 응답을 받은 경우
         // 여기에서 페이지 이동 등을 수행할 수 있습니다.

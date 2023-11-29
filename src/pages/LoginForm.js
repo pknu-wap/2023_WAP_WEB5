@@ -103,7 +103,8 @@ const excitedImage = '/뿌공이(신남).png';
 const LoginForm=()=> {
   const [userID, setuserID] = useState('');
   const [userPW, setuserPW] = useState('');
-  
+  const [loggedIn, setLoggedIn] = useState(false);
+
   const handleLogin = async () => {
     try {
 
@@ -128,19 +129,11 @@ const LoginForm=()=> {
       if (!response.ok) {
         throw new Error('서버 응답이 실패했습니다.');
       }
-
+      setLoggedIn(true);
       const data = await response.text();
       //userID를 확인하기 위한 alert
-      //alert(requestOptions.data.userID + "님, 성공적으로 로그인 되었습니다 🔐");
       window.location.href = '/'; // URL 변경 // 로그인이 성공했을 때의 로직
        console.log(data); // 서버에서 받은 데이터 확인
-       //서버에서 전달된 토큰
-      const token=data.token;
-       //토큰을 로컬 스토리지에 저장
-      // localStorage.setItem('token',token);
-       //localStorage.setItem("bbs_access_token", requestOptions.token);
-			 //localStorage.setItem("id", requestOptions.data.userID);
-
        //로그인이 성공하면 다음페이지로 이동 
     } catch (error) {
       console.error('로그인 실패:', error);
