@@ -84,7 +84,7 @@ const Mypage = () => {
             <Headerlist>
             
             <MyLink to ="/festival-list">축제 목록</MyLink>
-            <MyLink to ="/party-list">전체 파티 목록</MyLink>
+            <MyLink to ="/partyall-list">전체 파티 목록</MyLink>
             <MyLink to ="/my-party-list">내 파티</MyLink>
             </Headerlist>
             <MyPageInfo infoData={infoData}/>

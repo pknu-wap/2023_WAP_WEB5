@@ -40,7 +40,7 @@ const Mainpage = () => {
         <Linkdiv>
         {/* <LoginForm /> */}
         <Login />
-        <MyLink to="/Mypage">임시마페</MyLink>
+        <MyLink to="/Mypage">마이페이지</MyLink>
 
         </Linkdiv>
         

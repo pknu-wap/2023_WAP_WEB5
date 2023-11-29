@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PartyPopup from './partyPopup';
 import { Link } from 'react-router-dom';
@@ -135,7 +135,7 @@ const RoundedBox1 = styled.div`
   border-radius: 80px;
   border:none
   padding: 10px;
-  margin-right: 40px;
+  margin-bottom:10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -154,104 +154,47 @@ const PaginationContainer = styled.div`
   margin-top: auto; /* 페이지네이션을 컨테이너의 아래로 밀어냅니다. */
   margin-bottom: 20px; 
 `;
-
+const P = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto; /* 아래로 밀어냅니다. */
+  margin-bottom: 20px; 
+`;
 
 
 const PartyAllList= () => {
     const [showPopup, setShowPopup] = useState(false);
     const [selectedParty, setSelectedParty] = useState(null);
 
-    const [partiesData] = useState([
-        {
-            "partyPk": 8,
-            "festPk": "2023 나이트레스 인 부산",
-            "userPk": 8,
-            "partyRecruitLimit": 4,
-            "partyRecruitCurr": 1,
-            "partyChatUrl": "",
-            "partyStart": "2023-09-30",
-            "partyEnd": "0001-01-01",
-            "partyDetail": "같이 가서 인생샷 찍을분",
-            "partyState": "모집",
-            "partyTag": "tag1",
-            "partylocation":"수영구"
-            },
-            {
-            "partyPk": 9,
-            "festPk": "제28회 부산국제영화제",
-            "userPk": 27,
-            "partyRecruitLimit": 2,
-            "partyRecruitCurr": 2,
-            "partyChatUrl": "",
-            "partyStart": "2023-09-30",
-            "partyEnd": "0002-02-02",
-            "partyDetail": "det2",
-            "partyState": "마감",
-            "partyTag": "tag2",
-            "partylocation":"남구"
-            },
-            {
-            "partyPk": 11,
-            "festPk": "제16회 부산항축제",
-            "userPk": 49,
-            "partyRecruitLimit": 2,
-            "partyRecruitCurr": 1,
-            "partyChatUrl": "dfd",
-            "partyStart": "2023-10-04",
-            "partyEnd": "2023-10-09",
-            "partyDetail": "tjfaud",
-            "partyState": "모집",
-            "partyTag": "xorm",
-            "partylocation":"금정구"
-            },
-            {
-            "partyPk": 12,
-            "festPk": 94,
-            "userPk": 18,
-            "partyRecruitLimit": 2,
-            "partyRecruitCurr": 1,
-            "partyChatUrl": "",
-            "partyStart": "2023-10-30",
-            "partyEnd": "0001-01-01",
-            "partyDetail": "파아티설명",
-            "partyState": "모집",
-            "partyTag": "태에그",
-            "partylocation":"부산진구"
-            },
-            {
-            "partyPk": 13,
-            "festPk": 23,
-            "userPk": 48,
-            "partyRecruitLimit": 2,
-            "partyRecruitCurr": 1,
-            "partyChatUrl": "",
-            "partyStart": "2023-10-30",
-            "partyEnd": "0001-01-01",
-            "partyDetail": "파아티설명",
-            "partyState": "모집",
-            "partyTag": "태에그",
-            "partylocation":"남구"
-            },
-            {
-            "partyPk": 14,
-            "festPk": 64,
-            "userPk": 91,
-            "partyRecruitLimit": 4,
-            "partyRecruitCurr": 1,
-            "partyChatUrl": "asdf",
-            "partyStart": "2023-10-31",
-            "partyEnd": "2023-09-30",
-            "partyDetail": "qwer",
-            "partyState": "모집",
-            "partyTag": "zxcv",
-            "partylocation":"해운대구"
-            },
-        // 다른 파티 정보들도 추가할 수 있어요.
-        // { id: 2, title: '...', location: '...', text: '...', date: '...' },
-        // { id: 3, title: '...', location: '...', text: '...', date: '...' },
-        // ...
-      ]);
+ 
+    const [partiesData, setPartiesData] = useState([]);
 
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await fetch('https://port-0-server-cloudtype-4fju66f2clmyxbee6.sel5.cloudtype.app/party', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json', // 요청 헤더에 JSON 형식 지정
+            },
+            credentials: 'include', // 쿠키를 전달하기 위해 필요한 옵션
+          });
+  
+          if (!response.ok) {
+            throw new Error('서버 응답이 실패했습니다.');
+          }
+  
+          const data = await response.json();
+          setPartiesData(data); // 서버에서 받은 데이터로 partiesData 상태 업데이트
+        } catch (error) {
+          console.error('파티 목록을 불러오는데 실패했습니다:', error);
+        }
+      };
+  
+      fetchData();
+    }, []);
+    
       //파티팝업창
       const handlePartyClick = (party) => {
         setSelectedParty(party);
@@ -288,11 +231,13 @@ const PartyAllList= () => {
         }
       };
 
+
+      
       // 드롭다운 기능
       const [isOpen, setIsOpen] = useState(false);
-      const [selectedLocation, setSelectedLocation] = useState('지역');
+      const [selectedLocation, setSelectedLocation] = useState('전체');
     
-      const locations = ['남구', '수영구', '부산진구', '동래구','북구','금정구','연제구','사상구','강서구','서구','동구','중구','사하구','영도구','해운대구','기장군'];
+      const locations = ['전체','남구', '수영구', '부산진구', '동래구','북구','금정구','연제구','사상구','강서구','서구','동구','중구','사하구','영도구','해운대구','기장군'];
     
       const handleToggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -302,6 +247,12 @@ const PartyAllList= () => {
         setSelectedLocation(location);
         setIsOpen(false);
       };
+
+      //선택한 지역구에 따라 파티 필터링
+
+    const filteredParties = selectedLocation !== '전체' 
+    ? partiesData.filter(party => party.festAddress === selectedLocation) 
+    : partiesData;
     return (
     <div>
 
@@ -338,19 +289,18 @@ const PartyAllList= () => {
         </DropdownContainer>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-             {currentParties.map((party) => (
+             {filteredParties.map((party) => (
              <RoundedBox key={party.partyPk} onClick={() => handlePartyClick(party)}>
-                    <p style={{fontSize:"20px"}}>{party.festPk}</p>
+                    <p style={{fontSize:"20px"}}>{party.festName}</p>
 
                     <RoundedBox1 >
-                     <p style={{margin:'0',fontSize:'15px' ,color:'#676767'}}>{party.partylocation}</p>
-                    </RoundedBox1>
-                    <RoundedBox1 >
-                     <p style={{margin:'0',fontSize:'15px' ,color:'#676767'}}>{party.partyState}</p>
+                     <p style={{margin:'0',fontSize:'15px' ,color:'#676767'}}>{party.festAddress}</p>
                     </RoundedBox1>
                     
+                    <p style={{fontSize:"17px"}}>
+                        {party.partyName}</p>
                     <p>{party.partyDetail}</p>
-                    <p>{party.partyStart}</p>
+                    <P>{party.festEnd}</P>
             </RoundedBox>
                 ))}
                 </div>

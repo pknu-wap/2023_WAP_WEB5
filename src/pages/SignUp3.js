@@ -3,6 +3,7 @@ import { Navigate } from 'react-router';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -89,7 +90,47 @@ const logobuife = '/info.png';
 const SignUp3 =()=> {
   const location = useLocation();
   const userID = location.state?.userID || '';
+  const [code, setCode] = useState('');
 
+  
+  const handleSubmit = async () => {
+    try {
+
+      
+      const params = new URLSearchParams();
+      params.append('code', code);
+
+
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+ 
+        },
+        credentials : 'include',
+        body: params.toString(),
+      };
+   
+  
+
+      const response = await fetch('https://port-0-server-cloudtype-4fju66f2clmyxbee6.sel5.cloudtype.app/members/new/emailCheck', requestOptions);
+      
+      if (!response.ok) {
+        throw new Error('서버 응답이 실패했습니다🔐.');
+      }
+
+      const data = await response.text();
+      window.location.href = '/loginform'; // URL 변경 // 로그인이 성공했을 때의 로직
+       console.log(data); // 서버에서 받은 데이터 확인
+
+       //로그인이 성공하면 다음페이지로 이동 
+    } catch (error) {
+      console.error('회원가입 실패:', error);
+ 
+      // 로그인 실패 시의 처리 로직을 추가하세요
+    }
+  };
+ 
  return (
    <div className="App">
      <div className="mainpage">
@@ -105,10 +146,17 @@ const SignUp3 =()=> {
             <InputContainer>
 
             <p>인증번호가 {userID}으로 전송되었습니다. 인증번호 8자리를 아래에 입력해주세요.</p>
-            <Input type="text" placeholder="인증번호 입력" />
+            <Input
+             type="text" 
+             placeholder="인증번호 입력"
+             onChange={(e) => setCode(e.target.value)}
+            />
 
-                    <SignUpButton type="button"
-                    className="signupButton">회원가입
+                    <SignUpButton 
+                    type="button"
+                    className="signupButton"
+                    onClick={handleSubmit}
+                    >회원가입
                     </SignUpButton>
                     
                     <Link to="/signup2">
