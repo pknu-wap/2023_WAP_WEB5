@@ -19,7 +19,7 @@ color: gray;
 
 // 예제 데이터, 각 파티 클릭하면 저장돼 있는 데이터 받아옴?
 const partyData = {
-hostNickname: '주인장',
+userID: '주인장',
 tags: ['광안리', '불꽃', '여행'],
 description: '광안리 불꽃축제 보러 가실 분들 모집합니다!',
 festivalName: '2023 광안리 불꽃축제',

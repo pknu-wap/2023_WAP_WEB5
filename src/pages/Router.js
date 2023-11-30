@@ -26,6 +26,8 @@ import FestivalList from './festival-list';
 import FestivalDetail from './festival-detail';
 import PartyMake from './partymake';
 import PartyInfo from './PartyInfo';
+import PartyAllList from './partyall-list';
+import PartyPopup from './partyPopup';
 
 const AppRouter = () => {
   return (
@@ -36,6 +38,8 @@ const AppRouter = () => {
         {/* <Route path="/festival-detail/:id" element={FestivalDetail} /> */}
         <Route exact path="/" element={PartyInfo} />
         <Route path="/partymake/:id" element={PartyMake} />
+        <Route exact path="/" element={PartyAllList} />
+        <Route path="/partyPopup/:partyPk" element={PartyPopup} />
       </Switch>
     </Router>
   );

@@ -36,11 +36,7 @@ const MapInfo = () => {
     // const longitude = festival.longitude;
     return (
     <div>
-        <h2>지도</h2>
-        {/* <FestivalMap /> */}
-        {/* <FestivalMap /> */}
-        
-        <p>지도 탭입니다. 여기에 위치 정보나 지도가 표시될 수 있습니다.</p>
+        <h2 style={{textAlign: 'center'}}>축제 지도</h2>        
         <div className="Map"> 
         <FestivalMap/>
         </div>

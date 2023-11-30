@@ -28,7 +28,7 @@ function App() {
       <Route path="/party-list" element={<PartyList/>} />
       <Route path="/partyall-list" element={<PartyAllList/>} />
       <Route path="/partymake/:id" element={<PartyMake/>} />
-      <Route path="/partyPopup" element={<PartyPopup/>} />
+      <Route path="/partyPopup/:partyPk" element={<PartyPopup/>} />
       <Route path="/reviewPage" element={<ReviewPage/>} />
       <Route path="/LoginForm" element={<LoginForm/>} />
       <Route path="/SignUp2" element={<SignUp2/>} />

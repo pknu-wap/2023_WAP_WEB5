@@ -9,7 +9,6 @@ import FilterComponent from './FilterComponent';
 import { Link } from 'react-router-dom';
 import modalStyles from './ModalStyle'; // 스타일 파일 import
 
-
 const data = [
     { id: 1, title: '품목 1', date: '2023-11-13' },
     { id: 2, title: '품목 2', date: '2023-11-14' },
@@ -29,10 +28,12 @@ const data = [
     { id: 4, title: '품목 4', date: '2023-11-16' },
     { id: 5, title: '품목 5', date: '2023-11-17' },
     { id: 6, title: '품목 8', date: '2023-11-18' },
-];
+  ];
 
 const PartyInfo = () => {
     const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 4;
+    const totalPages = Math.ceil(data.length / itemsPerPage);
     const params = useParams();
     console.log(params);
     const [festival, setFestival] = useState(null);
@@ -62,8 +63,6 @@ const PartyInfo = () => {
     
 
     
-    const itemsPerPage = 4;
-    const totalPages = Math.ceil(data.length / itemsPerPage);
 
     
     const handleClick = (page) => {
@@ -82,15 +81,13 @@ const PartyInfo = () => {
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
         const currentItems = data.slice(startIndex, endIndex);
-
-
     return (
     <div>
         <h2 style={{display:'flex',justifyContent:'center'}}>2023 부산 광안리 불꽃 축제</h2>
 
         <div>
-            <Link to="/partymake"><button style={modalStyles.writeButton}>글쓰기</button></Link>
-            <Link key={festival.id} to={`/partymake/${festival.id}` }>글쓰기 임시</Link>
+            {/* <Link to="/partymake"><button style={modalStyles.writeButton}>글쓰기</button></Link> */}
+            <Link key={festival.id}  to={`/partymake/${festival.id}` }><button style={modalStyles.writeButton}>글쓰기</button></Link>
 
             <FilterComponent />
             <br></br>
