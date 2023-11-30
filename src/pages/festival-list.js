@@ -54,8 +54,8 @@ return (
         <div key={festival.id}>
             {/* <MyLink to={"/festival-detail"}>축제 이름: {festival.name}</MyLink> */}
             <li>
-                <p>id확인: {festival.id}</p>
-            <MyLink key={festival.id} to={`/festival-detail/${festival.id}` }>클릭시 페이지 이동: {festival.name}</MyLink>
+                <p>festival number: {festival.id}</p>
+            <MyLink key={festival.id} to={`/festival-detail/${festival.id}` }>클릭시 상세 페이지로 이동합니다.: {festival.name}</MyLink>
             </li>
             <img style={{width: '120px'}} src={festival.image || 'mannerReview.png'} />
             
@@ -65,7 +65,7 @@ return (
         ))}
     </div>
     ) : (
-    <p>Loading user information...</p>
+    <p>Loading information...</p>
     )}
 </div>
 );

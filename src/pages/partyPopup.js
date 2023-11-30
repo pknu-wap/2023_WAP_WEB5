@@ -46,7 +46,6 @@
 // const PartyPopup = ({ partyData }) => {
 // const {
 // hostNickname,
-// tags,
 // description,
 // festivalName,
 // totalParticipants,
@@ -60,13 +59,6 @@
 // return (
 // <div>
 //     <div className="party-header">{hostNickname} 님이 생성한 파티</div>
-//     <Tagdiv>
-//     {tags.map((tag, index) => (
-//         <Boxdiv key={index}>
-//         #{tag}
-//         </Boxdiv>
-//     ))}
-//     </Tagdiv>
 //     <div>{description}</div>
     
 //     <Divider></Divider>
@@ -103,9 +95,10 @@
 
 // export default PartyPopup;
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 // import './partyPopup.css';
 // import { Link } from 'react-router-dom';
 // import ReviewPage from './reviewPage';
@@ -142,25 +135,6 @@ opacity: 0.8;
 }
 `;
 
-const Tagdiv = styled.div`
-display: flex;
-flex-wrap: wrap;
-`;
-
-const Boxdiv = styled.div`
-margin-right: 8px;
-margin-bottom: 8px;
-margin-top: 8px;
-padding: 3px;
-padding-right: 12px;
-padding-left: 12px;
-background-color: #F1F1F1;
-border: 1px solid gray;
-border-radius: 15px;
-font-size: 12px;
-color: #488AEE;
-`;
-
 const Divider = styled.div`
 border-bottom: 1px solid #ccc;
 margin: 20px 0;
@@ -168,22 +142,40 @@ margin: 20px 0;
 const ReviewContainer = styled.div`
 margin-top: 20px;
 `;
-const PartyPopup = ({ partyData }) => {
-const {
-hostNickname,
-tags,
-description,
-festivalName,
-totalParticipants,
-currentParticipants,
-deadline,
-partyCurrent,
-} = partyData;
-
-const [showPartyCurrentInfo, setShowPartyCurrentInfo] = useState(false);
-const [showReviewForm, setShowReviewForm] = useState(false);
-
+const PartyPopup = (partyPK) => {
 const navigate = useNavigate();
+
+    const [showPartyCurrentInfo, setShowPartyCurrentInfo] = useState(false);
+const [showReviewForm, setShowReviewForm] = useState(false);
+    const partyPk = partyPK.partyPK;
+    // const params = useParams();
+    // console.log(params);
+    const [festival, setFestival] = useState(null);
+
+    useEffect(() => {
+    const fetchFestivalData = async () => {
+        try {
+        const response = await fetch(`https://port-0-server-cloudtype-4fju66f2clmyxbee6.sel5.cloudtype.app/party/detail?ppk=${partyPk}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch festival data');
+        }
+        // console.log(params.partyPk);
+        const festivalData = await response.json();
+        setFestival(festivalData);
+        } catch (error) {
+        console.error('Error fetching festival data:', error);
+        }
+    };
+
+    fetchFestivalData();
+    }, [partyPk]);
+
+    if (!festival) {
+    return <p>Loading...</p>;
+    }
+
+
+
 
 const handleReview = () => {
     setShowReviewForm(true);
@@ -195,21 +187,16 @@ const directionReview = () => {
 
 return (
 <div>
-    <div className="party-header">{hostNickname} 님이 생성한 파티</div>
-    <Tagdiv>
-    {tags.map((tag, index) => (
-        <Boxdiv key={index}>#{tag}</Boxdiv>
-    ))}
-    </Tagdiv>
-    <div>{description}</div>
+    <div className="party-header">{festival.partyPk} 님이 생성한 파티</div>
+    <div>{festival.partyDetail}</div>
 
     <Divider></Divider>
 
     <div>
-    <div>축제 이름: {festivalName}</div>
-    <div>모집 인원: {totalParticipants} 명</div>
-    <div>현재 인원: {currentParticipants} 명</div>
-    <div>모집 기한: {deadline}</div>
+    <div>축제 이름: 임시</div>
+    <div>모집 인원: {festival.partyRecruitLimit} 명</div>
+    <div>현재 인원: {festival.partyRecruitCurr} 명</div>
+    <div>파티 시작일: {festival.partyStart}</div>
     </div>
     <div style={{ justifyContent: 'right', display: 'flex' }}>
     <Mybutton onClick={() => setShowPartyCurrentInfo(!showPartyCurrentInfo)}>
@@ -226,7 +213,7 @@ return (
         <p>신청 현황 정보</p>
         <div>
         <ul>
-            {partyCurrent.map((participant) => (
+            {festival.partyRecruitLimit.map((participant) => (
             <li key={participant.id}>
                 ID: {participant.id}, District: {participant.district}, Manner: {participant.manner}
                 <Mybutton>수락</Mybutton>
@@ -244,7 +231,7 @@ return (
         <p>사용자 정보 및 리뷰</p>
         <div>
         <ul>
-            {partyCurrent.map((participant) => (
+            {festival.partyRecruitLimit.map((participant) => (
             <li key={participant.id}>
                 ID: {participant.id}, District: {participant.district}, Manner: {participant.manner}
                 <Mybutton style={{marginLeft: '10px'}}onClick={directionReview}>리뷰</Mybutton>    
@@ -309,7 +296,6 @@ export default PartyPopup;
 // const PartyPopup = ({ partyData, isPartyOwner }) => {
 // const {
 // hostNickname,
-// tags,
 // description,
 // festivalName,
 // totalParticipants,
@@ -329,11 +315,6 @@ export default PartyPopup;
 // return (
 // <div>
 //     <div className="party-header">{hostNickname} 님이 생성한 파티</div>
-//     <Tagdiv>
-//     {tags.map((tag, index) => (
-//         <Boxdiv key={index}>#{tag}</Boxdiv>
-//     ))}
-//     </Tagdiv>
 //     <div>{description}</div>
 
 //     <Divider></Divider>
@@ -430,7 +411,6 @@ export default PartyPopup;
 // const PartyPopup = ({ partyData, isPartyOwner }) => {
 // const {
 // hostNickname,
-// tags,
 // description,
 // festivalName,
 // totalParticipants,
@@ -463,11 +443,6 @@ export default PartyPopup;
 // return (
 // <div>
 //     <div className="party-header">{hostNickname} 님이 생성한 파티</div>
-//     <Tagdiv>
-//     {tags.map((tag, index) => (
-//         <Boxdiv key={index}>#{tag}</Boxdiv>
-//     ))}
-//     </Tagdiv>
 //     <div>{description}</div>
 
 //     <Divider></Divider>
@@ -571,7 +546,6 @@ export default PartyPopup;
 // const PartyPopup = ({ partyData, isPartyOwner }) => {
 // const {
 // hostNickname,
-// tags,
 // description,
 // festivalName,
 // totalParticipants,
@@ -609,11 +583,6 @@ export default PartyPopup;
 // return (
 // <div>
 //     <div className="party-header">{hostNickname} 님이 생성한 파티</div>
-//     <Tagdiv>
-//     {tags.map((tag, index) => (
-//         <Boxdiv key={index}>#{tag}</Boxdiv>
-//     ))}
-//     </Tagdiv>
 //     <div>{description}</div>
 
 //     <Divider></Divider>

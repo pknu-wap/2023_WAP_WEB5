@@ -1,8 +1,14 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+// import { useNavigate } from 'react-router-dom';
 import PartyPopup from './partyPopup';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Modal from 'react-modal';
+import './partyPopup.css';
+import { useParams } from 'react-router-dom';
+
+
 import modalStyles from './ModalStyle'; // 스타일 파일 import
 
 const Header = styled.header`
@@ -45,14 +51,19 @@ transition: background-color 0.3s ease-in-out;
 font-size: 13px; /* 글자 크기 지정 */
 font-weight: 400; /* 글자 두께 지정 */
 `;
-
+const Closedbutton = styled.button`
+padding: 2px 10px 2px 10px;
+border-radius: 10px;
+background-color: lightgray; 
+font-size: 16px;
+color: gray;
+`;
 const Headerlist = styled.div`
 background-color: #488AEE;
 text-align: right;
 padding-bottom: 5px;
 padding-right: 10px;
 `;
-
 const MyLink = styled(Link)`
 text-decoration: none;
 color: inherit;
@@ -65,7 +76,6 @@ font-size: 13px; /* 글자 크기 지정 */
 font-weight: 400; /* 글자 두께 지정 */
 
 `;
-
 const Title = styled.h2`
   position: relative;
   display: flex;
@@ -74,13 +84,11 @@ const Title = styled.h2`
   left: -500px;
   margin-top:40px;
 `;
-
 const DropdownContainer = styled.div`
   position: absolute;
   top:30px;
   left: calc(50% - 600px); /* 중간에서 왼쪽으로 이동 */
 `;
-
 const Dropdown = styled.div`
   border: 3px solid #ccc;
   border-radius: 20px;
@@ -89,7 +97,6 @@ const Dropdown = styled.div`
   width: 100px;
   text-align: center;
 `;
-
 const DropdownMenu = styled.div`
   display: ${(props) => (props.isOpen ? 'block' : 'none')};
   position: absolute;
@@ -101,12 +108,10 @@ const DropdownMenu = styled.div`
   overflow-y: auto; /* 세로 스크롤이 필요한 경우 스크롤 표시 */
   z-index: 1;
 `;
-
 const DropdownItem = styled.div`
   padding: 5px;
   cursor: pointer;
 `;
-
 //partyall-list container
 const Container = styled.div`
   position: relative;
@@ -116,7 +121,6 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
 const RoundedBox = styled.div`
   border-radius: 80px;
   border: 3px solid #ccc;
@@ -129,8 +133,18 @@ const RoundedBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  word-break:break-all;
 `;
+const Roundedp = styled.p`
+word-break:break-all;
 
+`;
+const RoundedContainer = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+`;
 const RoundedBox1 = styled.div`
   border-radius: 80px;
   border:none
@@ -146,7 +160,6 @@ const RoundedBox1 = styled.div`
   display:flex;
   background-color:#E3E3E3
 `;
-
 const PaginationContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -164,14 +177,38 @@ const P = styled.div`
 
 
 const PartyAllList= () => {
-    const [showPopup, setShowPopup] = useState(false);
+    // const [showPopup, setShowPopup] = useState(false);
     const [selectedParty, setSelectedParty] = useState(null);
-
- 
+  const navigate = useNavigate();
     const [partiesData, setPartiesData] = useState([]);
 
+    //페이지네이션 기능
+    const [currentPage, setCurrentPage] = useState(1);
+    const partiesPerPage = 4;
+    const indexOfLastParty = currentPage * partiesPerPage;
+    const indexOfFirstParty = indexOfLastParty - partiesPerPage;
+    const currentParties = partiesData.slice(indexOfFirstParty, indexOfLastParty);
+// 드롭다운 기능
+const [isOpen, setIsOpen] = useState(false);
+const [selectedLocation, setSelectedLocation] = useState('전체');
+
+
+     //파티팝업창
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const OpenModal = (party) => {
+      // navigate(`/partyPopup/${partyPk}`);
+      setSelectedParty(party);
+      //   setIsModalOpen(true);
+      // setSelectedParty(partyPk); // partyPk 값을 업데이트
+  setIsModalOpen(true);
+    };
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
     useEffect(() => {
-      const fetchData = async () => {
+      const FetchData = async () => {
         try {
           const response = await fetch('https://port-0-server-cloudtype-4fju66f2clmyxbee6.sel5.cloudtype.app/party', {
             method: 'GET',
@@ -180,63 +217,33 @@ const PartyAllList= () => {
             },
             credentials: 'include', // 쿠키를 전달하기 위해 필요한 옵션
           });
-  
           if (!response.ok) {
             throw new Error('서버 응답이 실패했습니다.');
           }
-  
           const data = await response.json();
           setPartiesData(data); // 서버에서 받은 데이터로 partiesData 상태 업데이트
         } catch (error) {
           console.error('파티 목록을 불러오는데 실패했습니다:', error);
         }
       };
-  
-      fetchData();
+      FetchData();
     }, []);
-    
-      //파티팝업창
-      const handlePartyClick = (party) => {
-        setSelectedParty(party);
-        setShowPopup(true);
-      };
-    
-      const closePopup = () => {
-        setShowPopup(false);
-      };
-    
-
-      //페이지네이션 기능
-      const partiesPerPage = 4;
-      const [currentPage, setCurrentPage] = useState(1);
-    
-      const indexOfLastParty = currentPage * partiesPerPage;
-      const indexOfFirstParty = indexOfLastParty - partiesPerPage;
-      const currentParties = partiesData.slice(indexOfFirstParty, indexOfLastParty);
     
       const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
       };
-    
       const handlePrevPage = () => {
         if (currentPage > 1) {
           setCurrentPage(currentPage - 1);
         }
       };
-    
       const handleNextPage = () => {
         const totalPages = Math.ceil(partiesData.length / partiesPerPage);
         if (currentPage < totalPages) {
           setCurrentPage(currentPage + 1);
         }
       };
-
-
       
-      // 드롭다운 기능
-      const [isOpen, setIsOpen] = useState(false);
-      const [selectedLocation, setSelectedLocation] = useState('전체');
-    
       const locations = ['전체','남구', '수영구', '부산진구', '동래구','북구','금정구','연제구','사상구','강서구','서구','동구','중구','사하구','영도구','해운대구','기장군'];
     
       const handleToggleDropdown = () => {
@@ -253,6 +260,7 @@ const PartyAllList= () => {
     const filteredParties = selectedLocation !== '전체' 
     ? partiesData.filter(party => party.festAddress === selectedLocation) 
     : partiesData;
+    
     return (
     <div>
 
@@ -275,39 +283,38 @@ const PartyAllList= () => {
 
         <Container>
 
-        <DropdownContainer>
-                <Dropdown onClick={handleToggleDropdown}>
-                {selectedLocation}
-                <DropdownMenu isOpen={isOpen}>
-                {locations.map((location) => (
-                    <DropdownItem key={location} onClick={() => handleLocationSelect(location)}>
-                    {location}
-                    </DropdownItem>
-                ))}
-                </DropdownMenu>
-            </Dropdown>
-        </DropdownContainer>
+          <DropdownContainer>
+                  <Dropdown onClick={handleToggleDropdown}>
+                  {selectedLocation}
+                  <DropdownMenu isOpen={isOpen}>
+                  {locations.map((location) => (
+                      <DropdownItem key={location} onClick={() => handleLocationSelect(location)}>
+                      {location}
+                      </DropdownItem>
+                  ))}
+                  </DropdownMenu>
+              </Dropdown>
+          </DropdownContainer>
 
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-             {filteredParties.map((party) => (
-             <RoundedBox key={party.partyPk} onClick={() => handlePartyClick(party)}>
-                    <p style={{fontSize:"20px"}}>{party.festName}</p>
+            <RoundedContainer >
+            {filteredParties.map((party) => (
+            <RoundedBox key={party.partyPk} onClick={() => OpenModal(party.partyPk)}>
 
-                    <RoundedBox1 >
-                     <p style={{margin:'0',fontSize:'15px' ,color:'#676767'}}>{party.festAddress}</p>
+                    <Roundedp style={{fontSize:"20px"}}>{party.festName}</Roundedp>
+                    {/* 지역구 표시 */}
+                    <RoundedBox1 > 
+                    <Roundedp style={{margin:'0',fontSize:'15px' ,color:'#676767'}}>{party.festAddress}</Roundedp>
                     </RoundedBox1>
-                    
-                    <p style={{fontSize:"17px"}}>
-                        {party.partyName}</p>
-                    <p>{party.partyDetail}</p>
+                    <Roundedp style={{fontSize:"17px"}}>
+                        {party.partyName}</Roundedp>
+                    <Roundedp>{party.partyDetail}</Roundedp>
                     <P>{party.festEnd}</P>
             </RoundedBox>
                 ))}
-                </div>
-
-                            {showPopup && (
-                    <PartyPopup party={selectedParty} onClose={closePopup} />
-                )}
+                </RoundedContainer>
+                            {/* {showPopup && ( */}
+                    {/* <PartyPopup party={selectedParty} onClose={closePopup} /> */}
+                {/* )} */}
 
                 <PaginationContainer>
                     <button onClick={handlePrevPage} style={{fontSize:'20px'}}>{'< '}</button>
@@ -319,7 +326,18 @@ const PartyAllList= () => {
                     <button onClick={handleNextPage} style={{fontSize:'20px'}}>{' >'}</button>
                 </PaginationContainer>
                 
-                </Container>
+        </Container>
+        <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        contentLabel="Party Details Modal"
+    >
+        {/* <PartyPopup/> */}
+        {selectedParty && <PartyPopup partyPk={selectedParty} />}
+        <div style={{justifyContent: 'right', display: 'flex'}}>
+        <Closedbutton onClick={closeModal}>닫기</Closedbutton>
+        </div>
+        </Modal>
             </div>
     </div>
     
