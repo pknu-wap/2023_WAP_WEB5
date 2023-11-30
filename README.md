@@ -51,8 +51,8 @@ BUIFE 뷔페(Busan Internal Festival)는 부산의 축제 정보를 제공하며
 
 
 ## 🧑‍🤝‍🧑 팀원 구성
-이름 | 역할 | 프로필
------ | ----- | -----
+ 이름 | 역할 | 프로필 |
+:-----: | :-----: | :-----:
 최지선 | 팀장 | [<img src="https://img.shields.io/badge/a54005107-black?style=flat&logo=github&logoColor=white"/>](https://github.com/a54005107)
 김동건 | 팀원 | [<img src="https://img.shields.io/badge/ThisIsTAEWON-black?style=flat&logo=github&logoColor=white"/>](https://github.com/ThisIsTAEWON)
 민경윤 | 팀원 | [<img src="https://img.shields.io/badge/unh6unh6-black?style=flat&logo=github&logoColor=white"/>](https://github.com/unh6unh6)
