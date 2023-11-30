@@ -1,4 +1,6 @@
 {
+  "homepage": "https://2023-wap-web-5today-e6gxj9ru8-hes-projects-5da627a2.vercel.app/",
+  "proxy": "http://localhost:3001",
   "name": "buife",
   "version": "0.1.0",
   "private": true,
@@ -47,7 +49,6 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ],
-    "proxy": "https://port-0-buife-5mk12alp6foaqx.sel5.cloudtype.app/"
+    ]
   }
 }

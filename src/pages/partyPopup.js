@@ -146,7 +146,7 @@ const PartyPopup = (partyPK) => {
 const navigate = useNavigate();
 
     const [showPartyCurrentInfo, setShowPartyCurrentInfo] = useState(false);
-const [showReviewForm, setShowReviewForm] = useState(false);
+    const [showReviewForm, setShowReviewForm] = useState(false);
     const partyPk = partyPK.partyPK;
     // const params = useParams();
     // console.log(params);
@@ -155,10 +155,14 @@ const [showReviewForm, setShowReviewForm] = useState(false);
     useEffect(() => {
     const fetchFestivalData = async () => {
         try {
-        const response = await fetch(`https://port-0-server-cloudtype-4fju66f2clmyxbee6.sel5.cloudtype.app/party/detail?ppk=${partyPk}`);
+        const response = await fetch(`https://port-0-server-cloudtype-4fju66f2clmyxbee6.sel5.cloudtype.app/party/detail?ppk=${partyPk}`,{
+            credentials : 'include'
+        });
         if (!response.ok) {
             throw new Error('Failed to fetch festival data');
+            
         }
+        
         // console.log(params.partyPk);
         const festivalData = await response.json();
         setFestival(festivalData);
