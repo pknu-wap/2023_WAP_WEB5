@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.1281d3f3.css",
+    "main.js": "/static/js/main.e617ea1f.js",
+    "static/media/TmoneyRoundWindExtraBold.ttf": "/static/media/TmoneyRoundWindExtraBold.9f066654a62d2482c049.ttf",
+    "index.html": "/index.html",
+    "main.1281d3f3.css.map": "/static/css/main.1281d3f3.css.map",
+    "main.e617ea1f.js.map": "/static/js/main.e617ea1f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1281d3f3.css",
+    "static/js/main.e617ea1f.js"
+  ]
+}

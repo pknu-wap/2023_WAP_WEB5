@@ -69,10 +69,12 @@ const PartyList= () => {
 
         <div>
             <Link to="/partymake"><button style={modalStyles.writeButton}>글쓰기</button></Link>
-            <FilterComponent />
+ 
             
             <br></br><br></br><br></br><br></br><br></br><br></br>
             <ListPage/>
+
+            
                 <div style={{marginBottom: '20px', position: 'fixed', bottom: 0, display: 'flex', justifyContent: 'center', width: '100%' }}>
                     <div style={{ display: 'flex' }}>
                         <button onClick={handlePrevClick} disabled={currentPage === 1}>

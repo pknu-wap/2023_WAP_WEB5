@@ -50,6 +50,7 @@
     // 사용자가 로그인 버튼을 클릭할 때 호출되는 함수
     this.setState({
         isLoggedIn: true, // 로그인 상태로 변경
+        
     });
     };
 
@@ -74,7 +75,7 @@
             <MyLink to="/Mypage">마이페이지</MyLink>
             </div>
         ) : (
-            <MyLink to="/LoginForm">
+            <MyLink to="/loginform">
             <StyledButton onClick={this.handleLogin}>로그인</StyledButton>
             </MyLink>
         )}
