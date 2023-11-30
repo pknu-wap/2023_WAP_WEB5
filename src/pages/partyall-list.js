@@ -4,6 +4,9 @@ import styled from 'styled-components';
 import PartyPopup from './partyPopup';
 import { Link } from 'react-router-dom';
 import modalStyles from './ModalStyle'; // 스타일 파일 import
+import Modal from 'react-modal';
+import './partyPopup.css';
+
 
 const Header = styled.header`
 background-color: #488AEE;
@@ -192,7 +195,13 @@ const FestEnd = styled.div`
   margin-bottom: 20px; 
 `;
 
-
+const Closedbutton = styled.button`
+padding: 2px 10px 2px 10px;
+border-radius: 10px;
+background-color: lightgray; 
+font-size: 16px;
+color: gray;
+`;
 const PartyAllList= () => {
     const [showPopup, setShowPopup] = useState(false);
     const [selectedParty, setSelectedParty] = useState(null);
@@ -231,7 +240,7 @@ const PartyAllList= () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const OpenModal = (party) => {
       setSelectedParty(party);
-  setIsModalOpen(true);
+     setIsModalOpen(true);
     };
     const closeModal = () => {
         setIsModalOpen(false);
@@ -340,9 +349,18 @@ const PartyAllList= () => {
                 ))}
                 </div>
 
-                            {showPopup && (
-                    <PartyPopup party={selectedParty} onClose={closePopup} />
-                )}
+
+            <Modal
+                    isOpen={isModalOpen}
+                    onRequestClose={closeModal}
+                    contentLabel="Party Details Modal"
+                >
+                    {/* <PartyPopup/> */}
+                    {selectedParty && <PartyPopup partyPk={selectedParty} />}
+                    <div style={{justifyContent: 'right', display: 'flex'}}>
+                    <Closedbutton onClick={closeModal}>닫기</Closedbutton>
+                    </div>
+                    </Modal>
 
                 <PaginationContainer>
                     <button onClick={handlePrevPage} style={{fontSize:'20px'}}>{'< '}</button>
