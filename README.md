@@ -1,7 +1,7 @@
 
 <div align="center">
 
-![header](https://capsule-render.vercel.app/api?type=venom&color=0:7EAFFF,100:B1F4E5&animation=twinkling&height=300&section=header&text=Welcome%20to%20BUIFE!&fontSize=90)
+![header](https://capsule-render.vercel.app/api?type=venom&color=timeGrdient&animation=twinkling&height=300&section=header&text=Welcome%20to%20BUIFE!&fontSize=90)
 
 <h1>BUIFE(Busan Internal Festival): 부산 축제 정보 웹사이트</h1>
   
