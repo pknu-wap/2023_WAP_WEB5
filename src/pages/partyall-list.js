@@ -227,15 +227,15 @@ const PartyAllList= () => {
         fetchData(1);
       }, []);
     
-      //파티팝업창
-      const handlePartyClick = (party) => {
-        setSelectedParty(party);
-        setShowPopup(true);
-      };
-    
-      const closePopup = () => {
-        setShowPopup(false);
-      };
+       //파티팝업창
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const OpenModal = (party) => {
+      setSelectedParty(party);
+  setIsModalOpen(true);
+    };
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
     
 
       //페이지네이션 기능
@@ -323,7 +323,7 @@ const PartyAllList= () => {
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
              {filteredParties.map((party) => (
-             <RoundedBox key={party.partyPk} onClick={() => handlePartyClick(party)}>
+             <RoundedBox key={party.partyPk} onClick={() => OpenModal(party.partyPk)}>
                     <FestName style={{fontSize:"20px"}}>{party.festName}</FestName>
 
                     <RoundedBox1 >
